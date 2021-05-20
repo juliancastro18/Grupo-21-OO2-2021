@@ -36,7 +36,7 @@ public class UserService implements UserDetailsService, IUserService {
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		com.unla.grupo21.entities.User user = userRepository.findUsernameAndFetchUserRole(username);
+		com.unla.grupo21.entities.User user = userRepository.findUsernameAndFetchUserRoleEagerly(username);
 		return buildUser(user, buildGrantedAuthorities(user.getUserRole()));
 	}
 	

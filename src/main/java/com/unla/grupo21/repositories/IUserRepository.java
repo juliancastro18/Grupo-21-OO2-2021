@@ -14,7 +14,7 @@ import com.unla.grupo21.entities.User;
 public interface IUserRepository extends JpaRepository<User, Serializable> {
 
 	@Query("SELECT u FROM User u JOIN FETCH u.userRole WHERE u.username = (:username)")
-	public abstract User findUsernameAndFetchUserRole(@Param("username") String username);
+	public abstract User findUsernameAndFetchUserRoleEagerly(@Param("username") String username);
 	
 
 }
