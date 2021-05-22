@@ -28,6 +28,11 @@ public class UserRoleModel {
 	public void setRole(String role) {
 		this.role = role;
 	}
+
+	@Override
+	public String toString() {
+		return "UserRoleModel [id=" + id + ", role=" + role + "]";
+	}
 	
-	
+
 }

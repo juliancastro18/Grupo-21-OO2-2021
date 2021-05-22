@@ -10,6 +10,8 @@ import com.unla.grupo21.entities.UserRole;
 @Repository("userRoleRepository")
 public interface IUserRoleRepository extends JpaRepository<UserRole, Serializable>{
 
+	public abstract UserRole findById(int id);
+	
 	@Query("SELECT r FROM UserRole r WHERE r.role = (:role)")
 	public abstract UserRole findByRole(@Param("role") String role);
 }

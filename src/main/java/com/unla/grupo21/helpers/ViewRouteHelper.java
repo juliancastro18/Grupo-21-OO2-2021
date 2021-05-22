@@ -26,6 +26,7 @@ public class ViewRouteHelper {
 	
 	//***Redirects***
 	public static final String ROUTE_INDEX = "/index";
-	public static final String USER_ROOT = "/user";
+	public static final String USER_ABM_INDEX = "/user/abm";
+	public static final String USER_NEW_INDEX = "/user/new";
 	
 }
