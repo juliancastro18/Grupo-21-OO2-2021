@@ -10,10 +10,10 @@ import com.unla.grupo21.converters.UserRoleConverter;
 import com.unla.grupo21.entities.UserRole;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.repositories.IUserRoleRepository;
-import com.unla.grupo21.services.IUserRole;
+import com.unla.grupo21.services.IUserRoleService;
 
 @Service("userRoleService")
-public class UserRoleService implements IUserRole{
+public class UserRoleService implements IUserRoleService{
 
 	@Autowired
 	@Qualifier("userRoleRepository")

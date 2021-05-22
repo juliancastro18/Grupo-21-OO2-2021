@@ -4,7 +4,7 @@ import java.util.List;
 import com.unla.grupo21.entities.UserRole;
 import com.unla.grupo21.models.UserRoleModel;
 
-public interface IUserRole {
+public interface IUserRoleService {
 
 	public List<UserRole> getAll();
 	public UserRoleModel insertOrUpdate(UserRoleModel userRoleModel);

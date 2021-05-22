@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuarios</title>
+</head>
+<body>
+    <a th:if="${abm}" th:href="@{new}" class="btn btn-primary">Agregar</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Tipo doc.</th>
+                <th>Documento</th>
+                <th>Username</th>
+                <th>Perfil</th>
+                <th>Activo</th>
+                <th th:if="${abm}">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${users}">
+                <td><span th:text="${user.nombre}" /></td>
+                <td><span th:text="${user.apellido}" /></td>
+                <td><span th:text="${user.tipoDocumento}" /></td>
+                <td><span th:text="${user.documento}" /></td>
+                <td><span th:text="${user.username}" /></td>
+                <td><span th:text="${user.userRole.role}" /></td>
+                <td><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
+                <td th:if="${abm}">
+                    <a class="btn btn-warning">Editar</a>
+                    <a class="btn btn-warning">Eliminar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>
