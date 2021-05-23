@@ -8,7 +8,7 @@
 </head>
 <body>
     <div class="form">
-        <form th:action="@{/user/new}" th:object="${user}" method="POST">
+        <form th:action="@{newuser}" th:object="${user}" method="POST">
             <div class="form-header">
                 <h3>Agregar / Editar (Hacer condicional con TH)</h3>
             </div>
@@ -30,6 +30,7 @@
                         </option>
                     </select>     
                     <input th:field="*{documento}" type="text" class="form-control">
+                    <p th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}">Documento tiene errores</p>
                 </div>
                 <div class="form-group">
                     <label>Email</label>

@@ -42,10 +42,8 @@ public class UserController {
 	//@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_EDITOR')")
 	@GetMapping("")
 	public ModelAndView index() {
-		boolean abm = false;
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_LIST);
 		mAV.addObject("users", userService.getAll());
-		mAV.addObject("abm", abm);
 		return mAV;
 	}
 	
@@ -53,10 +51,9 @@ public class UserController {
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/abm")
 	public ModelAndView abm() {
-		boolean abm = true;
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_ABM);
 		mAV.addObject("users", userService.getAll());
-		mAV.addObject("abm", abm);
+		mAV.addObject("abm", true);
 		return mAV;
 	}
 	
@@ -66,9 +63,7 @@ public class UserController {
 	public ModelAndView agregar() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_NEW);
 		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
-		UserModel um = new UserModel();
-		um.setActivo(true);
-		mAV.addObject("user", um);
+		mAV.addObject("user", new UserModel());
 		mAV.addObject("lstTipoDoc", lstTipoDoc);
 		mAV.addObject("userroles", userRoleService.getAll());
 		return mAV;
@@ -76,21 +71,24 @@ public class UserController {
 	
 	//TODO agregar autorizacion para admin
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PostMapping("/new")
-	public RedirectView create(@Valid @ModelAttribute("user") UserModel userModel, @RequestParam(name="idUserRole", required=true) String idUserRoleStr, BindingResult bindingResult) {
-		RedirectView rV = new RedirectView();
-
+	@PostMapping("/newuser")
+	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult, @RequestParam(name="idUserRole", required=true) String idUserRoleStr) {
+		ModelAndView mV;
+		
 		if(bindingResult.hasErrors()) {
-			rV.setUrl(ViewRouteHelper.USER_NEW_INDEX);
+			mV = new ModelAndView(ViewRouteHelper.USER_NEW);
+			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
+			mV.addObject("lstTipoDoc", lstTipoDoc);
+			mV.addObject("userroles", userRoleService.getAll());
 		} else {
-			rV.setUrl(ViewRouteHelper.USER_ABM_INDEX);
-
+			mV = new ModelAndView(new RedirectView(ViewRouteHelper.USER_ABM_INDEX));
 			int idUserRole = Integer.parseInt(idUserRoleStr);
 			UserRoleModel urm = userRoleService.findById(idUserRole);
 			userModel.setUserRole(urm);
 			userService.insertOrUpdate(userModel);
 		}
-		return rV;
+		
+		return mV;
 	}
 	
 }

@@ -37,11 +37,11 @@ public class UserModel {
 	@Size(min=6, max=60, message = "La contraseña debe contener entre 6 y 18 caracteres")
 	private String password;
 	
-	@NotNull
+	
 	private UserRoleModel userRole;
 	
 	@AssertTrue
-	private boolean activo;
+	private boolean activo = true;
 	
 	public UserModel(){};
 
