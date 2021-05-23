@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.ReadOnlyProperty;
 
 import com.unla.grupo21.models.TipoDocumento;
 
@@ -54,8 +55,9 @@ public class User {
 	@Column(name="activo")
 	private boolean activo;
 	
-	@Column(name="createdat")
+	@Column(name="createdat", nullable = false, updatable = false)
 	@CreationTimestamp
+	@ReadOnlyProperty
 	private LocalDateTime createdAt;
 	
 	@Column(name="updatedat")
@@ -189,8 +191,6 @@ public class User {
 
 	public void setUpdatedAt(LocalDateTime updatedAt) {
 		this.updatedAt = updatedAt;
-	};
-	
-	
+	}
 	
 }
