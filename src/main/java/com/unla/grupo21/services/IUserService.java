@@ -9,6 +9,8 @@ public interface IUserService {
 
 	public UserModel findById(int id);
 	
+	public List<UserModel> getActivos();
+	
 	public List<UserModel> getAll();
 	
 	public UserModel insertOrUpdate(UserModel userModel);

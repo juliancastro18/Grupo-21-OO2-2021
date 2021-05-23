@@ -4,7 +4,6 @@ const password = document.querySelector('#password')
 
 
 function preSubmit(){
-    console.log('aaaaaaa')
     if(password.value === ''){
         password.value = oldPassword.value;
     }

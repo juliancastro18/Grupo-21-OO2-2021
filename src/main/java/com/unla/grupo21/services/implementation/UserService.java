@@ -63,6 +63,15 @@ public class UserService implements UserDetailsService, IUserService {
 		return um;
 	}
 
+	@Override
+	public List<UserModel> getActivos() {
+		List<UserModel> lstUserModel = new ArrayList<UserModel>();
+		for(com.unla.grupo21.entities.User u : userRepository.findByActivoTrue()) {
+			lstUserModel.add(userConverter.entityToModel(u));
+		}
+		return lstUserModel;
+	}
+	
 	
 	@Override
 	public List<UserModel> getAll() {
@@ -88,6 +97,6 @@ public class UserService implements UserDetailsService, IUserService {
 			return false;
 		}
 	}
-	
+
 	
 }
