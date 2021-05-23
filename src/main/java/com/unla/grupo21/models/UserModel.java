@@ -2,6 +2,7 @@ package com.unla.grupo21.models;
 
 import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -20,8 +21,9 @@ public class UserModel {
 	private TipoDocumento tipoDocumento;
 	
 	@NotNull(message = "El documento no puede ser nulo")
-	@Size(min=7, max=8)
-	private long documento;
+	@Min(1000000)
+	@Max(50000000)
+	private Long documento;
 	
 	@NotNull
 	@Email(message = "El email debe ser válido")
@@ -35,11 +37,11 @@ public class UserModel {
 	@Size(min=6, max=60, message = "La contraseña debe contener entre 6 y 18 caracteres")
 	private String password;
 	
-	@NotNull
+	
 	private UserRoleModel userRole;
 	
 	@AssertTrue
-	private boolean activo;
+	private boolean activo = true;
 	
 	public UserModel(){};
 
@@ -50,7 +52,7 @@ public class UserModel {
 		this.nombre = nombre;
 		this.apellido = apellido;
 		this.tipoDocumento = tipoDocumento;
-		this.documento = documento;
+		this.documento = Long.valueOf(documento);
 		this.email = email;
 		this.username = username;
 		this.password = password;
@@ -90,12 +92,12 @@ public class UserModel {
 		this.tipoDocumento = tipoDocumento;
 	}
 
-	public long getDocumento() {
+	public Long getDocumento() {
 		return documento;
 	}
 
 	public void setDocumento(long documento) {
-		this.documento = documento;
+		this.documento = Long.valueOf(documento);
 	}
 
 	public String getEmail() {
@@ -136,6 +138,13 @@ public class UserModel {
 
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	@Override
+	public String toString() {
+		return "UserModel [id=" + id + ", nombre=" + nombre + ", apellido=" + apellido + ", tipoDocumento="
+				+ tipoDocumento + ", documento=" + documento + ", email=" + email + ", username=" + username
+				+ ", password=" + password + ", userRole=" + userRole + ", activo=" + activo + "]";
 	};
 	
 	

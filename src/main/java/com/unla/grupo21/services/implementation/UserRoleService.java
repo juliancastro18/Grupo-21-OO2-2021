@@ -1,5 +1,6 @@
 package com.unla.grupo21.services.implementation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.unla.grupo21.converters.UserRoleConverter;
 import com.unla.grupo21.entities.UserRole;
+import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.repositories.IUserRoleRepository;
 import com.unla.grupo21.services.IUserRoleService;
@@ -24,8 +26,17 @@ public class UserRoleService implements IUserRoleService{
 	private UserRoleConverter userRoleConverter;
 	
 	@Override
-	public List<UserRole> getAll() {
-		return userRoleRepository.findAll();
+	public UserRoleModel findById(int id) {
+		return userRoleConverter.entityToModel(userRoleRepository.findById(id));
+	}
+	
+	@Override
+	public List<UserRoleModel> getAll() {
+		List<UserRoleModel> lstUserRoleModel = new ArrayList<UserRoleModel>();
+		for(UserRole u : userRoleRepository.findAll()) {
+			lstUserRoleModel.add(userRoleConverter.entityToModel(u));
+		}
+		return lstUserRoleModel;
 	}
 	
 	@Override

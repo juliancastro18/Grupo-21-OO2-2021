@@ -6,7 +6,8 @@ import com.unla.grupo21.models.UserRoleModel;
 
 public interface IUserRoleService {
 
-	public List<UserRole> getAll();
+	public UserRoleModel findById(int id);
+	public List<UserRoleModel> getAll();
 	public UserRoleModel insertOrUpdate(UserRoleModel userRoleModel);
 	public boolean remove(int id);
 }

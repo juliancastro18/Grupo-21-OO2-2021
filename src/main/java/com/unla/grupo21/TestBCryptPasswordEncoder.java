@@ -1,6 +1,8 @@
 package com.unla.grupo21;
 
+
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 
 public class TestBCryptPasswordEncoder {
 
@@ -8,7 +10,6 @@ public class TestBCryptPasswordEncoder {
 
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 		System.out.println(pe.encode("5678"));
-
 	}
 
 }
