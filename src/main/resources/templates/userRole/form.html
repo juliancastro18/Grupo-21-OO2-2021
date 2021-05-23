@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roles ABM</title>
+</head>
+<body>
+    <div class="form">
+        <form th:action="@{newUserRole}" th:object="${userRole}" method="POST">
+            <div class="form-header">
+                <h3>Agregar / Editar (Hacer condicional con TH)</h3>
+            </div>
+            <div class="form-body">
+                <div class="form-group">
+                    <label>Role</label>
+                    <input th:field="*{role}" type="text" class="form-control">
+                </div>
+            <div class="form-footer">
+                <input type="submit" value="Guardar" class="btn btn-success">
+            </div>
+        </form>
+    </div>
+</body>
+</html>
