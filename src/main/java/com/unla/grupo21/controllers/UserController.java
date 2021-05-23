@@ -73,7 +73,9 @@ public class UserController {
 	//TODO agregar autorizacion para admin
 	//@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/newuser")
-	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult, @RequestParam(name="idUserRole", required=true) String idUserRoleStr) {
+	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult,
+							   @RequestParam(name="idUserRole", required=true) String idUserRoleStr,
+							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit) {
 		ModelAndView mV;
 		
 		if(bindingResult.hasErrors()) {
@@ -81,13 +83,12 @@ public class UserController {
 			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 			mV.addObject("lstTipoDoc", lstTipoDoc);
 			mV.addObject("userroles", userRoleService.getAll());
+			mV.addObject("edit", edit);
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.USER_ABM_INDEX));
-			if(userModel.getUserRole() == null) {
-				int idUserRole = Integer.parseInt(idUserRoleStr);
-				UserRoleModel urm = userRoleService.findById(idUserRole);
-				userModel.setUserRole(urm);
-			}
+			int idUserRole = Integer.parseInt(idUserRoleStr);
+			UserRoleModel urm = userRoleService.findById(idUserRole);
+			userModel.setUserRole(urm);
 			userService.insertOrUpdate(userModel);
 		}
 		
@@ -101,6 +102,7 @@ public class UserController {
 		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 		mV.addObject("lstTipoDoc", lstTipoDoc);
 		mV.addObject("userroles", userRoleService.getAll());
+		mV.addObject("edit", true);
 		return mV;
 	}
 }

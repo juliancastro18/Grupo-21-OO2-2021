@@ -55,7 +55,12 @@ public class UserService implements UserDetailsService, IUserService {
 	
 	@Override
 	public UserModel findById(int id) {
-		return userConverter.entityToModel(userRepository.findById(id));
+		UserModel um = null;
+		com.unla.grupo21.entities.User u = userRepository.findById(id);
+		if(u != null) {
+			um = userConverter.entityToModel(userRepository.findById(id));
+		}
+		return um;
 	}
 
 	
