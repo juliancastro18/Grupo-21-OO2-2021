@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -82,13 +83,24 @@ public class UserController {
 			mV.addObject("userroles", userRoleService.getAll());
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.USER_ABM_INDEX));
-			int idUserRole = Integer.parseInt(idUserRoleStr);
-			UserRoleModel urm = userRoleService.findById(idUserRole);
-			userModel.setUserRole(urm);
+			if(userModel.getUserRole() == null) {
+				int idUserRole = Integer.parseInt(idUserRoleStr);
+				UserRoleModel urm = userRoleService.findById(idUserRole);
+				userModel.setUserRole(urm);
+			}
 			userService.insertOrUpdate(userModel);
 		}
 		
 		return mV;
 	}
 	
+	@GetMapping("/edit/{id}")
+	public ModelAndView edit(@PathVariable int id) {
+		ModelAndView mV = new ModelAndView(ViewRouteHelper.USER_EDIT);
+		mV.addObject("user", userService.findById(id));
+		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
+		mV.addObject("lstTipoDoc", lstTipoDoc);
+		mV.addObject("userroles", userRoleService.getAll());
+		return mV;
+	}
 }

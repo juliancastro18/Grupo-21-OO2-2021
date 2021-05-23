@@ -8,11 +8,12 @@
 </head>
 <body>
     <div class="form">
-        <form th:action="@{newuser}" th:object="${user}" method="POST">
+        <form th:action="@{/user/newuser}" th:object="${user}" method="POST">
             <div class="form-header">
                 <h3>Agregar / Editar (Hacer condicional con TH)</h3>
             </div>
             <div class="form-body">
+            	<input type="hidden" th:field="*{id}">
                 <div class="form-group">
                     <label>Nombre</label>
                     <input th:field="*{nombre}" type="text" class="form-control">
@@ -42,7 +43,7 @@
                 </div>
                 <div class="form-group">
                     <label>Password</label>
-                    <input th:field="*{password}" type="password" class="form-control">
+                    <input th:field="*{password}" placeholder="Conservar password actual" type="password" class="form-control">
                 </div>
                 <div class="form-group">
                     <label>Perfil</label>
