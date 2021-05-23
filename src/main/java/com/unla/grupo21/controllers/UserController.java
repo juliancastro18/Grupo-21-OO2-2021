@@ -44,7 +44,7 @@ public class UserController {
 	@GetMapping("")
 	public ModelAndView index() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_LIST);
-		mAV.addObject("users", userService.getAll());
+		mAV.addObject("users", userService.getActivos());
 		return mAV;
 	}
 	
@@ -104,5 +104,14 @@ public class UserController {
 		mV.addObject("userroles", userRoleService.getAll());
 		mV.addObject("edit", true);
 		return mV;
+	}
+	
+	@GetMapping("/delete/{id}")
+	public RedirectView delete(@PathVariable int id) {
+		RedirectView rV = new RedirectView(ViewRouteHelper.USER_ABM_INDEX);
+		UserModel um = userService.findById(id);
+		um.setActivo(!um.isActivo());
+		userService.insertOrUpdate(um);
+		return rV;
 	}
 }
