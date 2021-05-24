@@ -9,7 +9,7 @@ public class ViewRouteHelper {
 		
 	////LOGGING
 	public static final String LOGGING_LOGIN = "logging/login";
-	public static final String LOGGING_LOGIN_LOGOUT = "logging/logout";
+	public static final String LOGGING_LOGOUT = "logging/logout";
 	
 	////USER
 	public static final String USER_LIST = "user/index";

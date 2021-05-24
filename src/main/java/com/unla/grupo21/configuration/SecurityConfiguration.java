@@ -1,6 +1,5 @@
 package com.unla.grupo21.configuration;
-//TODO descomentar!
-/*
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
@@ -16,7 +15,7 @@ import com.unla.grupo21.services.implementation.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled=true)
-public class RENOMBRARSecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	@Qualifier("userService")
@@ -29,7 +28,7 @@ public class RENOMBRARSecurityConfiguration extends WebSecurityConfigurerAdapter
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		//TODO actualizar rutas
+
 		http.authorizeRequests()
 			.antMatchers("/css/*", "/imgs/*", "/js/*", "/vendor/bootstrap/css/*", "/vendor/jquery/*", "/vendor/bootstrap/js/*").permitAll()
 			.anyRequest().authenticated()
@@ -42,4 +41,3 @@ public class RENOMBRARSecurityConfiguration extends WebSecurityConfigurerAdapter
 	}
 	
 }
-*/

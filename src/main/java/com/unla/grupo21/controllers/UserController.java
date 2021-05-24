@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -46,8 +47,11 @@ public class UserController {
 	@Qualifier("userRoleService")
 	private IUserRoleService userRoleService;
 	
-	//TODO agregar autorizacion para admin y auditor
-	//@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_EDITOR')")
+    @Autowired
+    PasswordEncoder passwordEncoder;
+	
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUDITOR')")
 	@GetMapping("")
 	public ModelAndView index() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_LIST);
@@ -55,8 +59,8 @@ public class UserController {
 		return mAV;
 	}
 	
-	//TODO agregar autorizacion para admin
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/abm")
 	public ModelAndView abm() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_ABM);
@@ -65,8 +69,8 @@ public class UserController {
 		return mAV;
 	}
 	
-	//TODO agregar autorizacion para admin
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/new")
 	public ModelAndView agregar() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_NEW);
@@ -77,8 +81,8 @@ public class UserController {
 		return mAV;
 	}
 	
-	//TODO agregar autorizacion para admin
-	//@PreAuthorize("hasRole('ROLE_ADMIN')")
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/newuser")
 	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult,
 							   @RequestParam(name="idUserRole", required=true) String idUserRoleStr,
@@ -96,12 +100,14 @@ public class UserController {
 			int idUserRole = Integer.parseInt(idUserRoleStr);
 			UserRoleModel urm = userRoleService.findById(idUserRole);
 			userModel.setUserRole(urm);
+			userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
 			userService.insertOrUpdate(userModel);
 		}
 		
 		return mV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/edit/{id}")
 	public ModelAndView edit(@PathVariable int id) {
 		ModelAndView mV = new ModelAndView(ViewRouteHelper.USER_EDIT);
@@ -113,6 +119,7 @@ public class UserController {
 		return mV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/delete/{id}")
 	public RedirectView delete(@PathVariable int id) {
 		RedirectView rV = new RedirectView(ViewRouteHelper.USER_ABM_INDEX);
@@ -122,6 +129,7 @@ public class UserController {
 		return rV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
     @GetMapping("/pdf")
     public void exportToPDF(HttpServletResponse response) throws DocumentException, IOException {
         response.setContentType("application/pdf");
