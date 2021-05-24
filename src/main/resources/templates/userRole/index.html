@@ -19,8 +19,8 @@
             <tr th:each="userRole : ${userRoles}">
                 <td><span th:text="${userRole.role}" /></td>
                 <td th:if="${abm}">
-                    <a class="btn btn-warning">Editar</a>
-                    <a class="btn btn-warning">Eliminar</a>
+                    <a th:href="@{edit/}+${userRole.id}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{delete/}+${userRole.id}" class="btn btn-warning">Baja/Alta</a>
                 </td>
             </tr>
         </tbody>
