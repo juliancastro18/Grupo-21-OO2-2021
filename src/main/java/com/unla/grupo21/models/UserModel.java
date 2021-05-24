@@ -39,7 +39,6 @@ public class UserModel {
 	
 	private UserRoleModel userRole;
 	
-	@AssertTrue
 	private boolean activo = true;
 	
 	public UserModel(){};
