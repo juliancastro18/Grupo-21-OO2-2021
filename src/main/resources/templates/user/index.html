@@ -18,7 +18,7 @@
                 <th>Email</th>
                 <th>Username</th>
                 <th>Perfil</th>
-                <th>Activo</th>
+                <th th:if="${abm}">Activo</th>
                 <th th:if="${abm}">Acciones</th>
             </tr>
         </thead>
@@ -31,10 +31,10 @@
                 <td><span th:text="${user.email}" /></td>
                 <td><span th:text="${user.username}" /></td>
                 <td><span th:text="${user.userRole.role}" /></td>
-                <td><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
+                <td th:if="${abm}"><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
                 <td th:if="${abm}">
-                    <a class="btn btn-warning">Editar</a>
-                    <a class="btn btn-warning">Eliminar</a>
+                    <a th:href="@{edit/}+${user.id}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{delete/}+${user.id}" th:text="${user.activo} ? 'Desactivar' : 'Activar'" class="btn btn-warning">Baja/Alta</a>
                 </td>
             </tr>
         </tbody>

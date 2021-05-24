@@ -34,6 +34,7 @@ public class UserService implements UserDetailsService, IUserService {
 	@Qualifier("userConverter")
 	private UserConverter userConverter;
 	
+	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		com.unla.grupo21.entities.User user = userRepository.findUsernameAndFetchUserRoleEagerly(username);
@@ -51,6 +52,26 @@ public class UserService implements UserDetailsService, IUserService {
 		grantedAuthorities.add(new SimpleGrantedAuthority(userRole.getRole()));
 		return new ArrayList<GrantedAuthority>(grantedAuthorities);
 	}
+	
+	@Override
+	public UserModel findById(int id) {
+		UserModel um = null;
+		com.unla.grupo21.entities.User u = userRepository.findById(id);
+		if(u != null) {
+			um = userConverter.entityToModel(userRepository.findById(id));
+		}
+		return um;
+	}
+
+	@Override
+	public List<UserModel> getActivos() {
+		List<UserModel> lstUserModel = new ArrayList<UserModel>();
+		for(com.unla.grupo21.entities.User u : userRepository.findByActivoTrue()) {
+			lstUserModel.add(userConverter.entityToModel(u));
+		}
+		return lstUserModel;
+	}
+	
 	
 	@Override
 	public List<UserModel> getAll() {
@@ -77,6 +98,5 @@ public class UserService implements UserDetailsService, IUserService {
 		}
 	}
 
-	
 	
 }
