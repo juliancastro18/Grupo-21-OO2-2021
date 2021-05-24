@@ -31,6 +31,11 @@ public class UserRoleService implements IUserRoleService{
 	}
 	
 	@Override
+	public long count() {
+		return userRoleRepository.count();
+	}
+	
+	@Override
 	public List<UserRoleModel> getAll() {
 		List<UserRoleModel> lstUserRoleModel = new ArrayList<UserRoleModel>();
 		for(UserRole u : userRoleRepository.findAll()) {
