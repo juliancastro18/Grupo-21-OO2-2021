@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -54,7 +55,18 @@ public class UserRoleController {
 	public ModelAndView create(@ModelAttribute("userRole") UserRoleModel userRoleModel)
 	{
 		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
+		System.out.println("El id en /newUserRole es : " + userRoleModel.getId());
 		userRoleService.insertOrUpdate(userRoleModel);
+		return mAV;
+	}
+	
+	@GetMapping("/edit/{id}")
+	public ModelAndView edit(@PathVariable int id)
+	{
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_EDIT);
+		mAV.addObject("userRole", userRoleService.findById(id));
+		System.out.println("El id en edit/id es : " + id);
+		mAV.addObject("edit", true);
 		return mAV;
 	}
 }
