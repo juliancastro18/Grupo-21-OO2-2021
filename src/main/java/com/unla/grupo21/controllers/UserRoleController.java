@@ -19,7 +19,7 @@ import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.IUserRoleService;
 
 @Controller
-@RequestMapping("/userRoles")
+@RequestMapping("/userRole")
 public class UserRoleController {
 	@Autowired
 	@Qualifier("userRoleService")
