@@ -9,6 +9,8 @@ public interface IUserService {
 
 	public UserModel findById(int id);
 	
+	public long countByActivoTrue();
+	
 	public List<UserModel> getActivos();
 	
 	public List<UserModel> getAll();

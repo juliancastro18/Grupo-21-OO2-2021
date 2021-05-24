@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROLES DE USUARIO</title>
+</head>
+<body>
+    <a th:if="${abm}" th:href="@{new}" class="btn btn-primary">Agregar</a>
+    <table>
+        <thead>
+            <tr>
+                <th>Role</th>
+                <th th:if="${abm}">Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="userRole : ${userRoles}">
+                <td><span th:text="${userRole.role}" /></td>
+                <td th:if="${abm}">
+                    <a th:href="@{edit/}+${userRole.id}" class="btn btn-warning">Editar</a>
+                    <a th:href="@{delete/}+${userRole.id}" class="btn btn-warning">Baja/Alta</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

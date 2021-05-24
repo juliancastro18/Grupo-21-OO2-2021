@@ -12,6 +12,8 @@ public interface IUserRoleRepository extends JpaRepository<UserRole, Serializabl
 
 	public abstract UserRole findById(int id);
 	
+	public abstract long count();
+	
 	@Query("SELECT r FROM UserRole r WHERE r.role = (:role)")
 	public abstract UserRole findByRole(@Param("role") String role);
 }
