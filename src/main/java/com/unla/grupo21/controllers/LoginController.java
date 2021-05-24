@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.unla.grupo21.helpers.ViewRouteHelper;
 
+//LOGIN
 @Controller
 public class LoginController {
 
