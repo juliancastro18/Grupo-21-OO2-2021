@@ -64,7 +64,7 @@ public class UserController {
 	@GetMapping("/abm")
 	public ModelAndView abm() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_ABM);
-		mAV.addObject("users", userService.getAll());
+		mAV.addObject("users", userService.getActivos());
 		mAV.addObject("abm", true);
 		return mAV;
 	}
@@ -86,7 +86,8 @@ public class UserController {
 	@PostMapping("/newuser")
 	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult,
 							   @RequestParam(name="idUserRole", required=true) String idUserRoleStr,
-							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit) {
+							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit,
+							   @RequestParam(name="oldpassword", required=false, defaultValue="") String oldPassword) {
 		ModelAndView mV;
 		
 		if(bindingResult.hasErrors()) {
@@ -100,7 +101,9 @@ public class UserController {
 			int idUserRole = Integer.parseInt(idUserRoleStr);
 			UserRoleModel urm = userRoleService.findById(idUserRole);
 			userModel.setUserRole(urm);
-			userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+			if(!edit || !oldPassword.equals(userModel.getPassword())) { //si es un usuario nuevo o la contraseña fue cambiada
+				userModel.setPassword(passwordEncoder.encode(userModel.getPassword())); //la enctripto y la seteo al usuario
+			}
 			userService.insertOrUpdate(userModel);
 		}
 		
@@ -124,7 +127,7 @@ public class UserController {
 	public RedirectView delete(@PathVariable int id) {
 		RedirectView rV = new RedirectView(ViewRouteHelper.USER_ABM_INDEX);
 		UserModel um = userService.findById(id);
-		um.setActivo(!um.isActivo());
+		um.setActivo(false);
 		userService.insertOrUpdate(um);
 		return rV;
 	}
@@ -137,7 +140,7 @@ public class UserController {
         String currentDateTime = dateFormatter.format(new Date());
          
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+        String headerValue = "attachment; filename=usuarios_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
          
         List<UserModel> listUsers = userService.getActivos();

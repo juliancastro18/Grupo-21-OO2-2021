@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /*!
-* Start Bootstrap - Blog Home v5.0.0 (https://startbootstrap.com/template/blog-home)
+* Start Bootstrap - Bare v5.0.0 (https://startbootstrap.com/template/bare)
 * Copyright 2013-2021 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-blog-home/blob/master/LICENSE)
+* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-bare/blob/master/LICENSE)
 */
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
@@ -4647,7 +4647,7 @@ textarea.form-control-lg {
 .badge:empty {
   display: none;
 }
-.badge-dark {
+.badge-dark{
   background-color: var(--bs-gray-dark);
 }
 
@@ -10835,4 +10835,5 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
+  
 }

@@ -9,7 +9,7 @@ INSERT INTO user_role VALUES(NULL, NOW(), 'ROLE_ADMIN', NOW());
 INSERT INTO user_role VALUES(NULL, NOW(), 'ROLE_AUDITOR', NOW());
 
 -- Crea usuarios test
--- ADMIN, pass: 1234
-INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (NULL, b'1', 'Fort', NOW(), 12345678, 'riki.fort@gmail.com', 'Ricardo', '$2a$10$lpu.VBsTYilBE5MRrRvEeucb98kecV0IsHSNp6Sg95dbZO3DhckzK', 1, NOW(), 'admin1', (SELECT ur.id FROM user_role ur where ur.role='ROLE_ADMIN'));
--- AUDITOR, pass: 5678
-INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (NULL, b'1', 'Tauro', NOW(), 23456789, 'marce@hotmail.com', 'Marcela', '$2a$10$3/r3AS0X/JakJp3jBnbZXe.mCLz7Q05seYgvR348sauOToiFrGIWG', 2, NOW(), 'marce123', (SELECT ur.id FROM user_role ur where ur.role='ROLE_AUDITOR'));
+-- ADMIN, user: admin1 - pass: 123456
+INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (NULL, b'1', 'Ventura', NOW(), 12345678, 'ventura666@gmail.com', 'Luis', '$2a$10$nauXseps08y1qK9Z7EkOqODxaQLOW8rVQV/jXugNFh2YB0vweEigK', 1, NOW(), 'admin1', (SELECT ur.id FROM user_role ur where ur.role='ROLE_ADMIN'));
+-- AUDITOR, user: auditor1 - pass: 654321
+INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (NULL, b'1', 'Tauro', NOW(), 23456789, 'marce123@hotmail.com', 'Marcela', '$2a$10$5cSXuenrSRurzG3S2yZWWex6Cbe9YMUUlEIbwYePC9uEkMYqu5BWW', 2, NOW(), 'auditor1', (SELECT ur.id FROM user_role ur where ur.role='ROLE_AUDITOR'));

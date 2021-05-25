@@ -4,29 +4,43 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Roles ABM</title>
+    <title>Perfil ABM</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <!-- FontAwesome -->
+    <script src="https://kit.fontawesome.com/fafb81db9e.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="form">
-        <form th:action="@{/userRole/newUserRole}" th:object="${userRole}" method="POST">
-            <div class="form-header">
-                <h3>
-	            	<span th:unless="${edit}">Agregar</span>
-	            	<span th:if="${edit}">Editar</span>
-            	</h3>	
-            </div>
-            <div class="form-body">
-            	<input type="hidden" th:field="*{id}">
-            	<input type="hidden" name="edit" th:value="${edit}">
-                <div class="form-group">
-                    <label>Role</label>
-                    <input th:field="*{role}" type="text" class="form-control">
-           		</div>
-           	</div>
-            <div class="form-footer">
-                <input type="submit" value="Guardar">
-            </div>
-        </form>
+    <div class="container mt-4">
+        <div class="col-md-6">
+            <form th:action="@{/userrole/newUserRole}" th:object="${userRole}" method="POST">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <span th:unless="${edit}">Agregar</span>
+                            <span th:if="${edit}">Editar</span>
+                        </h3>	
+                    </div>
+                    <div class="card-body">
+                        <input type="hidden" th:field="*{id}">
+                        <input type="hidden" name="edit" th:value="${edit}">
+                        <div class="form-group">
+                            <label>Nombre del perfil</label>
+                            <input th:field="*{role}" type="text" class="form-control">
+                           </div>
+                       </div>
+                    <div class="card-footer">
+                        <input class="btn btn-success" type="submit" value="Guardar">
+                    </div>
+                </div>
+            </form>
     </div>
+    </div>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
 </body>
 </html>
