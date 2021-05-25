@@ -4,6 +4,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class UserRoleController {
 	@Qualifier("userRoleService")
 	private IUserRoleService userRoleService;
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUDITOR')")
 	@GetMapping("")
 	public ModelAndView index()
 	{
@@ -34,6 +36,7 @@ public class UserRoleController {
 		return mAV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/abm")
 	public ModelAndView abm()
 	{
@@ -43,6 +46,7 @@ public class UserRoleController {
 		return mAV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/new")
 	public ModelAndView agregar()
 	{
@@ -51,21 +55,21 @@ public class UserRoleController {
 		return mAV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/newUserRole")
 	public ModelAndView create(@ModelAttribute("userRole") UserRoleModel userRoleModel)
 	{
 		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
-		System.out.println("El id en /newUserRole es : " + userRoleModel.getId());
 		userRoleService.insertOrUpdate(userRoleModel);
 		return mAV;
 	}
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/edit/{id}")
 	public ModelAndView edit(@PathVariable int id)
 	{
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_EDIT);
 		mAV.addObject("userRole", userRoleService.findById(id));
-		System.out.println("El id en edit/id es : " + id);
 		mAV.addObject("edit", true);
 		return mAV;
 	}
