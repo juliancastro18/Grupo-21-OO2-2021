@@ -86,7 +86,8 @@ public class UserController {
 	@PostMapping("/newuser")
 	public ModelAndView create(@Valid @ModelAttribute("user") UserModel userModel, BindingResult bindingResult,
 							   @RequestParam(name="idUserRole", required=true) String idUserRoleStr,
-							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit) {
+							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit,
+							   @RequestParam(name="oldpassword", required=false, defaultValue="") String oldPassword) {
 		ModelAndView mV;
 		
 		if(bindingResult.hasErrors()) {
@@ -100,7 +101,9 @@ public class UserController {
 			int idUserRole = Integer.parseInt(idUserRoleStr);
 			UserRoleModel urm = userRoleService.findById(idUserRole);
 			userModel.setUserRole(urm);
-			userModel.setPassword(passwordEncoder.encode(userModel.getPassword()));
+			if(!edit || !oldPassword.equals(userModel.getPassword())) { //si es un usuario nuevo o la contraseña fue cambiada
+				userModel.setPassword(passwordEncoder.encode(userModel.getPassword())); //la enctripto y la seteo al usuario
+			}
 			userService.insertOrUpdate(userModel);
 		}
 		
