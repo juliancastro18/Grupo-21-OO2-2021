@@ -10,6 +10,7 @@ import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Font;
 import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
 import com.lowagie.text.Paragraph;
 import com.lowagie.text.Phrase;
 import com.lowagie.text.Rectangle;
@@ -47,8 +48,7 @@ public class UserRolePDFExporter {
     }
      
     public void export(HttpServletResponse response) throws DocumentException, IOException {
-    	Rectangle A4Apaisada = new RectangleReadOnly(842,595);
-        Document document = new Document(A4Apaisada);
+        Document document = new Document(PageSize.A4);
         PdfWriter.getInstance(document, response.getOutputStream());
          
         document.open();
@@ -56,7 +56,7 @@ public class UserRolePDFExporter {
         font.setSize(16);
         font.setColor(Color.BLUE);
          
-        Paragraph p = new Paragraph("Lista de Roles", font);
+        Paragraph p = new Paragraph("Lista de Perfiles", font);
         p.setAlignment(Paragraph.ALIGN_CENTER);
          
         document.add(p);

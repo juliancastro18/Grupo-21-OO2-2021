@@ -91,7 +91,7 @@ public class UserRoleController {
         String currentDateTime = dateFormatter.format(new Date());
          
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+        String headerValue = "attachment; filename=perfiles_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
          
         List<UserRoleModel> listUserRoles = userRoleService.getAll();
