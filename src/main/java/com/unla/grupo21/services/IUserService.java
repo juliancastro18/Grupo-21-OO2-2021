@@ -2,6 +2,8 @@ package com.unla.grupo21.services;
 
 import java.util.List;
 
+import org.springframework.data.repository.query.Param;
+
 import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.models.UserRoleModel;
 
@@ -10,6 +12,8 @@ public interface IUserService {
 	public UserModel findById(int id);
 	
 	public long countByActivoTrue();
+	
+	public long countByUserActivoAndRoleId(int userRoleId);
 	
 	public List<UserModel> getActivos();
 	

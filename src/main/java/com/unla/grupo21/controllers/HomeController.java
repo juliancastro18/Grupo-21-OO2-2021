@@ -40,6 +40,7 @@ public class HomeController {
 		modelAndView.addObject("username", username);
 		modelAndView.addObject("userCount", userService.countByActivoTrue());
 		modelAndView.addObject("userRoleCount", userRoleService.count());
+		
 		return modelAndView;
 	}
 	

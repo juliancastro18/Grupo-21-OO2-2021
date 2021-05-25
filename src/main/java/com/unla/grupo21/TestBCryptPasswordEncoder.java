@@ -11,6 +11,7 @@ public class TestBCryptPasswordEncoder {
 		BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
 		System.out.println(pe.encode("654321"));
 		
+
 	}
 
 }
