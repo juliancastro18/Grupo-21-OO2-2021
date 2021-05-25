@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ROLES DE USUARIO</title>
 </head>
-<body>
+<body>		
     <a th:if="${abm}" th:href="@{new}" class="btn btn-primary">Agregar</a>
     <table>
         <thead>
             <tr>
                 <th>Role</th>
-                <th th:if="${abm}">Acciones</th>
+                <th th:if="${abm}">Acciones</th>                
             </tr>
         </thead>
         <tbody>
@@ -25,5 +25,8 @@
             </tr>
         </tbody>
     </table>
+    </div>
+		<a th:href="@{/userRole/pdf}"> Exportar a PDF </a>
+	</div>
 </body>
 </html>
