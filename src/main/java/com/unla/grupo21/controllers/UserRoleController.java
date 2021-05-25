@@ -27,6 +27,7 @@ import com.unla.grupo21.exporters.UserRolePDFExporter;
 import com.unla.grupo21.helpers.ViewRouteHelper;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.IUserRoleService;
+import com.unla.grupo21.services.IUserService;
 
 @Controller
 @RequestMapping("/userrole")
@@ -34,6 +35,10 @@ public class UserRoleController {
 	@Autowired
 	@Qualifier("userRoleService")
 	private IUserRoleService userRoleService;
+	
+	@Autowired
+	@Qualifier("userService")
+	private IUserService userService;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_AUDITOR')")
 	@GetMapping("")
@@ -81,6 +86,26 @@ public class UserRoleController {
 		mAV.addObject("userRole", userRoleService.findById(id));
 		mAV.addObject("edit", true);
 		return mAV;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/delete/{id}")
+	public ModelAndView delete(@PathVariable int id)
+	{
+		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
+		long cantidadUsersActivos = userService.countByUserActivoAndRoleId(id);
+		if(cantidadUsersActivos == 0)
+		{
+			userRoleService.remove(id);
+			mAV.addObject("error", false);
+			return mAV;
+		}
+		
+		else
+		{
+			mAV.addObject("error", true);
+			return mAV;
+		}
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AUDITOR')")
