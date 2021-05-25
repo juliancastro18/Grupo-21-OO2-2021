@@ -64,7 +64,7 @@ public class UserController {
 	@GetMapping("/abm")
 	public ModelAndView abm() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_ABM);
-		mAV.addObject("users", userService.getAll());
+		mAV.addObject("users", userService.getActivos());
 		mAV.addObject("abm", true);
 		return mAV;
 	}
@@ -127,7 +127,7 @@ public class UserController {
 	public RedirectView delete(@PathVariable int id) {
 		RedirectView rV = new RedirectView(ViewRouteHelper.USER_ABM_INDEX);
 		UserModel um = userService.findById(id);
-		um.setActivo(!um.isActivo());
+		um.setActivo(false);
 		userService.insertOrUpdate(um);
 		return rV;
 	}
@@ -140,7 +140,7 @@ public class UserController {
         String currentDateTime = dateFormatter.format(new Date());
          
         String headerKey = "Content-Disposition";
-        String headerValue = "attachment; filename=users_" + currentDateTime + ".pdf";
+        String headerValue = "attachment; filename=usuarios_" + currentDateTime + ".pdf";
         response.setHeader(headerKey, headerValue);
          
         List<UserModel> listUsers = userService.getActivos();

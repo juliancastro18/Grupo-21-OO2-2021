@@ -69,6 +69,11 @@ public class UserService implements UserDetailsService, IUserService {
 		return userRepository.countByActivoTrue();
 	}
 
+	@Override
+	public long countByUserActivoAndRoleId(int userRoleId) {
+		return userRepository.countByUserActivoAndRoleId(userRoleId);
+	}
+	
 
 	@Override
 	public List<UserModel> getActivos() {
