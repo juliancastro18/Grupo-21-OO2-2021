@@ -20,7 +20,7 @@ public class LoginController {
 		return ViewRouteHelper.LOGGING_LOGIN;
 	}
 	
-	@GetMapping("/logout")
+	@GetMapping("/logoutsuccess")
 	public String logout(Model model) {
 		return ViewRouteHelper.LOGGING_LOGOUT;
 	}
