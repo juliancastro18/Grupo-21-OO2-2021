@@ -31,7 +31,8 @@
                         <input type="hidden" name="edit" th:value="${edit}">
                         <div class="form-group">
                             <label>Nombre del perfil</label>
-                            <input th:field="*{role}" type="text" class="form-control">
+                            <input th:field="*{role}" type="text" class="form-control" required>
+                            <p class="error text-danger" th:if="${#fields.hasErrors('role')}" th:errors="*{role}">Role tiene errores</p>
                            </div>
                        </div>
                     <div class="card-footer">

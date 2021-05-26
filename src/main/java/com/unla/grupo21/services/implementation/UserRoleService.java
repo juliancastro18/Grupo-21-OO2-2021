@@ -36,6 +36,16 @@ public class UserRoleService implements IUserRoleService{
 	}
 	
 	@Override
+	public UserRoleModel findByRole(String role) {
+		UserRoleModel urm = null;
+		UserRole ur = userRoleRepository.findByRole(role);
+		if(ur != null) {
+			urm = userRoleConverter.entityToModel(ur);
+		}
+		return urm;
+	}
+	
+	@Override
 	public List<UserRoleModel> getAll() {
 		List<UserRoleModel> lstUserRoleModel = new ArrayList<UserRoleModel>();
 		for(UserRole u : userRoleRepository.findAll()) {

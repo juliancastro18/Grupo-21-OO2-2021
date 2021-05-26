@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -71,10 +72,21 @@ public class UserRoleController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@PostMapping("/newUserRole")
-	public ModelAndView create(@ModelAttribute("userRole") UserRoleModel userRoleModel)
+	public ModelAndView create(@Valid @ModelAttribute("userRole") UserRoleModel userRoleModel, BindingResult bindingResult)
 	{
-		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
-		userRoleService.insertOrUpdate(userRoleModel);
+		ModelAndView mAV;
+		
+		if ( userRoleService.findByRole(userRoleModel.getRole()) != null) {
+		    FieldError error = new FieldError("userRole", "role", "Ya existe un perfil con el nombre ingresado.");
+			bindingResult.addError(error);
+		}
+		
+		if(bindingResult.hasErrors()) {
+			mAV = new ModelAndView(ViewRouteHelper.USERROLE_NEW);
+		} else {
+			mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
+			userRoleService.insertOrUpdate(userRoleModel);
+		}
 		return mAV;
 	}
 	

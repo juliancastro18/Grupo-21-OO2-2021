@@ -58,7 +58,7 @@ public class UserService implements UserDetailsService, IUserService {
 		UserModel um = null;
 		com.unla.grupo21.entities.User u = userRepository.findById(id);
 		if(u != null) {
-			um = userConverter.entityToModel(userRepository.findById(id));
+			um = userConverter.entityToModel(u);
 		}
 		return um;
 	}
@@ -72,6 +72,16 @@ public class UserService implements UserDetailsService, IUserService {
 	@Override
 	public long countByUserWhereRoleId(int userRoleId) {
 		return userRepository.countByUserWhereRoleId(userRoleId);
+	}
+	
+	@Override
+	public UserModel findUsernameAndFetchUserRoleEagerly(String username) {
+		UserModel um = null;
+		com.unla.grupo21.entities.User u = userRepository.findUsernameAndFetchUserRoleEagerly(username);
+		if(u != null) {
+			um = userConverter.entityToModel(u);
+		}
+		return um;
 	}
 	
 
