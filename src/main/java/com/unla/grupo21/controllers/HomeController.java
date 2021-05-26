@@ -32,14 +32,6 @@ public class HomeController {
 	@GetMapping("/index")
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
-		/*
-		String username = "Anónimo";
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		if (!(authentication instanceof AnonymousAuthenticationToken)) {
-		    username = authentication.getName();
-		}
-		modelAndView.addObject("username", username);
-		*/
 		modelAndView.addObject("userCount", userService.countByActivoTrue());
 		modelAndView.addObject("userRoleCount", userRoleService.count());
 		
