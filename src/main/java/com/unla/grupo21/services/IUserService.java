@@ -15,6 +15,8 @@ public interface IUserService {
 	
 	public long countByUserWhereRoleId(int userRoleId);
 	
+	public UserModel findUsernameAndFetchUserRoleEagerly(String username);
+	
 	public List<UserModel> getActivos();
 	
 	public List<UserModel> getAll();

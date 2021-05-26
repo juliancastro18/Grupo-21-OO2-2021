@@ -8,6 +8,7 @@ public interface IUserRoleService {
 
 	public UserRoleModel findById(int id);
 	public long count();
+	public UserRoleModel findByRole(String role);
 	public List<UserRoleModel> getAll();
 	public UserRoleModel insertOrUpdate(UserRoleModel userRoleModel);
 	public boolean remove(int id);

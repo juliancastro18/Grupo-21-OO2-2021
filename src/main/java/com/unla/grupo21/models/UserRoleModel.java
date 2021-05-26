@@ -1,8 +1,12 @@
 package com.unla.grupo21.models;
 
+import javax.validation.constraints.NotNull;
+
 public class UserRoleModel {
 
 	private int id;
+	
+	@NotNull
 	private String role;
 	
 	public UserRoleModel(){};

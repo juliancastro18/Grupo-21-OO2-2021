@@ -16,6 +16,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -89,6 +90,11 @@ public class UserController {
 							   @RequestParam(name="edit", required=false, defaultValue="false") boolean edit,
 							   @RequestParam(name="oldpassword", required=false, defaultValue="") String oldPassword) {
 		ModelAndView mV;
+		
+		if ( userService.findUsernameAndFetchUserRoleEagerly(userModel.getUsername()) != null) {
+		    FieldError error = new FieldError("user", "username", "El nombre de usuario ingresado ya existe.");
+			bindingResult.addError(error);
+		}
 		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.USER_NEW);
