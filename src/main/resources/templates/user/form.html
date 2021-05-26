@@ -76,10 +76,11 @@
                         </div>
                         <div class="form-group">
                             <label>Perfil</label>
-                            <select class="form-select" th:field="*{userRole.id}" name="idUserRole">
+                            <select class="form-select" name="idUserRole">
                                 <option th:each="userrole : ${userroles}"
                                         th:value="${userrole.id}"
-                                        th:text="${userrole.role}">
+                                        th:text="${userrole.role}"
+                                        th:selected="${user.userRole?.id == userrole.id}">
                                 </option>
                             </select>
                         </div>
