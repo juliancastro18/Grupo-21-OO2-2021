@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Usuario ABM</title>
     <!-- Favicon-->
-    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/css/styles.css" rel="stylesheet" />
     <link href="/css/user/form.css" rel="stylesheet" />
@@ -76,7 +76,7 @@
                         </div>
                         <div class="form-group">
                             <label>Perfil</label>
-                            <select class="form-select" name="idUserRole">
+                            <select class="form-select" th:field="*{userRole.id}" name="idUserRole">
                                 <option th:each="userrole : ${userroles}"
                                         th:value="${userrole.id}"
                                         th:text="${userrole.role}">
