@@ -19,8 +19,8 @@ public interface IUserRepository extends JpaRepository<User, Serializable> {
 	
 	public abstract long countByActivoTrue();
 	
-	@Query("SELECT COUNT(u) FROM User u WHERE u.activo = true and u.userRole.id = :userRoleId")
-	public abstract long countByUserActivoAndRoleId(@Param("userRoleId") int userRoleId);
+	@Query("SELECT COUNT(u) FROM User u WHERE u.userRole.id = :userRoleId")
+	public abstract long countByUserWhereRoleId(@Param("userRoleId") int userRoleId);
 	
 	@Query("SELECT u FROM User u JOIN FETCH u.userRole WHERE u.username = (:username)")
 	public abstract User findUsernameAndFetchUserRoleEagerly(@Param("username") String username);

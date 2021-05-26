@@ -93,8 +93,8 @@ public class UserRoleController {
 	public ModelAndView delete(@PathVariable int id)
 	{
 		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
-		long cantidadUsersActivos = userService.countByUserActivoAndRoleId(id);
-		if(cantidadUsersActivos == 0)
+		long cantidadUsersAsignados = userService.countByUserWhereRoleId(id);
+		if(cantidadUsersAsignados == 0)
 		{
 			userRoleService.remove(id);
 			mAV.addObject("error", false);

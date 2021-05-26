@@ -70,8 +70,8 @@ public class UserService implements UserDetailsService, IUserService {
 	}
 
 	@Override
-	public long countByUserActivoAndRoleId(int userRoleId) {
-		return userRepository.countByUserActivoAndRoleId(userRoleId);
+	public long countByUserWhereRoleId(int userRoleId) {
+		return userRepository.countByUserWhereRoleId(userRoleId);
 	}
 	
 
