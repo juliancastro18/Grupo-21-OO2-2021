@@ -20,7 +20,7 @@ public class UserRole {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(name="role", nullable=false, length=100)
+	@Column(name="role", unique=true, nullable=false, length=100)
 	private String role;
 	
 	@Column(name="createdat", nullable = false, updatable = false)

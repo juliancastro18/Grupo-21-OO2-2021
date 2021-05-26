@@ -30,7 +30,6 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Perfil</th>
-                            <th th:if="${abm}">Activo</th>
                             <th th:if="${abm}">Acciones</th>
                         </tr>
                     </thead>
@@ -43,7 +42,6 @@
                             <td><span th:text="${user.email}" /></td>
                             <td><span th:text="${user.username}" /></td>
                             <td><span th:text="${user.userRole.role}" /></td>
-                            <td th:if="${abm}"><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
                             <td th:if="${abm}">
                                 <a th:href="@{edit/}+${user.id}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
                                 <a th:href="@{delete/}+${user.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
