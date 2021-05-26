@@ -13,7 +13,7 @@ public interface IUserService {
 	
 	public long countByActivoTrue();
 	
-	public long countByUserActivoAndRoleId(int userRoleId);
+	public long countByUserWhereRoleId(int userRoleId);
 	
 	public List<UserModel> getActivos();
 	
