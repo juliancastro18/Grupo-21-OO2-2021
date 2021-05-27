@@ -9,12 +9,15 @@ public class UserRoleModel {
 	@NotNull
 	private String role;
 	
+	private boolean activo = true;
+	
 	public UserRoleModel(){};
 	
-	public UserRoleModel(int id, String role)
+	public UserRoleModel(int id, String role, boolean activo)
 	{
 		setId(id);
 		setRole(role);
+		setActivo(activo);
 	}
 
 	public int getId() {
@@ -33,9 +36,17 @@ public class UserRoleModel {
 		this.role = role;
 	}
 
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 	@Override
 	public String toString() {
-		return "UserRoleModel [id=" + id + ", role=" + role + "]";
+		return "UserRoleModel [id=" + id + ", role=" + role + ", activo=" + activo + "]";
 	}
 	
 

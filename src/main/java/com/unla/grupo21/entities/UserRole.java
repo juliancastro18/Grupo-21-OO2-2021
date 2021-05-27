@@ -23,6 +23,9 @@ public class UserRole {
 	@Column(name="role", unique=true, nullable=false, length=100)
 	private String role;
 	
+	@Column(name="activo")
+	private boolean activo;
+	
 	@Column(name="createdat", nullable = false, updatable = false)
 	@CreationTimestamp
 	private LocalDateTime createdat;
@@ -33,10 +36,11 @@ public class UserRole {
 	
 	public UserRole() {};
 	
-	public UserRole(int id, String role)
+	public UserRole(int id, String role, boolean activo)
 	{
 		setId(id);
 		setRole(role);
+		setActivo(activo);
 	}
 
 	public int getId() {
@@ -53,6 +57,14 @@ public class UserRole {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
 	}
 
 	public LocalDateTime getCreatedat() {

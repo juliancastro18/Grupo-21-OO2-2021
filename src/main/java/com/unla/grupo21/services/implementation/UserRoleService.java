@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import com.unla.grupo21.converters.UserRoleConverter;
 import com.unla.grupo21.entities.UserRole;
-import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.repositories.IUserRoleRepository;
 import com.unla.grupo21.services.IUserRoleService;
@@ -36,6 +35,11 @@ public class UserRoleService implements IUserRoleService{
 	}
 	
 	@Override
+	public long countByActivoTrue() {
+		return userRoleRepository.countByActivoTrue();
+	}
+	
+	@Override
 	public UserRoleModel findByRole(String role) {
 		UserRoleModel urm = null;
 		UserRole ur = userRoleRepository.findByRole(role);
@@ -43,6 +47,15 @@ public class UserRoleService implements IUserRoleService{
 			urm = userRoleConverter.entityToModel(ur);
 		}
 		return urm;
+	}
+	
+	@Override
+	public List<UserRoleModel> getActivos() {
+		List<UserRoleModel> lstUserRoleModel = new ArrayList<UserRoleModel>();
+		for(UserRole ur : userRoleRepository.findByActivoTrue()) {
+			lstUserRoleModel.add(userRoleConverter.entityToModel(ur));
+		}
+		return lstUserRoleModel;
 	}
 	
 	@Override
@@ -73,5 +86,6 @@ public class UserRoleService implements IUserRoleService{
 			return false;
 		}
 	}
+
 	
 }
