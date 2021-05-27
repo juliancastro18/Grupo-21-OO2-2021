@@ -33,7 +33,7 @@ public class HomeController {
 	public ModelAndView index() {
 		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
 		modelAndView.addObject("userCount", userService.countByActivoTrue());
-		modelAndView.addObject("userRoleCount", userRoleService.count());
+		modelAndView.addObject("userRoleCount", userRoleService.countByActivoTrue());
 		
 		return modelAndView;
 	}

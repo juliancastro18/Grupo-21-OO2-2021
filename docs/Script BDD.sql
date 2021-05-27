@@ -6,8 +6,8 @@ USE `grupo-21-bdd-oo2-2021`;
 
 -- Crea roles
 
-INSERT INTO user_role VALUES(NULL, NOW(), 'ROLE_ADMIN', NOW());
-INSERT INTO user_role VALUES(NULL, NOW(), 'ROLE_AUDITOR', NOW());
+INSERT INTO user_role VALUES(NULL, b'1', NOW(), 'ROLE_ADMIN', NOW());
+INSERT INTO user_role VALUES(NULL, b'1', NOW(), 'ROLE_AUDITOR', NOW());
 
 -- Crea usuarios test
 

@@ -19,7 +19,21 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col">
-                <a th:if="${abm}" th:href="@{new}" class="btn btn-primary mb-2"><i class="fas fa-user-plus"></i> Agregar</a>
+                <div th:if="${abm}" class="row mb-2 align-items-center">
+                    <div class="col-auto">
+                        <a th:href="@{new}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Agregar</a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <form id="checkInactivos" th:action="@{/user/abm}" th:method="get">
+                                <input type="hidden" name="cambio" value="true" />
+                                <input class="form-check-input" onChange="this.form.submit()" type="checkbox" th:checked="${session.users_inactivos_show}">
+                            </form>
+                            <label class="form-check-label" for="inlineCheckbox1">Mostrar inactivos</label>
+                        </div>
+                    </div>
+                </div>
+
                 <table class="table">
                     <thead>
                         <tr>
@@ -30,11 +44,12 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Perfil</th>
+                            <th th:if="${abm}">Activo</th>
                             <th th:if="${abm}">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="user : ${users}">
+                        <tr th:each="user : ${users}" th:class="${user.activo ? '' : 'table-secondary text-muted'}">
                             <td><span th:text="${user.nombre}" /></td>
                             <td><span th:text="${user.apellido}" /></td>
                             <td><span th:text="${user.tipoDocumento}" /></td>
@@ -42,9 +57,11 @@
                             <td><span th:text="${user.email}" /></td>
                             <td><span th:text="${user.username}" /></td>
                             <td><span th:text="${user.userRole.role}" /></td>
+                            <td th:if="${abm}"><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
                             <td th:if="${abm}">
-                                <a th:href="@{edit/}+${user.id}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
-                                <a th:href="@{delete/}+${user.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
+                                <a th:href="@{edit/(id=${user.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
+                                <a th:if="${user.activo}" th:href="@{delete/}+${user.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
+                                <a th:if="${!user.activo}" th:href="@{edit/(id=${user.id}, reactivar='true')}" class="btn btn-secondary"><i class="fas fa-user-check"></i> <span class="d-none d-lg-inline">Reactivar</span></a>
                             </td>
                         </tr>
                     </tbody>
