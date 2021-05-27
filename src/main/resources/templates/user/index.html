@@ -59,9 +59,12 @@
                             <td><span th:text="${user.userRole.role}" /></td>
                             <td th:if="${abm}"><span th:text="${user.activo ? 'Sí' : 'No'}" /></td>
                             <td th:if="${abm}">
-                                <a th:href="@{edit/(id=${user.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
+                                <!-- Si user activo -->
+                                <a th:if="${user.activo}" th:href="@{edit/(id=${user.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
                                 <a th:if="${user.activo}" th:href="@{delete/}+${user.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
-                                <a th:if="${!user.activo}" th:href="@{edit/(id=${user.id}, reactivar='true')}" class="btn btn-secondary"><i class="fas fa-user-check"></i> <span class="d-none d-lg-inline">Reactivar</span></a>
+                                <!-- Si user inactivo -->
+                                <a th:if="${!user.activo}" href="#" class="btn btn-secondary"><i class="fas fa-user-edit"></i> <span class="d-none d-lg-inline">Editar</span></a>
+                                <a th:if="${!user.activo}" th:href="@{edit/(id=${user.id}, reactivar='true')}" class="btn btn-success"><i class="fas fa-user-check"></i> <span class="d-none d-lg-inline">Reactivar</span></a>
                             </td>
                         </tr>
                     </tbody>
