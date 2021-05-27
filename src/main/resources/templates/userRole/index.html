@@ -19,20 +19,39 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-6">
-                <a th:if="${abm}" th:href="@{new}" class="btn btn-primary mb-2"><i class="fas fa-user-plus"></i> Agregar</a>
+                <div th:if="${abm}" class="row mb-2 align-items-center">
+                    <div class="col-auto">
+                        <a th:href="@{new}" class="btn btn-primary"><i class="fas fa-user-plus"></i> Agregar</a>
+                    </div>
+                    <div class="col-auto">
+                        <div class="form-check">
+                            <form id="checkInactivos" th:action="@{/userrole/abm}" th:method="get">
+                                <input type="hidden" name="cambio" value="true" />
+                                <input class="form-check-input" onChange="this.form.submit()" type="checkbox" th:checked="${session.userroles_inactivos_show}">
+                            </form>
+                            <label class="form-check-label" for="inlineCheckbox1">Mostrar inactivos</label>
+                        </div>
+                    </div>
+                </div>
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Role</th>
+                            <th th:if="${abm}">Activo</th>
                             <th th:if="${abm}">Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="userRole : ${userRoles}">
+                        <tr th:each="userRole : ${userRoles}" th:class="${userRole.activo ? '' : 'table-secondary text-muted'}">
                             <td><span th:text="${userRole.role}" /></td>
+                            <td th:if="${abm}" th:text="${userRole.activo ? 'Sí' : 'No'}"></td>
                             <td th:if="${abm}">
-                                <a th:href="@{edit/}+${userRole.id}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-md-inline">Editar</span></a>
-                                <a th:href="@{delete/}+${userRole.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-md-inline">Eliminar</span></a>
+                                <!-- Si userrole activo -->
+                                <a th:if="${userRole.activo}" th:href="@{edit/(id=${userRole.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-md-inline">Editar</span></a>
+                                <a th:if="${userRole.activo}" th:href="@{delete/}+${userRole.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
+                                <!-- Si userrole inactivo -->
+                                <a th:if="${!userRole.activo}" href="#" class="btn btn-secondary"><i class="fas fa-user-edit"></i> <span class="d-none d-md-inline">Editar</span></a>
+                                <a th:if="${!userRole.activo}" th:href="@{restore/}+${userRole.id}" class="btn btn-success"><i class="fas fa-user-check"></i> <span class="d-none d-lg-inline">Reactivar</span></a>
                             </td>
                         </tr>
                     </tbody>
@@ -52,7 +71,7 @@
                 <button type="button" class="btn btn-default close modalbtn" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-                <p id="error">No se pueden eliminar perfiles que hayan sido asignados a usuarios.</p>
+                <p id="error">No se pueden eliminar perfiles asignados a usuarios activos.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default modalbtn" data-dismiss="modal">Cerrar</button>

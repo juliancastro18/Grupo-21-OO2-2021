@@ -7,7 +7,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,9 +65,26 @@ public class UserController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/abm")
-	public ModelAndView abm() {
+	public ModelAndView abm(@RequestParam(name="cambio", required=false) boolean cambio,
+							HttpServletRequest request) {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USER_ABM);
-		mAV.addObject("users", userService.getActivos());
+		List<UserModel> lstUsuarios;
+		
+		HttpSession session = request.getSession();
+		
+		if(cambio && session.getAttribute("users_inactivos_show") != null) {
+			boolean valorActual = (boolean)session.getAttribute("users_inactivos_show");
+			session.setAttribute("users_inactivos_show", !valorActual);
+		} else if (session.getAttribute("users_inactivos_show") == null){
+			session.setAttribute("users_inactivos_show", false);
+		}
+		
+		if(session.getAttribute("users_inactivos_show") == null || (boolean)session.getAttribute("users_inactivos_show")) {
+			lstUsuarios = userService.getAll();
+		} else {
+			lstUsuarios = userService.getActivos();
+		}
+		mAV.addObject("users", lstUsuarios);
 		mAV.addObject("abm", true);
 		return mAV;
 	}
@@ -78,7 +97,7 @@ public class UserController {
 		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 		mAV.addObject("user", new UserModel());
 		mAV.addObject("lstTipoDoc", lstTipoDoc);
-		mAV.addObject("userroles", userRoleService.getAll());
+		mAV.addObject("userroles", userRoleService.getActivos());
 		return mAV;
 	}
 	
@@ -91,16 +110,20 @@ public class UserController {
 							   @RequestParam(name="oldpassword", required=false, defaultValue="") String oldPassword) {
 		ModelAndView mV;
 		
-		if ( userService.findUsernameAndFetchUserRoleEagerly(userModel.getUsername()) != null) {
-		    FieldError error = new FieldError("user", "username", "El nombre de usuario ingresado ya existe.");
-			bindingResult.addError(error);
+		// si el nombre de usuario ya existe
+		if ( userService.findUsernameAndFetchUserRoleEagerly(userModel.getUsername()) != null ) {
+			// y no es un usuario que fue editado y tiene el mismo username que el ingresado
+			if ( !(edit && userService.findById(userModel.getId()).getUsername().equals(userModel.getUsername())) ) {
+			    FieldError error = new FieldError("user", "username", "El nombre de usuario ingresado ya existe.");
+				bindingResult.addError(error);
+			}
 		}
 		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.USER_NEW);
 			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 			mV.addObject("lstTipoDoc", lstTipoDoc);
-			mV.addObject("userroles", userRoleService.getAll());
+			mV.addObject("userroles", userRoleService.getActivos());
 			mV.addObject("edit", edit);
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.USER_ABM_INDEX));
@@ -117,13 +140,21 @@ public class UserController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/edit/{id}")
-	public ModelAndView edit(@PathVariable int id) {
+	@GetMapping("/edit")
+	public ModelAndView edit(@RequestParam(name="id", required=true) int id,
+							 @RequestParam(name="reactivar", required=false, defaultValue="false") Boolean reactivar) {
 		ModelAndView mV = new ModelAndView(ViewRouteHelper.USER_EDIT);
-		mV.addObject("user", userService.findById(id));
+		UserModel user = userService.findById(id);
+		if(reactivar) {
+			user.setActivo(true);
+			if(!user.getUserRole().isActivo()) { // si el usuario a reactivar tiene un userrole inactivo, seteo en null
+				user.setUserRole(null);
+			}
+		}
+		mV.addObject("user", user);
 		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 		mV.addObject("lstTipoDoc", lstTipoDoc);
-		mV.addObject("userroles", userRoleService.getAll());
+		mV.addObject("userroles", userRoleService.getActivos());
 		mV.addObject("edit", true);
 		return mV;
 	}

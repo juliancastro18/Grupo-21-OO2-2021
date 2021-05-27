@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lowagie.text.DocumentException;
 import com.unla.grupo21.exporters.UserRolePDFExporter;
 import com.unla.grupo21.helpers.ViewRouteHelper;
+import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.IUserRoleService;
 import com.unla.grupo21.services.IUserService;
@@ -46,17 +50,35 @@ public class UserRoleController {
 	public ModelAndView index()
 	{
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_LIST);
-		mAV.addObject("userRoles", userRoleService.getAll());
+		mAV.addObject("userRoles", userRoleService.getActivos());
 		mAV.addObject("userRole", new UserRoleModel());
 		return mAV;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/abm")
-	public ModelAndView abm()
+	public ModelAndView abm(@RequestParam(name="cambio", required=false) boolean cambio,
+							HttpServletRequest request)
 	{
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_ABM);
-		mAV.addObject("userRoles", userRoleService.getAll());
+		List<UserRoleModel> lstPerfiles;
+
+		HttpSession session = request.getSession();
+		
+		if(cambio && session.getAttribute("userroles_inactivos_show") != null) {
+			boolean valorActual = (boolean)session.getAttribute("userroles_inactivos_show");
+			session.setAttribute("userroles_inactivos_show", !valorActual);
+		} else if (session.getAttribute("userroles_inactivos_show") == null){
+			session.setAttribute("userroles_inactivos_show", false);
+		}
+		
+		if(session.getAttribute("userroles_inactivos_show") == null || (boolean)session.getAttribute("userroles_inactivos_show")) {
+			lstPerfiles = userRoleService.getAll();
+		} else {
+			lstPerfiles = userRoleService.getActivos();
+		}
+		
+		mAV.addObject("userRoles", lstPerfiles);
 		mAV.addObject("abm", true);
 		return mAV;
 	}
@@ -91,8 +113,8 @@ public class UserRoleController {
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@GetMapping("/edit/{id}")
-	public ModelAndView edit(@PathVariable int id)
+	@GetMapping("/edit")
+	public ModelAndView edit(@RequestParam(name="id", required=true) int id)
 	{
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_EDIT);
 		mAV.addObject("userRole", userRoleService.findById(id));
@@ -105,10 +127,12 @@ public class UserRoleController {
 	public ModelAndView delete(@PathVariable int id)
 	{
 		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
-		long cantidadUsersAsignados = userService.countByUserWhereRoleId(id);
+		long cantidadUsersAsignados = userService.countByUserActivoWhereRoleId(id);
 		if(cantidadUsersAsignados == 0)
 		{
-			userRoleService.remove(id);
+			UserRoleModel urm = userRoleService.findById(id);
+			urm.setActivo(!urm.isActivo());
+			userRoleService.insertOrUpdate(urm);
 			mAV.addObject("error", false);
 			return mAV;
 		}
@@ -118,6 +142,19 @@ public class UserRoleController {
 			mAV.addObject("error", true);
 			return mAV;
 		}
+	}
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@GetMapping("/restore/{id}")
+	public ModelAndView restore(@PathVariable int id)
+	{
+		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
+		UserRoleModel urm = userRoleService.findById(id);
+		if(!urm.isActivo()) {
+			urm.setActivo(true);
+			userRoleService.insertOrUpdate(urm);
+		}
+		return mAV;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_AUDITOR')")

@@ -13,7 +13,7 @@ public interface IUserService {
 	
 	public long countByActivoTrue();
 	
-	public long countByUserWhereRoleId(int userRoleId);
+	public long countByUserActivoWhereRoleId(int userRoleId);
 	
 	public UserModel findUsernameAndFetchUserRoleEagerly(String username);
 	
