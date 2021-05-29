@@ -11,7 +11,7 @@ import com.unla.grupo21.entities.User;
 
 
 @Repository("personaRepository")
-public interface IPersonaRepository  extends JpaRepository<Persona, Serializable> {
+public interface IPersonaRepository extends JpaRepository<Persona, Serializable> {
 
 	public abstract Persona findById(int id);
 	
