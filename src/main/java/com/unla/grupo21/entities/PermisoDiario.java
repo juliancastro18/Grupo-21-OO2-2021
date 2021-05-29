@@ -4,9 +4,11 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 @Entity
+@DiscriminatorValue(value="Diario")
 public class PermisoDiario extends Permiso{
 
 	@Column

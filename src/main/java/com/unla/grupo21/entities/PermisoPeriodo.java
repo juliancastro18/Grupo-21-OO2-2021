@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 
 @Entity
+@DiscriminatorValue(value="Periodo")
 public class PermisoPeriodo extends Permiso{
 
 	@Column
