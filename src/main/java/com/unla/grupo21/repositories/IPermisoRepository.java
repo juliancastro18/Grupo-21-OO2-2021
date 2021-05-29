@@ -10,15 +10,21 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.unla.grupo21.entities.Permiso;
-
+import com.unla.grupo21.entities.PermisoPeriodo;
 
 
 @Repository("permisoRepository")
 public interface IPermisoRepository extends JpaRepository<Permiso, Serializable> {
 
 	public abstract Permiso findByIdPermiso(int id);
-
-	@Query(value = "FROM PermisoDiario pd WHERE pd.fecha BETWEEN :startDate AND :endDate")
+	
+	@Query("FROM PermisoPeriodo pp JOIN FETCH pp.desdeHasta JOIN FETCH pp.pedido JOIN FETCH pp.rodado WHERE pp.rodado.id = :idRodado")
+	public abstract List<PermisoPeriodo> getAllByIdRodado(@Param("idRodado")int idRodado);
+	
+	@Query("FROM Permiso p JOIN FETCH p.desdeHasta JOIN FETCH p.pedido WHERE p.pedido.id = :idPersona")
+	public abstract List<Permiso> getAllByIdPersona(@Param("idPersona")int idPersona);
+	
+	@Query(value = "FROM PermisoDiario pd JOIN FETCH pd.pedido JOIN FETCH pd.desdeHasta WHERE pd.fecha BETWEEN :startDate AND :endDate")
 	public abstract List<Permiso> getAllPermisoDiarioBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
 	
 	@Query(value = "SELECT * FROM permiso p "
@@ -30,8 +36,5 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 			+ "OR ( ADDDATE(p.fecha, INTERVAL pp.cantDias DAY) BETWEEN ?1 AND ?2)",
 			nativeQuery=true)
 	public abstract List<Permiso> getAllPermisoPeriodoBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
-	
-	@Query(value = "FROM PermisoDiario pd JOIN FETCH pd.pedido JOIN FETCH pd.desdeHasta WHERE pd.fecha BETWEEN :startDate AND :endDate")
-	public abstract List<Permiso> getAllPermisoDiarioBetweenDatesAndPlaces(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
-	
+
 }
