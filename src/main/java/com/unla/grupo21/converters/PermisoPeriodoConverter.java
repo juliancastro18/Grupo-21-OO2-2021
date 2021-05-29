@@ -27,6 +27,8 @@ public class PermisoPeriodoConverter {
 	@Qualifier("rodadoConverter")
 	private RodadoConverter rodadoConverter;
 	
+	//TODO ver si se usa por el servicio o no
+	
 	public PermisoPeriodoModel entityToModel(PermisoPeriodo permisoPeriodo)
 	{
 		

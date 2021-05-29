@@ -23,7 +23,7 @@ public class PermisoDiarioConverter {
 	@Qualifier("lugarConverter")
 	private LugarConverter lugarConverter;
 	
-	
+	//TODO ver si se usa por el servicio o no
 	
 	public PermisoDiarioModel entityToModel(PermisoDiario permisoDiario)
 	{
