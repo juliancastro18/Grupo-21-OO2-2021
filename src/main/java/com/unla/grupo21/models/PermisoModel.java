@@ -69,8 +69,8 @@ public abstract class PermisoModel {
 
 	@Override
 	public String toString() {
-		return "PermisoModel [idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + "]";
+		return "PermisoModel [idPermiso=" + idPermiso + ", pedido=" + pedido + ", fecha=" + fecha + ", desdeHasta="
+				+ desdeHasta + "]";
 	}
-	
 	
 }

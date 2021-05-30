@@ -1,6 +1,7 @@
 package com.unla.grupo21.converters;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,26 +34,25 @@ public class PermisoConverter {
 	
 	public PermisoModel entityToModel(Permiso permiso)
 	{
-		
-		Lugar[] lugares = null; 
-		Set<LugarModel> lugaresModel = new HashSet<LugarModel>();
-		lugares = (Lugar[]) permiso.getDesdeHasta().toArray();
-		lugaresModel.add(lugarConverter.entityToModel(lugares[0]));
-		lugaresModel.add(lugarConverter.entityToModel(lugares[1]));
+		Set<LugarModel> lstLugares = new HashSet<LugarModel>();
+		Iterator<Lugar> itr = permiso.getDesdeHasta().iterator();
+		while(itr.hasNext()){
+			  lstLugares.add(lugarConverter.entityToModel(itr.next()));
+		}
 		
 		PermisoModel pm = null;
 		
 		if(permiso instanceof PermisoPeriodo) {
 			PermisoPeriodo pp = (PermisoPeriodo) permiso;
 			pm = new PermisoPeriodoModel(pp.getIdPermiso(), personaConverter.entityToModel(pp.getPedido()),
-					pp.getFecha(), lugaresModel, pp.getCantDias(), pp.isVacaciones(), 
+					pp.getFecha(), lstLugares, pp.getCantDias(), pp.isVacaciones(), 
 					rodadoConverter.entityToModel(pp.getRodado()));
 		}
 		
 		if(permiso instanceof PermisoDiario) {
 			PermisoDiario pd = (PermisoDiario) permiso;
 			pm = new PermisoDiarioModel(pd.getIdPermiso(), personaConverter.entityToModel(pd.getPedido()), pd.getFecha(), 
-					 lugaresModel, pd.getMotivo());
+					lstLugares, pd.getMotivo());
 		}
 		
 		return pm;
@@ -60,25 +60,25 @@ public class PermisoConverter {
 	
 	public Permiso modelToEntity(PermisoModel permisoModel)
 	{
-		LugarModel[] lugaresModel = null;
-		Set<Lugar> lugaresEntity = new HashSet<Lugar>();
-		lugaresModel = (LugarModel[]) permisoModel.getDesdeHasta().toArray();
-		lugaresEntity.add(lugarConverter.modelToEntity(lugaresModel[0]));
-		lugaresEntity.add(lugarConverter.modelToEntity(lugaresModel[1]));
+		Set<Lugar> lstLugares = new HashSet<Lugar>();
+		Iterator<LugarModel> itr = permisoModel.getDesdeHasta().iterator();
+		while(itr.hasNext()){
+			  lstLugares.add(lugarConverter.modelToEntity(itr.next()));
+		}
 		
 		Permiso p = null;
 		
 		if(permisoModel instanceof PermisoPeriodoModel) {
 			PermisoPeriodoModel ppm = (PermisoPeriodoModel) permisoModel;
 			p = new PermisoPeriodo(ppm.getIdPermiso(), personaConverter.modelToEntity(ppm.getPedido()), 
-					ppm.getFecha(), lugaresEntity, ppm.getCantDias(), ppm.isVacaciones(),
+					ppm.getFecha(), lstLugares, ppm.getCantDias(), ppm.isVacaciones(),
 					rodadoConverter.modelToEntity(ppm.getRodado()));
 		}
 		
 		if(permisoModel instanceof PermisoDiarioModel) {
 			PermisoDiarioModel pdm = (PermisoDiarioModel) permisoModel;
 			p = new PermisoDiario(pdm.getIdPermiso(), 
-					personaConverter.modelToEntity(pdm.getPedido()), pdm.getFecha(), lugaresEntity,
+					personaConverter.modelToEntity(pdm.getPedido()), pdm.getFecha(), lstLugares,
 					pdm.getMotivo());
 		}
 		

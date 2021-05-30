@@ -3,6 +3,7 @@ package com.unla.grupo21.entities;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.Entity;
@@ -23,12 +24,12 @@ import javax.persistence.Table;
 @Table(name="permiso")
 @DiscriminatorColumn(name="tipo")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Permiso {
+public abstract class Permiso {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int idPermiso;
-	@ManyToOne(optional = false, fetch=FetchType.LAZY)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	protected Persona pedido;
 	@Column(name="fecha", nullable=false)
 	protected LocalDate fecha;

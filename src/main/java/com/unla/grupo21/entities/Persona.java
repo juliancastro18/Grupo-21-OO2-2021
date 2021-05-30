@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,7 +21,8 @@ import org.springframework.data.annotation.ReadOnlyProperty;
 import com.unla.grupo21.models.TipoDocumento;
 
 @Entity
-@Table(name="persona")
+@Table(name="persona", uniqueConstraints={@UniqueConstraint(columnNames = {"tipodocumento", "documento"})})
+
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Persona {
 

@@ -27,8 +27,9 @@ CREATE TABLE `persona` (
   `nombre` varchar(255) NOT NULL,
   `tipodocumento` int NOT NULL,
   `updatedat` datetime(6) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKflilha0kj19qtd8tjk6rv6vm1` (`tipodocumento`,`documento`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `rodado` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -70,7 +71,7 @@ CREATE TABLE `permiso` (
   `cant_dias` int DEFAULT NULL,
   `vacaciones` bit(1) DEFAULT NULL,
   `pedido_id` int NOT NULL,
-  `rodado_id` int NOT NULL,
+  `rodado_id` int DEFAULT NULL,
   PRIMARY KEY (`id_permiso`),
   KEY `FKft1wik02q1fqdvh64y3pa5kj9` (`pedido_id`),
   KEY `FK4myhtjulhfu3qp0gn2ft2oarn` (`rodado_id`),
