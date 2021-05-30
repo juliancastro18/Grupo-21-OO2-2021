@@ -23,6 +23,8 @@ public class ViewRouteHelper {
 	public static final String USERROLE_NEW = "userrole/form";
 	public static final String USERROLE_EDIT = "userrole/form";
 
+	////PERMISO
+	public static final String PERMISO_NEW = "permiso/form1";
 	
 	//***Redirects***
 	public static final String ROUTE_INDEX = "/index";
