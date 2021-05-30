@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component("lugarConverter")
 public class LugarConverter {
-
+    //
     public LugarModel entityToModel(Lugar lugar) {
         return new LugarModel(lugar.getId(), lugar.getLugar(), lugar.getCodigoPostal());
     }

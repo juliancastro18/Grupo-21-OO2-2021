@@ -8,7 +8,7 @@ import java.io.Serializable;
 
 @Repository("lugarRepository")
 public interface ILugarRepository extends JpaRepository<Lugar, Serializable> {
-
+    //
     Lugar findById(int id);
     Lugar findByLugar(String lugar);
     Lugar findByCodigoPostal(String codigoPostal);

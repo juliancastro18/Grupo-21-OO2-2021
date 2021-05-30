@@ -3,7 +3,7 @@ package com.unla.grupo21.models;
 import javax.validation.constraints.NotNull;
 
 public class LugarModel {
-
+    //
     private int id;
 
     @NotNull(message = "El lugar no puede ser nulo")
