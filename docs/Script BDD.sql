@@ -37,7 +37,8 @@ CREATE TABLE `rodado` (
   `dominio` varchar(255) NOT NULL,
   `updatedat` datetime(6) DEFAULT NULL,
   `vehiculo` varchar(255) NOT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UK_13m3g5b74jl938lil3rvxy9w3` (`dominio`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 CREATE TABLE `user_role` (
@@ -100,7 +101,7 @@ INSERT INTO user_role VALUES(NULL, b'1', NOW(), 'ROLE_AUDITOR', NOW());
 INSERT INTO `grupo-21-bdd-oo2-2021`.`persona` VALUES (NULL, 'Ventura', NOW(), 12345678, 'ventura666@gmail.com', 'Luis', 1, NOW());
 INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$nauXseps08y1qK9Z7EkOqODxaQLOW8rVQV/jXugNFh2YB0vweEigK', 'admin1', (SELECT p.id FROM persona p where p.apellido='Ventura'), (SELECT ur.id FROM user_role ur where ur.role='ROLE_ADMIN'));
 -- AUDITOR, user: auditor1 - pass: 654321
-INSERT INTO `grupo-21-bdd-oo2-2021`.`persona` VALUES (NULL, 'Tauro', NOW(), 2345689, 'marce123@hotmail.com', 'Marcela', 0, NOW());
+INSERT INTO `grupo-21-bdd-oo2-2021`.`persona` VALUES (NULL, 'Tauro', NOW(), 23456789, 'marce123@hotmail.com', 'Marcela', 0, NOW());
 INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$5cSXuenrSRurzG3S2yZWWex6Cbe9YMUUlEIbwYePC9uEkMYqu5BWW', 'auditor1', (SELECT p.id FROM persona p where p.apellido='Tauro'), (SELECT ur.id FROM user_role ur where ur.role='ROLE_AUDITOR'));
 
 
@@ -125,3 +126,31 @@ INSERT INTO `lugar` VALUES (16, "1836", "LLAVALLOL");
 INSERT INTO `lugar` VALUES (17, "1832", "LOMAS DE ZAMORA");
 INSERT INTO `lugar` VALUES (18, "1834", "TEMPERLEY");
 INSERT INTO `lugar` VALUES (19, "1834", "TURDERA");
+
+
+-- CREA RODADOS
+
+INSERT INTO `rodado` VALUES ('2', '2021-05-30 02:07:59.116703', 'ABC123', '2021-05-30 02:07:59.116703', 'Renault Megane');
+INSERT INTO `rodado` VALUES ('3', '2021-05-30 02:12:31.834870', 'DEF456', '2021-05-30 02:12:31.834870', 'Peugeot 206');
+
+
+-- CREA PERSONAS
+
+INSERT INTO `persona` VALUES ('11', 'Roccasalvo', '2021-05-30 00:57:53.051141', '22345691', 'susy_rock@gmail.com', 'Susana', '0', '2021-05-30 00:57:53.051141');
+
+
+-- CREA PERMISOS
+
+INSERT INTO `permiso` VALUES ('Diario', '1', '2021-03-13', 'Conferencia', NULL, NULL, '11', NULL);
+INSERT INTO `permiso` VALUES ('Periodo', '3', '2021-06-24', NULL, '4', b'1', '10', '2');
+INSERT INTO `permiso` VALUES ('Periodo', '4', '2021-06-03', NULL, '10', b'0', '9', '3');
+
+
+-- CREA REL_PERMISO_LUGAR
+
+INSERT INTO `rel_permiso_lugar` VALUES (1,1);
+INSERT INTO `rel_permiso_lugar` VALUES (4,1);
+INSERT INTO `rel_permiso_lugar` VALUES (1,2);
+INSERT INTO `rel_permiso_lugar` VALUES (3,3);
+INSERT INTO `rel_permiso_lugar` VALUES (3,4);
+INSERT INTO `rel_permiso_lugar` VALUES (4,4);

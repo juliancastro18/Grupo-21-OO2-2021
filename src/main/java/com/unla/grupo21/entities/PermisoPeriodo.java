@@ -18,7 +18,7 @@ public class PermisoPeriodo extends Permiso{
 	private int cantDias;
 	@Column
 	private boolean vacaciones;
-	@ManyToOne(optional = true, fetch = FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	private Rodado rodado;
 	
 	public PermisoPeriodo() {}

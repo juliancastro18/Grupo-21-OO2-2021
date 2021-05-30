@@ -57,11 +57,7 @@ public class PermisoService implements IPermisoService {
     public List<PermisoModel> getAllBetweenDates(LocalDate startDate, LocalDate endDate) {
         List<PermisoModel> lstPermiso = new ArrayList<>();
 
-        for (Permiso p: permisoRepository.getAllPermisoPeriodoBetweenDates(startDate, endDate)) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
-        }
-
-        for (Permiso p: permisoRepository.getAllPermisoDiarioBetweenDates(startDate, endDate)) {
+        for (Permiso p: permisoRepository.getAllPermisosBetweenDates(startDate, endDate)) {
             lstPermiso.add(permisoConverter.entityToModel(p));
         }
 
@@ -72,11 +68,8 @@ public class PermisoService implements IPermisoService {
     public List<PermisoModel> getAllBetweenDatesAndPlaces(LocalDate startDate, LocalDate endDate, LugarModel lugarModel, boolean desde) {
         List<PermisoModel> lstPermiso = new ArrayList<>();
 
-        for (Permiso p: permisoRepository.getAllPermisoPeriodoBetweenDates(startDate, endDate)) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
-        }
 
-        for (Permiso p: permisoRepository.getAllPermisoDiarioBetweenDates(startDate, endDate)) {
+        for (Permiso p: permisoRepository.getAllPermisosBetweenDates(startDate, endDate)) {
             lstPermiso.add(permisoConverter.entityToModel(p));
         }
 

@@ -24,17 +24,15 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 	@Query("FROM Permiso p JOIN FETCH p.desdeHasta JOIN FETCH p.pedido WHERE p.pedido.id = :idPersona")
 	public abstract List<Permiso> getAllByIdPersona(@Param("idPersona")int idPersona);
 	
-	@Query(value = "FROM PermisoDiario pd JOIN FETCH pd.pedido JOIN FETCH pd.desdeHasta WHERE pd.fecha BETWEEN :startDate AND :endDate")
-	public abstract List<Permiso> getAllPermisoDiarioBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
-	
 	@Query(value = "SELECT * FROM permiso p "
 			+ "INNER JOIN rel_permiso_lugar rpl ON rpl.fk_permiso = p.id_permiso "
 			+ "INNER JOIN lugar l ON rpl.fk_lugar = l.id "
 			+ "INNER JOIN persona per ON per.id = p.pedido_id "
-			+ "INNER JOIN rodado r ON p.rodado_id = r.id "
-			+ "WHERE (p.fecha BETWEEN ?1 AND ?2) AND p.tipo='Periodo' "
-			+ "OR ( ADDDATE(p.fecha, INTERVAL pp.cantDias DAY) BETWEEN ?1 AND ?2)",
-			nativeQuery=true)
-	public abstract List<Permiso> getAllPermisoPeriodoBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
+			+ "LEFT JOIN rodado r ON p.rodado_id = r.id "
+			+ "WHERE (p.fecha BETWEEN ?1 AND ?2)  "
+			+ "OR (p.tipo='Periodo' AND ADDDATE(p.fecha, INTERVAL p.cant_dias DAY) BETWEEN ?1 AND ?2) "
+			+ "GROUP BY p.id_permiso "
+			+ "ORDER BY p.fecha ASC", nativeQuery=true) //no puedo creer que esto haya funcionado
+	public abstract List<Permiso> getAllPermisosBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
 
 }

@@ -29,7 +29,7 @@ public abstract class Permiso {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	protected int idPermiso;
-	@ManyToOne(optional = false, fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(optional = false, fetch=FetchType.LAZY)
 	protected Persona pedido;
 	@Column(name="fecha", nullable=false)
 	protected LocalDate fecha;
