@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitud de permiso</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+    <link href="/css/permiso/form1.css" rel="stylesheet" />
+    <link href="/static/css/styles.css" rel="stylesheet" />
+    <link href="/static/css/permiso/form1.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Responsive navbar-->
+    <nav th:insert="/general.html :: nav"></nav>
+    <!-- Main -->
+    <div class="container mt-4">
+        <div class="col-md-6">
+            <form th:action="@{/permiso/newpermisofinal}" th:object="${permiso}" method="POST">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Solicitar 
+                            <span th:if="${esDiario}">permiso diario</span>
+                            <span th:unless="${esDiario}">permiso por período</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+
+                        <!-- Persona -->
+
+                        <h5 class="card-title">Persona</h5>
+                        <fieldset th:disabled="*{pedido.id != 0}">
+                            <input type="hidden" th:field="*{pedido.id}">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input th:field="*{pedido.nombre}" type="text" class="form-control">
+                                <p class="error text-danger" th:if="${#fields.hasErrors('pedido.nombre')}" th:errors="*{pedido.nombre}">Nombre tiene errores</p>
+                            </div>
+                            <div class="form-group">
+                                <label>Apellido</label>
+                                <input th:field="*{pedido.apellido}" type="text" class="form-control">
+                                <p class="error text-danger" th:if="${#fields.hasErrors('pedido.apellido')}" th:errors="*{pedido.apellido}">Apellido tiene errores</p>
+                            </div>
+                            <fieldset disabled>
+                                <div class="form-group">
+                                    <label>Documento</label>
+                                    <div class="row">
+                                        <div class="col-sm-4 col-lg-2">
+                                            <select class="form-select" th:field="*{pedido.tipoDocumento}">
+                                                <option th:each="tipodoc : ${lstTipoDoc}"
+                                                        th:value="${tipodoc}"
+                                                        th:text="${tipodoc}">
+                                                </option>
+                                            </select>     
+                                        </div>
+                                        <div class="col-sm-8 col-lg-10">
+                                            <input th:field="*{pedido.documento}" type="number" class="form-control" required>
+                                        </div>
+                                    </div>
+                                    <p class="error text-danger" th:if="${#fields.hasErrors('pedido.documento')}" th:errors="*{pedido.documento}">Documento tiene errores</p>
+                                </div>
+                            </fieldset>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input th:field="*{pedido.email}" type="email" class="form-control">
+                                <p class="error text-danger" th:if="${#fields.hasErrors('pedido.email')}" th:errors="*{pedido.email}">Email tiene errores</p>
+                            </div>
+                        </fieldset>
+                    </div>
+
+                    <!-- Rodado -->
+
+                    <div class="card-footer">
+                        <input id="submit-btn" type="submit" value="Continuar" class="btn btn-success">
+                        <a class="btn btn-secondary pl-2" onclick='javascript:window.history.back()'>Volver</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/js/scripts.js"></script>
+    <script src="/js/permiso/form1.js"></script>
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.unla.grupo21.models;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.validation.constraints.NotNull;
@@ -18,7 +19,10 @@ public abstract class PermisoModel {
 	protected LocalDate fecha;
 	protected Set<LugarModel> desdeHasta;
 	
-	public PermisoModel() {}
+	public PermisoModel() {
+		pedido = new PersonaModel();
+		desdeHasta = new LinkedHashSet<LugarModel>();
+	}
 	
 	public PermisoModel(int idPermiso, PersonaModel pedido, LocalDate fecha, Set<LugarModel> desdeHasta)
 	{

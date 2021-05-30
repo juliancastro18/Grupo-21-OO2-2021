@@ -8,16 +8,22 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.ViewRouteHelper;
 import com.unla.grupo21.models.LugarModel;
@@ -29,6 +35,7 @@ import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.RodadoModel;
 import com.unla.grupo21.models.TipoDocumento;
 import com.unla.grupo21.models.UserModel;
+import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.ILugarService;
 import com.unla.grupo21.services.IPermisoService;
 import com.unla.grupo21.services.IPersonaService;
@@ -63,6 +70,58 @@ public class PermisoController {
 		mAV.addObject("preform", new PermisoPreFormModel());
 
 		return mAV;
+	}
+	
+	@PostMapping("/newpermiso")
+	public ModelAndView create(@Valid @ModelAttribute("preform") PermisoPreFormModel preFormModel, BindingResult bindingResult) {
+		ModelAndView mV;
+		
+		if(preFormModel.isEsDiario() == false && preFormModel.getDominio().isEmpty()) { //si se seleccionó permiso periodo y no se indicó patente
+		    FieldError error = new FieldError("preform", "dominio", "Los permisos para períodos deben asignarse a rodados");
+			bindingResult.addError(error);
+		}
+		
+		
+		if(bindingResult.hasErrors()) {
+			
+			mV = new ModelAndView(ViewRouteHelper.PERMISO_NEW);
+			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
+			mV.addObject("lstTipoDoc", lstTipoDoc);
+			
+		} else {
+			
+			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
+			// si no hay errores instancio un nuevo permiso de la clase hija correspondiente
+			PermisoModel nuevoPermiso = null;
+			if(preFormModel.isEsDiario()) {
+				nuevoPermiso = new PermisoDiarioModel();
+			}else {
+				nuevoPermiso = new PermisoPeriodoModel();
+				//si encuentra el rodado, se lo asigno al nuevo permiso, sino le asigno solo la patente
+				RodadoModel rm = rodadoService.findByDominio(preFormModel.getDominio());
+				if(rm!=null) {
+					((PermisoPeriodoModel)nuevoPermiso).setRodado(rm);
+				}else {
+					((PermisoPeriodoModel)nuevoPermiso).getRodado().setDominio(preFormModel.getDominio());
+				}
+			}
+			
+			//lo mismo para la persona: si la encuentro se la asigno, sino le completo el campo DNI			
+			PersonaModel pm = personaService.findByTipoDocumentoAndDocumento(preFormModel.getTipoDocumento(), preFormModel.getDocumento());
+			if(pm!=null) {
+				nuevoPermiso.setPedido(pm);
+			}else {
+				nuevoPermiso.getPedido().setTipoDocumento(preFormModel.getTipoDocumento());
+				nuevoPermiso.getPedido().setDocumento(preFormModel.getDocumento());
+			}
+			
+			mV.addObject("permiso", nuevoPermiso);
+			mV.addObject("esDiario", preFormModel.isEsDiario());
+			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
+			
+		}
+		
+		return mV;
 	}
 	
 }

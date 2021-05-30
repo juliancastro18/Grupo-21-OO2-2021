@@ -1,10 +1,16 @@
 const selectPermiso = document.querySelector(".select-permiso")
 const groupPatente = document.querySelector(".group-patente")
 
-selectPermiso.addEventListener("change", e => {
-    if(e.target.value == false){
-        groupPatente.classList.remove("hidden")
+const checkVisible = () => {
+    if(selectPermiso.value === "false"){
+        groupPatente.classList.add("visible")
     } else {
-        groupPatente.classList.add("hidden")
+        groupPatente.classList.remove("visible")
     }
+}
+
+selectPermiso.addEventListener("change", e => {
+    checkVisible()
 })
+
+window.addEventListener("load", checkVisible())

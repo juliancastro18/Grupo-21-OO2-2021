@@ -10,6 +10,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-.hidden {
+.group-patente {
     display: none;
+}
+
+.group-patente.visible {
+    display: block;
 }

@@ -9,8 +9,7 @@ public class PermisoPreFormModel {
 
 	//Esta clase está pensada para validar los campos que se ingresan previo a la solicitud de permiso
 	
-	@NotNull(message = "El dominio no puede ser nulo")
-	@Pattern(regexp = "^([A-Za-z]{3}[0-9]{3}$)|^([A-Za-z]{2}[0-9]{3}[A-Za-z]{2}$)", message = "El formato del dominio es incorrecto")
+	@Pattern(regexp = "^$|^([A-Za-z]{3}[0-9]{3}$)|^([A-Za-z]{2}[0-9]{3}[A-Za-z]{2}$)", message = "El formato del dominio es incorrecto")
 	private String dominio;
 	
 	@NotNull(message = "El tipo de documento no puede ser nulo")
@@ -21,7 +20,7 @@ public class PermisoPreFormModel {
 	@Max(50000000)
 	private Long documento;
 	
-	private boolean esDiario;
+	private boolean esDiario = true;
 
 	public PermisoPreFormModel() {}
 

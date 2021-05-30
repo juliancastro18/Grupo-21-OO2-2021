@@ -9,7 +9,9 @@ public class PermisoPeriodoModel extends PermisoModel{
 	private boolean vacaciones;
 	private RodadoModel rodado;
 	
-	public PermisoPeriodoModel() {}
+	public PermisoPeriodoModel() {
+		rodado = new RodadoModel();
+	}
 
 	public PermisoPeriodoModel(PersonaModel pedido, LocalDate fecha,
 			Set<LugarModel> desdeHasta, int cantDias, boolean vacaciones, RodadoModel rodado) {
