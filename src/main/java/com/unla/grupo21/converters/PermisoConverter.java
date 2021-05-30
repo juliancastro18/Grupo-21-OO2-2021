@@ -2,6 +2,7 @@ package com.unla.grupo21.converters;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class PermisoConverter {
 	
 	public PermisoModel entityToModel(Permiso permiso)
 	{
-		Set<LugarModel> lstLugares = new HashSet<LugarModel>();
+		Set<LugarModel> lstLugares = new LinkedHashSet<LugarModel>();
 		Iterator<Lugar> itr = permiso.getDesdeHasta().iterator();
 		while(itr.hasNext()){
 			  lstLugares.add(lugarConverter.entityToModel(itr.next()));
@@ -60,7 +61,7 @@ public class PermisoConverter {
 	
 	public Permiso modelToEntity(PermisoModel permisoModel)
 	{
-		Set<Lugar> lstLugares = new HashSet<Lugar>();
+		Set<Lugar> lstLugares = new LinkedHashSet<Lugar>();
 		Iterator<LugarModel> itr = permisoModel.getDesdeHasta().iterator();
 		while(itr.hasNext()){
 			  lstLugares.add(lugarConverter.modelToEntity(itr.next()));
