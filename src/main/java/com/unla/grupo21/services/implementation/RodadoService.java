@@ -28,9 +28,15 @@ public class RodadoService implements IRodadoService{
 	public RodadoModel findById(int id) {
 		RodadoModel rm = null;
 		Rodado r = rodadoRepository.findById(id);
-		if(r!=null) {
-			rm = rodadoConverter.entityToModel(r);
-		}
+		if(r!=null) rm = rodadoConverter.entityToModel(r);
+		return rm;
+	}
+
+	@Override
+	public RodadoModel findByDominio(String dominio) {
+		RodadoModel rm = null;
+		Rodado r = rodadoRepository.findByDominio(dominio);
+		if(r != null) rm = rodadoConverter.entityToModel(r);
 		return rm;
 	}
 
@@ -41,7 +47,6 @@ public class RodadoService implements IRodadoService{
 		for(Rodado r : rodadoRepository.findAll()) {
 			lstRodados.add( rodadoConverter.entityToModel(r) );
 		}
-		
 		return lstRodados;
 	}
 
