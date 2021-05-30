@@ -8,11 +8,14 @@ import org.springframework.stereotype.Repository;
 
 import com.unla.grupo21.entities.Persona;
 import com.unla.grupo21.entities.User;
+import com.unla.grupo21.models.TipoDocumento;
 
 
 @Repository("personaRepository")
-public interface IPersonaRepository  extends JpaRepository<Persona, Serializable> {
+public interface IPersonaRepository extends JpaRepository<Persona, Serializable> {
 
 	public abstract Persona findById(int id);
+	
+	public abstract Persona findByTipoDocumentoAndDocumento(TipoDocumento tipoDocumento, long documento);
 	
 }
