@@ -53,7 +53,7 @@
                                     </select>     
                                 </div>
                                 <div class="col-sm-8 col-lg-10">
-                                    <input th:field="*{documento}" type="number" class="form-control" required>
+                                    <input th:field="*{documento}" type="number" class="form-control">
                                 </div>
                             </div>
                             <p class="error text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}">Documento tiene errores</p>
