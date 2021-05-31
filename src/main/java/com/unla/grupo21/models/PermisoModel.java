@@ -70,6 +70,15 @@ public abstract class PermisoModel {
 	public void setDesdeHasta(Set<LugarModel> desdeHasta) {
 		this.desdeHasta = desdeHasta;
 	}
+	
+	public boolean agregarLugar(LugarModel lugar) {
+		if(desdeHasta == null) {
+			desdeHasta = new LinkedHashSet<LugarModel>();
+		} else if(desdeHasta.size()>=2) {
+			return false;
+		}
+		return desdeHasta.add(lugar);
+	}
 
 	@Override
 	public String toString() {

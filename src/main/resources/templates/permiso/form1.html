@@ -15,8 +15,8 @@
     <!-- Responsive navbar-->
     <nav th:insert="/general.html :: nav"></nav>
     <!-- Main -->
-    <div class="container mt-4">
-        <div class="col-md-6">
+    <div class="container mt-4 d-flex justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
             <form th:action="@{/permiso/newpermiso}" th:object="${preform}" method="POST">
                 <div class="card">
                     <div class="card-header">
@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label>Documento</label>
                             <div class="row">
-                                <div class="col-sm-4 col-lg-2">
+                                <div class="col-sm-4 col-lg-3">
                                     <select class="form-select" th:field="*{tipoDocumento}">
                                         <option th:each="tipodoc : ${lstTipoDoc}"
                                                 th:value="${tipodoc}"
@@ -34,20 +34,20 @@
                                         </option>
                                     </select>     
                                 </div>
-                                <div class="col-sm-8 col-lg-10">
+                                <div class="col-sm-8 col-lg-9">
                                     <input th:field="*{documento}" type="number" class="form-control" required>
                                 </div>
                             </div>
                             <p class="error text-danger" th:if="${#fields.hasErrors('documento')}" th:errors="*{documento}">Documento tiene errores</p>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group pt-2">
                             <label>Tipo de permiso</label>
                             <select class="form-select select-permiso" th:field="*{esDiario}">
                                 <option th:value="true" th:text="Diario" selected>Diario</option>
                                 <option th:value="false" th:text="Período">Período</option>
                             </select>
                         </div>
-                        <div class="form-group group-patente">
+                        <div class="form-group group-patente pt-2">
                             <label>Patente del vehículo</label>
                             <input placeholder="Ingresar sin espacios" th:field="*{dominio}" type="text" class="form-control">
                             <p class="error text-danger" th:if="${#fields.hasErrors('dominio')}" th:errors="*{dominio}">Patente tiene errores</p>

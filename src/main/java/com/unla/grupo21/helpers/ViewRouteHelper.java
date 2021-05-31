@@ -26,6 +26,7 @@ public class ViewRouteHelper {
 	////PERMISO
 	public static final String PERMISO_NEW = "permiso/form1";
 	public static final String PERMISO_FORMULARIO = "permiso/form2";
+	public static final String PERMISO_SUCCESS = "permiso/success";
 	
 	//***Redirects***
 	public static final String ROUTE_INDEX = "/index";

@@ -32,7 +32,7 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 			+ "WHERE (p.fecha BETWEEN ?1 AND ?2)  "
 			+ "OR (p.tipo='Periodo' AND ADDDATE(p.fecha, INTERVAL p.cant_dias DAY) BETWEEN ?1 AND ?2) "
 			+ "GROUP BY p.id_permiso "
-			+ "ORDER BY p.fecha ASC", nativeQuery=true) //no puedo creer que esto haya funcionado
+			+ "ORDER BY p.fecha ASC", nativeQuery=true)
 	public abstract List<Permiso> getAllPermisosBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
 
 }

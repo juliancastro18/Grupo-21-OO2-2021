@@ -4,10 +4,12 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 
 public class PermisoDiarioModel extends PermisoModel{
 
-	@Min(3)
+	@NotNull
+	@Min(6)
 	private String motivo;
 
 	public PermisoDiarioModel() {
@@ -15,13 +17,13 @@ public class PermisoDiarioModel extends PermisoModel{
 	}
 	
 	public PermisoDiarioModel(PersonaModel pedido, LocalDate fecha, 
-			Set<LugarModel> desdeHasta,@Min(3) String motivo) {
+			Set<LugarModel> desdeHasta,@Min(6) String motivo) {
 		super(pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}
 
 	public PermisoDiarioModel(int idPermiso, PersonaModel pedido, LocalDate fecha, 
-			Set<LugarModel> desdeHasta,@Min(3) String motivo) {
+			Set<LugarModel> desdeHasta,@Min(6) String motivo) {
 		super(idPermiso, pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}
