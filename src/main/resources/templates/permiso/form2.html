@@ -17,7 +17,7 @@
     <!-- Main -->
     <div class="container mt-4 d-flex justify-content-center">
         <div class="col-12 col-lg-8 col-xl-7">
-            <form th:action="@{/permiso/postpermiso}" th:object="${permiso}" method="POST">
+            <form th:action="@{/permiso/postpermiso} + ${esDiario ? 'diario' : 'periodo'}" th:object="${permiso}" method="POST">
                 <div class="card">
                     <div class="card-header">
                         <h3>Solicitar 
@@ -30,71 +30,67 @@
                         <!-- Persona -->
 
                         <h5 class="card-title">Persona</h5>
-                        <fieldset th:disabled="*{pedido.id != 0}">
                             <input type="hidden" th:field="*{pedido.id}">
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6">
                                         <label>Nombre</label>
-                                        <input th:field="*{pedido.nombre}" type="text" class="form-control">
+                                        <input th:field="*{pedido.nombre}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
                                         <p class="error text-danger" th:if="${#fields.hasErrors('pedido.nombre')}" th:errors="*{pedido.nombre}">Nombre tiene errores</p>
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <label>Apellido</label>
-                                        <input th:field="*{pedido.apellido}" type="text" class="form-control">
+                                        <input th:field="*{pedido.apellido}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
                                         <p class="error text-danger" th:if="${#fields.hasErrors('pedido.apellido')}" th:errors="*{pedido.apellido}">Apellido tiene errores</p>
                                     </div>
                                 </div>
                             </div>
-                            <fieldset disabled>
-                                <div class="form-group pt-2">
-                                    <label>Documento</label>
-                                    <div class="row">
-                                        <div class="col-sm-4 col-lg-3">
-                                            <select class="form-select" th:field="*{pedido.tipoDocumento}">
-                                                <option th:each="tipodoc : ${lstTipoDoc}"
-                                                        th:value="${tipodoc}"
-                                                        th:text="${tipodoc}">
-                                                </option>
-                                            </select>     
-                                        </div>
-                                        <div class="col-sm-8 col-lg-9">
-                                            <input th:field="*{pedido.documento}" type="number" class="form-control" required>
-                                        </div>
+                            <div class="form-group pt-2">
+                                <label>Documento</label>
+                                <div class="row">
+                                    <div class="col-sm-4 col-lg-3">
+                                        <input type="hidden" th:field="*{pedido.tipoDocumento}">
+                                        <select class="form-select" disabled>
+                                            <option th:each="tipodoc : ${lstTipoDoc}"
+                                                    th:value="${tipodoc}"
+                                                    th:text="${tipodoc}"
+                                                    th:selected="${tipodoc} == *{pedido.tipoDocumento}">
+                                            </option>
+                                        </select>     
                                     </div>
-                                    <p class="error text-danger" th:if="${#fields.hasErrors('pedido.documento')}" th:errors="*{pedido.documento}">Documento tiene errores</p>
+                                    <div class="col-sm-8 col-lg-9">
+                                        <input th:field="*{pedido.documento}" type="number" class="form-control" readonly="readonly" required>
+                                    </div>
                                 </div>
-                            </fieldset>
+                                <p class="error text-danger" th:if="${#fields.hasErrors('pedido.documento')}" th:errors="*{pedido.documento}">Documento tiene errores</p>
+                            </div>
                             <div class="form-group pt-2">
                                 <label>Email</label>
-                                <input th:field="*{pedido.email}" type="email" class="form-control">
+                                <input th:field="*{pedido.email}" type="email" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
                                 <p class="error text-danger" th:if="${#fields.hasErrors('pedido.email')}" th:errors="*{pedido.email}">Email tiene errores</p>
                             </div>
-                        </fieldset>
 
                         <!-- Rodado -->
     
                         <div th:unless="${esDiario}">
                             <h5 class="card-title pt-4">Rodado</h5>
                             <input type="hidden" th:field="*{rodado.id}">
-                            <fieldset th:disabled="*{rodado.id != 0}">
-                                <div class="form-group">
-                                    <div class="row">
-                                        <div class="col-md-6 pt-2">
-                                            <label>Vehículo</label>
-                                            <input placeholder="Marca, modelo" th:field="*{rodado.vehiculo}" type="text" class="form-control">
-                                            <p class="error text-danger" th:if="${#fields.hasErrors('rodado.vehiculo')}" th:errors="*{rodado.vehiculo}">Vehículo tiene errores</p>
-                                        </div>
-                                        <div class="col-md-6 pt-2">
-                                            <fieldset disabled>
-                                            <label>Patente</label>
-                                            <input th:field="*{rodado.dominio}" type="text" class="form-control">
-                                            <p class="error text-danger" th:if="${#fields.hasErrors('rodado.dominio')}" th:errors="*{rodado.dominio}">Patente tiene errores</p>
-                                            </fieldset>
-                                        </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 pt-2">
+                                        <label>Vehículo</label>
+                                        <input placeholder="Marca, modelo" th:field="*{rodado.vehiculo}" type="text" class="form-control" th:attr="readonly=*{rodado.id != 0 ? 'readonly' : null}">
+                                        <p class="error text-danger" th:if="${#fields.hasErrors('rodado.vehiculo')}" th:errors="*{rodado.vehiculo}">Vehículo tiene errores</p>
+                                    </div>
+                                    <div class="col-md-6 pt-2">
+                                        <fieldset readonly>
+                                        <label>Patente</label>
+                                        <input th:field="*{rodado.dominio}" type="text" class="form-control" th:attr="readonly=*{rodado.id != 0 ? 'readonly' : null}">
+                                        <p class="error text-danger" th:if="${#fields.hasErrors('rodado.dominio')}" th:errors="*{rodado.dominio}">Patente tiene errores</p>
+                                        </fieldset>
                                     </div>
                                 </div>
-                            </fieldset>
+                            </div>
                         </div>
 
                         <!-- Permiso, campos clase padre -->
@@ -126,7 +122,7 @@
                                     </div>
                                     <div class="col-md-4 pt-2">
                                         <label>Fecha<span th:unless="${esDiario}"> de inicio</span></label>
-                                        <input th:field="*{fecha}" type="date" class="form-control">
+                                        <input th:field="*{fecha}" type="date" class="form-control" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('fecha')}" th:errors="*{fecha}">Fecha tiene errores</p>
                                     </div>
                                 </div>

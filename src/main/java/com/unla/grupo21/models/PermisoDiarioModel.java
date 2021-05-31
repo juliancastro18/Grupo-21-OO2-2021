@@ -5,11 +5,12 @@ import java.util.Set;
 
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class PermisoDiarioModel extends PermisoModel{
 
 	@NotNull
-	@Min(6)
+	@Size(min=6, max=100, message = "El motivo debe tener entre 6 y 100 caracteres")
 	private String motivo;
 
 	public PermisoDiarioModel() {

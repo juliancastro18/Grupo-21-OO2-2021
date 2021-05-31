@@ -6,6 +6,8 @@ import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.unla.grupo21.entities.Lugar;
 
 public abstract class PermisoModel {
@@ -16,7 +18,9 @@ public abstract class PermisoModel {
 	protected PersonaModel pedido;
 	
 	@NotNull(message = "La fecha no puede ser nula")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	protected LocalDate fecha;
+	
 	protected Set<LugarModel> desdeHasta;
 	
 	public PermisoModel() {

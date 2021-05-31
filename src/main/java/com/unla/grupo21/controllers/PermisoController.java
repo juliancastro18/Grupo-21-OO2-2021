@@ -17,7 +17,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -99,6 +101,7 @@ public class PermisoController {
 				nuevoPermiso = new PermisoPeriodoModel();
 				//si encuentra el rodado, se lo asigno al nuevo permiso, sino le asigno solo la patente
 				RodadoModel rm = rodadoService.findByDominio(preFormModel.getDominio());
+
 				if(rm!=null) {
 					((PermisoPeriodoModel)nuevoPermiso).setRodado(rm);
 				}else {
@@ -126,46 +129,94 @@ public class PermisoController {
 	}
 	
 	
-	@PostMapping("/postpermiso")
-	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoModel permisoModel, BindingResult bindingResult,
+	@PostMapping("/postpermisodiario")
+	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoDiarioModel permisoDiarioModel, BindingResult bindingResult,
 							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
 							   @RequestParam(name="idHasta", required=true) String idHastaStr) {
 		ModelAndView mV;
 		
 		// si la fecha es anterior a hoy o despues de un año
-		if ( permisoModel.getFecha().isBefore(LocalDate.now()) || permisoModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
-			    FieldError error = new FieldError("permiso", "fecha", "La fecha es incorrecta");
-				bindingResult.addError(error);
+		if ( permisoDiarioModel.getFecha().isBefore(LocalDate.now()) || permisoDiarioModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
+			bindingResult.addError(new FieldError("permiso", "fecha", "La fecha es incorrecta"));
 		}
 		if(idDesdeStr.equals(idHastaStr)) {
-		    FieldError error = new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo");
-			bindingResult.addError(error);
+			bindingResult.addError(new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo"));
 		}
 		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
-			mV.addObject("esDiario", (permisoModel instanceof PermisoDiarioModel));
+			mV.addObject("esDiario", true);
 			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
 			mV.addObject("lugares", lugarService.getAll());
 			
 		} else {
-			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS));
+			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
 			
-			permisoModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesdeStr)));
-			permisoModel.agregarLugar(lugarService.findById(Integer.valueOf(idHastaStr)));
+			permisoDiarioModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesdeStr)));
+			permisoDiarioModel.agregarLugar(lugarService.findById(Integer.valueOf(idHastaStr)));
 			
-			PersonaModel pm = personaService.insertOrUpdate(permisoModel.getPedido());
-			permisoModel.setPedido(pm);
-			
-			if(permisoModel instanceof PermisoPeriodoModel) {
-				RodadoModel rm = rodadoService.insertOrUpdate(((PermisoPeriodoModel) permisoModel).getRodado());
-				((PermisoPeriodoModel) permisoModel).setRodado(rm);
+			if(permisoDiarioModel.getPedido().getId() == 0) {
+				PersonaModel pm = personaService.insertOrUpdate(permisoDiarioModel.getPedido());			
+				permisoDiarioModel.setPedido(pm);
+			} else {
+				PersonaModel pm = personaService.findById(permisoDiarioModel.getPedido().getId() );
+				permisoDiarioModel.setPedido(pm);
 			}
 			
-			permisoService.insertOrUpdate(permisoModel);
+			permisoService.insertOrUpdate(permisoDiarioModel);
 		}
 		
 		return mV;
+	}
+	
+	@PostMapping("/postpermisoperiodo")
+	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoPeriodoModel permisoPeriodoModel, BindingResult bindingResult,
+							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
+							   @RequestParam(name="idHasta", required=true) String idHastaStr) {
+		ModelAndView mV;
+		
+		// si la fecha es anterior a hoy o despues de un año
+		if ( permisoPeriodoModel.getFecha().isBefore(LocalDate.now()) || permisoPeriodoModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
+			bindingResult.addError(new FieldError("permiso", "fecha", "La fecha es incorrecta"));
+		}
+		if(idDesdeStr.equals(idHastaStr)) {
+			bindingResult.addError(new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo"));
+		}
+		
+		if(bindingResult.hasErrors()) {
+			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
+			mV.addObject("esDiario", false);
+			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
+			mV.addObject("lugares", lugarService.getAll());
+			
+		} else {
+			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
+			
+			permisoPeriodoModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesdeStr)));
+			permisoPeriodoModel.agregarLugar(lugarService.findById(Integer.valueOf(idHastaStr)));
+			
+			if(permisoPeriodoModel.getPedido().getId() == 0) {
+				PersonaModel pm = personaService.insertOrUpdate(permisoPeriodoModel.getPedido());			
+				permisoPeriodoModel.setPedido(pm);
+			} else {
+				PersonaModel pm = personaService.findById(permisoPeriodoModel.getPedido().getId() );
+				permisoPeriodoModel.setPedido(pm);
+			}
+			
+			System.out.println(permisoPeriodoModel.getRodado());
+			RodadoModel rm = rodadoService.insertOrUpdate(permisoPeriodoModel.getRodado());
+			permisoPeriodoModel.setRodado(rm);
+			
+			
+			permisoService.insertOrUpdate(permisoPeriodoModel);
+		}
+		
+		return mV;
+	}
+	
+	@GetMapping("/success")
+	public ModelAndView success() {
+		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
 	
 }
