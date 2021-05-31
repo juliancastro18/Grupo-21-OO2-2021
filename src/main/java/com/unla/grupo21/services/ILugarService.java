@@ -8,5 +8,6 @@ public interface ILugarService {
 
     public LugarModel findById(int id);
     public List<LugarModel> getAll();
+    public List<LugarModel> getAllOrderByLugar();
     public LugarModel insertOrUpdate(LugarModel lugarModel);
 }

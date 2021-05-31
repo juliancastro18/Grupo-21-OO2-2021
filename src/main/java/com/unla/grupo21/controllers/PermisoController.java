@@ -21,6 +21,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,6 +64,7 @@ public class PermisoController {
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
 	
+	
 	@GetMapping("/new")
 	public ModelAndView solicitud() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_NEW);
@@ -73,6 +75,7 @@ public class PermisoController {
 
 		return mAV;
 	}
+	
 	
 	@PostMapping("/newpermiso")
 	public ModelAndView create(@Valid @ModelAttribute("preform") PermisoPreFormModel preFormModel, BindingResult bindingResult) {
@@ -121,7 +124,7 @@ public class PermisoController {
 			mV.addObject("permiso", nuevoPermiso);
 			mV.addObject("esDiario", preFormModel.isEsDiario());
 			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
-			mV.addObject("lugares", lugarService.getAll());
+			mV.addObject("lugares", lugarService.getAllOrderByLugar());
 			
 		}
 		
@@ -133,90 +136,70 @@ public class PermisoController {
 	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoDiarioModel permisoDiarioModel, BindingResult bindingResult,
 							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
 							   @RequestParam(name="idHasta", required=true) String idHastaStr) {
-		ModelAndView mV;
 		
-		// si la fecha es anterior a hoy o despues de un año
-		if ( permisoDiarioModel.getFecha().isBefore(LocalDate.now()) || permisoDiarioModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
-			bindingResult.addError(new FieldError("permiso", "fecha", "La fecha es incorrecta"));
-		}
-		if(idDesdeStr.equals(idHastaStr)) {
-			bindingResult.addError(new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo"));
-		}
-		
-		if(bindingResult.hasErrors()) {
-			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
-			mV.addObject("esDiario", true);
-			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
-			mV.addObject("lugares", lugarService.getAll());
-			
-		} else {
-			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
-			
-			permisoDiarioModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesdeStr)));
-			permisoDiarioModel.agregarLugar(lugarService.findById(Integer.valueOf(idHastaStr)));
-			
-			if(permisoDiarioModel.getPedido().getId() == 0) {
-				PersonaModel pm = personaService.insertOrUpdate(permisoDiarioModel.getPedido());			
-				permisoDiarioModel.setPedido(pm);
-			} else {
-				PersonaModel pm = personaService.findById(permisoDiarioModel.getPedido().getId() );
-				permisoDiarioModel.setPedido(pm);
-			}
-			
-			permisoService.insertOrUpdate(permisoDiarioModel);
-		}
-		
-		return mV;
+		return insertPermiso(permisoDiarioModel, bindingResult, Integer.valueOf(idDesdeStr), Integer.valueOf(idHastaStr));
 	}
 	
 	@PostMapping("/postpermisoperiodo")
 	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoPeriodoModel permisoPeriodoModel, BindingResult bindingResult,
 							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
 							   @RequestParam(name="idHasta", required=true) String idHastaStr) {
+		
+		return insertPermiso(permisoPeriodoModel, bindingResult, Integer.valueOf(idDesdeStr), Integer.valueOf(idHastaStr));
+	}
+	
+	
+	public ModelAndView insertPermiso(PermisoModel permisoModel, BindingResult bindingResult, int idDesde, int idHasta) {
+		
 		ModelAndView mV;
 		
 		// si la fecha es anterior a hoy o despues de un año
-		if ( permisoPeriodoModel.getFecha().isBefore(LocalDate.now()) || permisoPeriodoModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
+		if ( permisoModel.getFecha().isBefore(LocalDate.now()) || permisoModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
 			bindingResult.addError(new FieldError("permiso", "fecha", "La fecha es incorrecta"));
 		}
-		if(idDesdeStr.equals(idHastaStr)) {
+		if(idDesde == idHasta) {
 			bindingResult.addError(new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo"));
 		}
 		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
-			mV.addObject("esDiario", false);
+			mV.addObject("esDiario", (permisoModel instanceof PermisoDiarioModel));
 			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
 			mV.addObject("lugares", lugarService.getAll());
 			
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
 			
-			permisoPeriodoModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesdeStr)));
-			permisoPeriodoModel.agregarLugar(lugarService.findById(Integer.valueOf(idHastaStr)));
+			permisoModel.agregarLugar(lugarService.findById(Integer.valueOf(idDesde)));
+			permisoModel.agregarLugar(lugarService.findById(Integer.valueOf(idHasta)));
 			
-			if(permisoPeriodoModel.getPedido().getId() == 0) {
-				PersonaModel pm = personaService.insertOrUpdate(permisoPeriodoModel.getPedido());			
-				permisoPeriodoModel.setPedido(pm);
-			} else {
-				PersonaModel pm = personaService.findById(permisoPeriodoModel.getPedido().getId() );
-				permisoPeriodoModel.setPedido(pm);
+			PersonaModel pm = personaService.findById(permisoModel.getPedido().getId());
+			if(pm==null) {
+				pm = personaService.insertOrUpdate(permisoModel.getPedido());	
+			}
+			permisoModel.setPedido(pm);
+			
+						
+			if(permisoModel instanceof PermisoPeriodoModel) {
+				PermisoPeriodoModel ppm = (PermisoPeriodoModel) permisoModel;
+				RodadoModel rm = rodadoService.findById(ppm.getRodado().getId());
+				if(rm==null) {
+					rm = rodadoService.insertOrUpdate(ppm.getRodado());
+				}
+				ppm.setRodado(rm);
 			}
 			
-			System.out.println(permisoPeriodoModel.getRodado());
-			RodadoModel rm = rodadoService.insertOrUpdate(permisoPeriodoModel.getRodado());
-			permisoPeriodoModel.setRodado(rm);
-			
-			
-			permisoService.insertOrUpdate(permisoPeriodoModel);
+			permisoService.insertOrUpdate(permisoModel);
 		}
 		
 		return mV;
 	}
 	
+	
 	@GetMapping("/success")
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
+	
 	
 }

@@ -20,9 +20,9 @@
             <form th:action="@{/permiso/postpermiso} + ${esDiario ? 'diario' : 'periodo'}" th:object="${permiso}" method="POST">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Solicitar 
-                            <span th:if="${esDiario}">permiso diario</span>
-                            <span th:unless="${esDiario}">permiso por período</span>
+                        <h3>Solicitar permiso
+                            <span th:if="${esDiario}"> diario</span>
+                            <span th:unless="${esDiario}"> por período</span>
                         </h3>
                     </div>
                     <div class="card-body">
@@ -83,11 +83,9 @@
                                         <p class="error text-danger" th:if="${#fields.hasErrors('rodado.vehiculo')}" th:errors="*{rodado.vehiculo}">Vehículo tiene errores</p>
                                     </div>
                                     <div class="col-md-6 pt-2">
-                                        <fieldset readonly>
                                         <label>Patente</label>
-                                        <input th:field="*{rodado.dominio}" type="text" class="form-control" th:attr="readonly=*{rodado.id != 0 ? 'readonly' : null}">
+                                        <input th:field="*{rodado.dominio}" type="text" class="form-control" readonly="readonly">
                                         <p class="error text-danger" th:if="${#fields.hasErrors('rodado.dominio')}" th:errors="*{rodado.dominio}">Patente tiene errores</p>
-                                        </fieldset>
                                     </div>
                                 </div>
                             </div>
@@ -167,7 +165,7 @@
                     </div>
                     <div class="card-footer">
                         <input id="submit-btn" type="submit" value="Continuar" class="btn btn-success">
-                        <a class="btn btn-secondary pl-2" onclick='javascript:window.history.back()'>Volver</a>
+                        <a class="btn btn-secondary pl-2" th:href="@{/permiso/new}">Volver</a>
                     </div>
                 </div>
             </form>

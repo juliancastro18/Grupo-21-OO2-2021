@@ -12,11 +12,8 @@ public class RodadoModel {
 
 	@NotNull(message = "El vehiculo no puede ser nulo")
 	private String vehiculo;
-
-	public RodadoModel() {
-		
-	}
-
+	
+	public RodadoModel() {}
 	
 	
 	public RodadoModel(int id, String dominio, String vehiculo) {
@@ -25,7 +22,6 @@ public class RodadoModel {
 		this.dominio = dominio;
 		this.vehiculo = vehiculo;
 	}
-
 
 
 	public RodadoModel(String dominio, String vehiculo) {
@@ -38,7 +34,7 @@ public class RodadoModel {
 		return id;
 	}
 
-	protected void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -57,7 +53,6 @@ public class RodadoModel {
 	public void setVehiculo(String vehiculo) {
 		this.vehiculo = vehiculo;
 	}
-
 
 
 	@Override

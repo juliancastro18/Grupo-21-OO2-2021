@@ -39,10 +39,22 @@ public class LugarService implements ILugarService {
 
         return lstLugares;
     }
+    
+	@Override
+	public List<LugarModel> getAllOrderByLugar() {
+        List<LugarModel> lstLugares = new ArrayList<>();
+
+        for (Lugar l: lugarRepository.findAllByOrderByLugarAsc()) {
+            lstLugares.add(lugarConverter.entityToModel(l));
+        }
+
+        return lstLugares;
+	}
 
     @Override
     public LugarModel insertOrUpdate(LugarModel lugarModel) {
         Lugar l = lugarRepository.save(lugarConverter.modelToEntity(lugarModel));
         return lugarConverter.entityToModel(l);
     }
+
 }
