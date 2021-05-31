@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Grupo21</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/styles.css" rel="stylesheet" />
+</head>
+<body>
+<!-- Responsive navbar-->
+<nav th:insert="/general.html :: nav"></nav>
+<!-- Page content-->
+<div class="container mt-4">
+
+    <div class="col-md-6">
+        <!-- Formulario buscar entre fechas -->
+        <div class="container mt-4">
+            <form th:action="@{/permiso/activeDates}" th:object="${model}" method="POST">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <span>Buscar entre fechas</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input th:field="*{startDate}" type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input th:field="*{endDate}" type="date" class="form-control">
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input id="submit-btn" type="submit" value="Buscar" class="btn btn-success">
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- Formulario buscar entre fechas y lugares -->
+        <div class="container mt-4">
+            <form th:action="@{/permiso/activeDatesPlaces}" th:object="${model}" method="POST">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>
+                            <span>Buscar entre fechas y lugares</span>
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label>Desde</label>
+                            <input th:field="*{startDate}" type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Hasta</label>
+                            <input th:field="*{endDate}" type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Lugar</label>
+                            <div class="row">
+                                <div class="col-sm-4 col-lg-2">
+                                    <select class="form-select" th:field="*{lugarModel}">
+                                        <option th:each="lugar : ${model.lugaresModel}"
+                                                th:value="${lugar.id}"
+                                                th:text="${lugar.lugar}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-check">
+                            <form id="desdeHasta">
+                                <input class="form-check-input" type="checkbox" th:field="*{desde}">
+                            </form>
+                            <label class="form-check-label" for="desdeHasta">Seleccionado desde destino elegido</label>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <input id="submit-btn" type="submit" value="Buscar" class="btn btn-success">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</div>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="/js/scripts.js"></script>
+</body>
+</html>
