@@ -16,8 +16,8 @@
     <!-- Responsive navbar-->
     <nav th:insert="/general.html :: nav"></nav>
     <!-- Main -->
-    <div class="container mt-4">
-        <div class="col-md-6">
+    <div class="container mt-4 d-flex justify-content-center">
+        <div class="col-12 col-lg-8 col-xl-7">
             <form th:action="@{/userrole/newUserRole}" th:object="${userRole}" method="POST">
                 <div class="card">
                     <div class="card-header">
