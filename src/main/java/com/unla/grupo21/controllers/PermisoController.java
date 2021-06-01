@@ -70,10 +70,10 @@ public class PermisoController {
 	@PostMapping("/activeDates")
 	public ModelAndView activeBetweenDates(@ModelAttribute(name = "model") BuscarModel model) {
 
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_DATES);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
 
 		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDates(model.getStartDate(), model.getEndDate());
-
+		
 		mAV.addObject("lstPermisos", lstPermisos);
 
 		return mAV;
@@ -82,7 +82,7 @@ public class PermisoController {
 	@PreAuthorize("hasRole('ROLE_AUDITOR')")
 	@PostMapping("/activeDatesPlaces")
 	public ModelAndView activeBetweenDatesAndPlaces(@ModelAttribute(name = "model") BuscarModel model) {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_DATES);
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
 		LugarModel lugar = lugarService.findById(model.getLugarModel());
 
 		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDatesAndPlaces(model.getStartDate(), model.getEndDate(), lugar, model.isDesde());
@@ -97,7 +97,7 @@ public class PermisoController {
 	public ModelAndView search() {
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR);
 		BuscarModel buscar = new BuscarModel();
-		buscar.setLugaresModel(lugarService.getAll());
+		buscar.setLugaresModel(lugarService.getAllOrderByLugar());
 
 		mAV.addObject("model", buscar);
 
