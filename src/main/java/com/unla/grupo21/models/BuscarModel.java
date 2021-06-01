@@ -11,7 +11,7 @@ public class BuscarModel {
     private LocalDate startDate;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate endDate;
-    private boolean desde;
+    private boolean desde = true;
     private List<LugarModel> lugaresModel;
     private int lugarModel;
 

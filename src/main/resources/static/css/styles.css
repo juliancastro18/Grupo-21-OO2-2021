@@ -10881,3 +10881,9 @@ body {
 .section-index {
   padding: 4rem 0 2rem 0;
 }
+
+@media (min-width: 992px){
+  .nav-item{
+    padding-left: 1rem;
+  }
+}
