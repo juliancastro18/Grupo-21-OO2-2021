@@ -31,10 +31,7 @@ public class HomeController {
 	
 	@GetMapping("/index")
 	public ModelAndView index() {
-		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);
-		modelAndView.addObject("userCount", userService.countByActivoTrue());
-		modelAndView.addObject("userRoleCount", userRoleService.countByActivoTrue());
-		
+		ModelAndView modelAndView = new ModelAndView(ViewRouteHelper.INDEX);		
 		return modelAndView;
 	}
 	

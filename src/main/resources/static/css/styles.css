@@ -1,8 +1,8 @@
 @charset "UTF-8";
 /*!
-* Start Bootstrap - Bare v5.0.0 (https://startbootstrap.com/template/bare)
+* Start Bootstrap - Scrolling Nav v5.0.0 (https://startbootstrap.com/template/scrolling-nav)
 * Copyright 2013-2021 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-bare/blob/master/LICENSE)
+* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-scrolling-nav/blob/master/LICENSE)
 */
 /*!
  * Bootstrap v5.0.1 (https://getbootstrap.com/)
@@ -4646,9 +4646,6 @@ textarea.form-control-lg {
 }
 .badge:empty {
   display: none;
-}
-.badge-dark{
-  background-color: var(--bs-gray-dark);
 }
 
 .btn .badge {
@@ -10835,5 +10832,52 @@ textarea.form-control-lg {
   .d-print-none {
     display: none !important;
   }
-  
+}
+
+/* Custom =) */
+
+html {
+  height: 100%;
+  scroll-padding-top: 3.5rem;
+}
+
+body {
+  min-height: 100%;
+  position: relative;
+  padding-bottom: 56px;
+}
+
+.footer-custom {
+  position: absolute;
+  right: 0;bottom:0;left:0;
+}
+
+.login-form
+{
+    padding-top: 3rem;
+    padding-bottom: 1.5rem;
+}
+
+.login-form .row
+{
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.header-index {
+  padding-top: 9rem;
+  padding-bottom: 6rem;
+  background-image: url('/imgs/index.jpg');
+  background-position: center 55%;
+  background-size: cover;
+  background-repeat:no-repeat;
+  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
+}
+
+.titulo{
+  background-color: rgba(0,0,0,0.25);
+}
+
+.section-index {
+  padding: 4rem 0 2rem 0;
 }
