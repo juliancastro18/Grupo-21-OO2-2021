@@ -1,6 +1,7 @@
 package com.unla.grupo21.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -11,10 +12,12 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 
+import com.unla.grupo21.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.WebDataBinder;
@@ -27,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
-
 import com.unla.grupo21.helpers.ViewRouteHelper;
 import com.unla.grupo21.models.LugarModel;
 import com.unla.grupo21.models.PermisoDiarioModel;
@@ -63,7 +65,44 @@ public class PermisoController {
 	@Autowired
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
-	
+
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
+	@PostMapping("/activeDates")
+	public ModelAndView activeBetweenDates(@ModelAttribute(name = "model") BuscarModel model) {
+
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_DATES);
+
+		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDates(model.getStartDate(), model.getEndDate());
+
+		mAV.addObject("lstPermisos", lstPermisos);
+
+		return mAV;
+	}
+
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
+	@PostMapping("/activeDatesPlaces")
+	public ModelAndView activeBetweenDatesAndPlaces(@ModelAttribute(name = "model") BuscarModel model) {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_DATES);
+		LugarModel lugar = lugarService.findById(model.getLugarModel());
+
+		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDatesAndPlaces(model.getStartDate(), model.getEndDate(), lugar, model.isDesde());
+
+		mAV.addObject("lstPermisos", lstPermisos);
+
+		return mAV;
+	}
+
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
+	@GetMapping("/buscar")
+	public ModelAndView search() {
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR);
+		BuscarModel buscar = new BuscarModel();
+		buscar.setLugaresModel(lugarService.getAll());
+
+		mAV.addObject("model", buscar);
+
+		return mAV;
+	}
 	
 	@GetMapping("/new")
 	public ModelAndView solicitud() {
@@ -75,8 +114,7 @@ public class PermisoController {
 
 		return mAV;
 	}
-	
-	
+
 	@PostMapping("/newpermiso")
 	public ModelAndView create(@Valid @ModelAttribute("preform") PermisoPreFormModel preFormModel, BindingResult bindingResult) {
 		ModelAndView mV;
@@ -131,7 +169,6 @@ public class PermisoController {
 		return mV;
 	}
 	
-	
 	@PostMapping("/postpermisodiario")
 	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoDiarioModel permisoDiarioModel, BindingResult bindingResult,
 							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
@@ -147,8 +184,7 @@ public class PermisoController {
 		
 		return insertPermiso(permisoPeriodoModel, bindingResult, Integer.valueOf(idDesdeStr), Integer.valueOf(idHastaStr));
 	}
-	
-	
+
 	public ModelAndView insertPermiso(PermisoModel permisoModel, BindingResult bindingResult, int idDesde, int idHasta) {
 		
 		ModelAndView mV;
@@ -178,7 +214,6 @@ public class PermisoController {
 				pm = personaService.insertOrUpdate(permisoModel.getPedido());	
 			}
 			permisoModel.setPedido(pm);
-			
 						
 			if(permisoModel instanceof PermisoPeriodoModel) {
 				PermisoPeriodoModel ppm = (PermisoPeriodoModel) permisoModel;
@@ -188,18 +223,14 @@ public class PermisoController {
 				}
 				ppm.setRodado(rm);
 			}
-			
 			permisoService.insertOrUpdate(permisoModel);
 		}
 		
 		return mV;
 	}
 	
-	
 	@GetMapping("/success")
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
-	
-	
 }
