@@ -1,37 +1,24 @@
 package com.unla.grupo21.controllers;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
-import javax.validation.constraints.Min;
 
-import com.unla.grupo21.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 import com.unla.grupo21.helpers.ViewRouteHelper;
-import com.unla.grupo21.models.LugarModel;
 import com.unla.grupo21.models.PermisoDiarioModel;
 import com.unla.grupo21.models.PermisoModel;
 import com.unla.grupo21.models.PermisoPeriodoModel;
@@ -39,8 +26,6 @@ import com.unla.grupo21.models.PermisoPreFormModel;
 import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.RodadoModel;
 import com.unla.grupo21.models.TipoDocumento;
-import com.unla.grupo21.models.UserModel;
-import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.ILugarService;
 import com.unla.grupo21.services.IPermisoService;
 import com.unla.grupo21.services.IPersonaService;
@@ -66,43 +51,7 @@ public class PermisoController {
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
 
-	@PreAuthorize("hasRole('ROLE_AUDITOR')")
-	@PostMapping("/activeDates")
-	public ModelAndView activeBetweenDates(@ModelAttribute(name = "model") BuscarModel model) {
-
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
-
-		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDates(model.getStartDate(), model.getEndDate());
-		
-		mAV.addObject("lstPermisos", lstPermisos);
-
-		return mAV;
-	}
-
-	@PreAuthorize("hasRole('ROLE_AUDITOR')")
-	@PostMapping("/activeDatesPlaces")
-	public ModelAndView activeBetweenDatesAndPlaces(@ModelAttribute(name = "model") BuscarModel model) {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
-		LugarModel lugar = lugarService.findById(model.getLugarModel());
-
-		List<PermisoModel> lstPermisos = permisoService.getAllBetweenDatesAndPlaces(model.getStartDate(), model.getEndDate(), lugar, model.isDesde());
-
-		mAV.addObject("lstPermisos", lstPermisos);
-
-		return mAV;
-	}
-
-	@PreAuthorize("hasRole('ROLE_AUDITOR')")
-	@GetMapping("/buscar")
-	public ModelAndView search() {
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR);
-		BuscarModel buscar = new BuscarModel();
-		buscar.setLugaresModel(lugarService.getAllOrderByLugar());
-
-		mAV.addObject("model", buscar);
-
-		return mAV;
-	}
+	
 	
 	@GetMapping("/new")
 	public ModelAndView solicitud() {
@@ -115,6 +64,8 @@ public class PermisoController {
 		return mAV;
 	}
 
+	
+	
 	@PostMapping("/newpermiso")
 	public ModelAndView create(@Valid @ModelAttribute("preform") PermisoPreFormModel preFormModel, BindingResult bindingResult) {
 		ModelAndView mV;
@@ -123,7 +74,6 @@ public class PermisoController {
 		    FieldError error = new FieldError("preform", "dominio", "Los permisos para períodos deben asignarse a rodados");
 			bindingResult.addError(error);
 		}
-		
 		
 		if(bindingResult.hasErrors()) {
 			
@@ -169,6 +119,7 @@ public class PermisoController {
 		return mV;
 	}
 	
+	
 	@PostMapping("/postpermisodiario")
 	public ModelAndView create(@Valid @ModelAttribute("permiso") PermisoDiarioModel permisoDiarioModel, BindingResult bindingResult,
 							   @RequestParam(name="idDesde", required=true) String idDesdeStr,
@@ -185,10 +136,10 @@ public class PermisoController {
 		return insertPermiso(permisoPeriodoModel, bindingResult, Integer.valueOf(idDesdeStr), Integer.valueOf(idHastaStr));
 	}
 
+	
 	public ModelAndView insertPermiso(PermisoModel permisoModel, BindingResult bindingResult, int idDesde, int idHasta) {
 		
-		ModelAndView mV;
-		
+		ModelAndView mV;		
 		// si la fecha es anterior a hoy o despues de un año
 		if ( permisoModel.getFecha().isBefore(LocalDate.now()) || permisoModel.getFecha().isAfter(LocalDate.now().plusYears(1)) ) {
 			bindingResult.addError(new FieldError("permiso", "fecha", "La fecha es incorrecta"));
@@ -196,7 +147,6 @@ public class PermisoController {
 		if(idDesde == idHasta) {
 			bindingResult.addError(new FieldError("permiso", "desdeHasta", "El lugar de origen y destino no puede ser el mismo"));
 		}
-		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
 			mV.addObject("esDiario", (permisoModel instanceof PermisoDiarioModel));
@@ -229,8 +179,10 @@ public class PermisoController {
 		return mV;
 	}
 	
+	
 	@GetMapping("/success")
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
+	
 }

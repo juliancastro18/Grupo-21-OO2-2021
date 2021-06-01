@@ -22,7 +22,7 @@
         <div class="col-12 col-lg-8 col-xl-7">
             <!-- Formulario buscar entre fechas -->
             <div class="container mt-4">
-                <form th:action="@{/permiso/activeDates}" th:object="${model}" method="POST">
+                <form th:action="@{/permiso/buscar/activeDates}" th:object="${model}" method="POST">
                     <div class="card">
                         <div class="card-header">
                             <h3>
@@ -32,11 +32,11 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label>Desde</label>
-                                <input th:field="*{startDate}" type="date" class="form-control">
+                                <input th:field="*{startDate}" type="date" class="form-control" required>
                             </div>
                             <div class="form-group pt-2">
                                 <label>Hasta</label>
-                                <input th:field="*{endDate}" type="date" class="form-control">
+                                <input th:field="*{endDate}" type="date" class="form-control" required>
                             </div>
                         </div>
                         <div class="card-footer">
@@ -48,7 +48,7 @@
 
             <!-- Formulario buscar entre fechas y lugares -->
             <div class="container mt-4">
-                <form th:action="@{/permiso/activeDatesPlaces}" th:object="${model}" method="POST">
+                <form th:action="@{/permiso/buscar/activeDatesPlaces}" th:object="${model}" method="POST">
                     <div class="card">
                         <div class="card-header">
                             <h3>
@@ -58,17 +58,17 @@
                         <div class="card-body">
                             <div class="form-group pt-2">
                                 <label>Desde</label>
-                                <input th:field="*{startDate}" type="date" class="form-control">
+                                <input th:field="*{startDate}" type="date" class="form-control" required>
                             </div>
                             <div class="form-group pt-2">
                                 <label>Hasta</label>
-                                <input th:field="*{endDate}" type="date" class="form-control">
+                                <input th:field="*{endDate}" type="date" class="form-control" required>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col-md-6 pt-2">
                                         <label>Lugar</label>
-                                        <select class="form-select" th:field="*{lugarModel}">
+                                        <select class="form-select" th:field="*{lugarModel}" required>
                                             <option th:each="lugar : ${model.lugaresModel}" th:value="${lugar.id}"
                                                 th:text="${lugar.lugar}">
                                             </option>

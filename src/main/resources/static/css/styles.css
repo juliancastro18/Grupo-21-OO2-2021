@@ -10882,6 +10882,12 @@ body {
   padding: 4rem 0 2rem 0;
 }
 
+.tr-none {
+  border-color: inherit;
+  border-style: solid;
+  border-width: 0;
+}
+
 @media (min-width: 992px){
   .nav-item{
     padding-left: 1rem;
