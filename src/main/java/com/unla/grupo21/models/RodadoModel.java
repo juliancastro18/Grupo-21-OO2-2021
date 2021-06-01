@@ -7,16 +7,13 @@ public class RodadoModel {
 	private int id;
 	
 	@NotNull(message = "El dominio no puede ser nulo")
-	@Pattern(regexp = "^([A-Za-z]{3}[0-9]{3}$)|^([A-Za-z]{2}[0-9]{3}[A-Za-z]{2}$)", message = "El formato del dominio es incorrecto")
+	@Pattern(regexp = "^([A-Z]{3}[0-9]{3}$)|^([A-Z]{2}[0-9]{3}[A-Z]{2}$)", message = "El formato del dominio es incorrecto")
 	private String dominio;
 
 	@NotNull(message = "El vehiculo no puede ser nulo")
 	private String vehiculo;
-
-	public RodadoModel() {
-		
-	}
-
+	
+	public RodadoModel() {}
 	
 	
 	public RodadoModel(int id, String dominio, String vehiculo) {
@@ -25,7 +22,6 @@ public class RodadoModel {
 		this.dominio = dominio;
 		this.vehiculo = vehiculo;
 	}
-
 
 
 	public RodadoModel(String dominio, String vehiculo) {
@@ -38,7 +34,7 @@ public class RodadoModel {
 		return id;
 	}
 
-	protected void setId(int id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -57,7 +53,6 @@ public class RodadoModel {
 	public void setVehiculo(String vehiculo) {
 		this.vehiculo = vehiculo;
 	}
-
 
 
 	@Override

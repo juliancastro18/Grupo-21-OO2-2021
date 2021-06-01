@@ -1,6 +1,8 @@
 package com.unla.grupo21.entities;
 
 import java.time.LocalDate;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -44,6 +46,8 @@ public abstract class Permiso {
 	@ManyToMany
 	protected Set<Lugar> desdeHasta;
 	
+	protected boolean idDesdeMenor; //permite establecer el orden del set al tomar los lugares de la bdd
+	
 	public Permiso() {}
 	
 	public Permiso(int idPermiso, Persona pedido, LocalDate fecha, Set<Lugar> desdeHasta) {
@@ -85,11 +89,24 @@ public abstract class Permiso {
 		this.fecha = fecha;
 	}
 
+	//TODO optimizar?
 	public Set<Lugar> getDesdeHasta() {
+		Iterator<Lugar> itr = desdeHasta.iterator();
+		Lugar desde = itr.next();
+		Lugar hasta = itr.next();
+		if(desde.getId()<hasta.getId() && !idDesdeMenor) {
+			desdeHasta = new LinkedHashSet<Lugar>();
+			desdeHasta.add(hasta);
+			desdeHasta.add(desde);
+		}
 		return desdeHasta;
 	}
 
 	public void setDesdeHasta(Set<Lugar> desdeHasta) {
+		Iterator<Lugar> itr = desdeHasta.iterator();
+		Lugar desde = itr.next();
+		Lugar hasta = itr.next();
+		idDesdeMenor = desde.getId() < hasta.getId();
 		this.desdeHasta = desdeHasta;
 	}
 		

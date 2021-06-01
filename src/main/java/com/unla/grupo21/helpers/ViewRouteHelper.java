@@ -23,6 +23,10 @@ public class ViewRouteHelper {
 	public static final String USERROLE_NEW = "userrole/form";
 	public static final String USERROLE_EDIT = "userrole/form";
 
+	////PERMISO
+	public static final String PERMISO_NEW = "permiso/form1";
+	public static final String PERMISO_FORMULARIO = "permiso/form2";
+	public static final String PERMISO_SUCCESS = "permiso/success";
 	
 	//***Redirects***
 	public static final String ROUTE_INDEX = "/index";
@@ -31,4 +35,6 @@ public class ViewRouteHelper {
 
     public static final String PERMISO_DATES = "permiso/permiso";
 	public static final String PERMISO_BUSCAR	= "permiso/buscar";
+	public static final String PERMISO_SUCCESS_REDIRECT = "/permiso/success";
+
 }

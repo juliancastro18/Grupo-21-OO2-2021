@@ -68,6 +68,7 @@ CREATE TABLE `permiso` (
   `tipo` varchar(31) NOT NULL,
   `id_permiso` int NOT NULL AUTO_INCREMENT,
   `fecha` date NOT NULL,
+  `id_desde_menor` bit(1) NOT NULL,
   `motivo` varchar(255) DEFAULT NULL,
   `cant_dias` int DEFAULT NULL,
   `vacaciones` bit(1) DEFAULT NULL,
@@ -141,9 +142,9 @@ INSERT INTO `persona` VALUES ('11', 'Roccasalvo', '2021-05-30 00:57:53.051141', 
 
 -- CREA PERMISOS
 
-INSERT INTO `permiso` VALUES ('Diario', '1', '2021-03-13', 'Conferencia', NULL, NULL, '11', NULL);
-INSERT INTO `permiso` VALUES ('Periodo', '3', '2021-06-24', NULL, '4', b'1', '10', '2');
-INSERT INTO `permiso` VALUES ('Periodo', '4', '2021-06-03', NULL, '10', b'0', '9', '3');
+INSERT INTO `permiso` VALUES ('Diario', '1', '2021-03-13', b'0', 'Conferencia', NULL, NULL, '11', NULL);
+INSERT INTO `permiso` VALUES ('Periodo', '3', '2021-06-24', b'1', NULL, '4', b'1', '10', '2');
+INSERT INTO `permiso` VALUES ('Periodo', '4', '2021-06-03', b'0', NULL, '10', b'0', '9', '3');
 
 
 -- CREA REL_PERMISO_LUGAR

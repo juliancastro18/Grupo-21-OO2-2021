@@ -4,10 +4,13 @@ import java.time.LocalDate;
 import java.util.Set;
 
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class PermisoDiarioModel extends PermisoModel{
 
-	@Min(3)
+	@NotNull
+	@Size(min=6, max=100, message = "El motivo debe tener entre 6 y 100 caracteres")
 	private String motivo;
 
 	public PermisoDiarioModel() {
@@ -15,13 +18,13 @@ public class PermisoDiarioModel extends PermisoModel{
 	}
 	
 	public PermisoDiarioModel(PersonaModel pedido, LocalDate fecha, 
-			Set<LugarModel> desdeHasta,@Min(3) String motivo) {
+			Set<LugarModel> desdeHasta,@Min(6) String motivo) {
 		super(pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}
 
 	public PermisoDiarioModel(int idPermiso, PersonaModel pedido, LocalDate fecha, 
-			Set<LugarModel> desdeHasta,@Min(3) String motivo) {
+			Set<LugarModel> desdeHasta,@Min(6) String motivo) {
 		super(idPermiso, pedido, fecha, desdeHasta);
 		this.motivo = motivo;
 	}

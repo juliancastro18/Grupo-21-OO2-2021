@@ -3,18 +3,30 @@ package com.unla.grupo21.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
 public class PermisoPeriodoModel extends PermisoModel{
 
-	private int cantDias;
+	@NotNull(message= "La cantidad de días no puede ser nula")
+	@Min(2)
+	@Max(20)
+	private Integer cantDias;
+	
 	private boolean vacaciones;
+	
+	@NotNull
 	private RodadoModel rodado;
 	
-	public PermisoPeriodoModel() {}
+	public PermisoPeriodoModel() {
+		rodado = new RodadoModel();
+	}
 
 	public PermisoPeriodoModel(PersonaModel pedido, LocalDate fecha,
 			Set<LugarModel> desdeHasta, int cantDias, boolean vacaciones, RodadoModel rodado) {
 		super(pedido, fecha, desdeHasta);
-		this.cantDias = cantDias;
+		setCantDias(cantDias);
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;
 	}
@@ -22,17 +34,20 @@ public class PermisoPeriodoModel extends PermisoModel{
 	public PermisoPeriodoModel(int idPermiso, PersonaModel pedido, LocalDate fecha,
 			Set<LugarModel> desdeHasta, int cantDias, boolean vacaciones, RodadoModel rodado) {
 		super(idPermiso, pedido, fecha, desdeHasta);
-		this.cantDias = cantDias;
+		setCantDias(cantDias);
 		this.vacaciones = vacaciones;
 		this.rodado = rodado;
 	}
 
-	public int getCantDias() {
-		return cantDias;
+	public Integer getCantDias() {
+		if(cantDias==null) {
+			return null;
+		}
+		return cantDias.intValue();
 	}
 
 	public void setCantDias(int cantDias) {
-		this.cantDias = cantDias;
+		this.cantDias = Integer.valueOf(cantDias);
 	}
 
 	public boolean isVacaciones() {
