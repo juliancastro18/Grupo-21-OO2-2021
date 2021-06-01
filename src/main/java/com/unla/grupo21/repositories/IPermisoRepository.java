@@ -18,10 +18,10 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 
 	public abstract Permiso findByIdPermiso(int id);
 	
-	@Query("FROM PermisoPeriodo pp JOIN FETCH pp.desdeHasta JOIN FETCH pp.pedido JOIN FETCH pp.rodado WHERE pp.rodado.id = :idRodado")
+	@Query("SELECT DISTINCT pp FROM PermisoPeriodo pp JOIN FETCH pp.desdeHasta JOIN FETCH pp.pedido JOIN FETCH pp.rodado WHERE pp.rodado.id = :idRodado ORDER BY pp.fecha ASC")
 	public abstract List<PermisoPeriodo> getAllByIdRodado(@Param("idRodado")int idRodado);
 	
-	@Query("FROM Permiso p JOIN FETCH p.desdeHasta JOIN FETCH p.pedido WHERE p.pedido.id = :idPersona")
+	@Query("SELECT DISTINCT p FROM Permiso p JOIN FETCH p.desdeHasta JOIN FETCH p.pedido WHERE p.pedido.id = :idPersona ORDER BY p.fecha ASC")
 	public abstract List<Permiso> getAllByIdPersona(@Param("idPersona")int idPersona);
 	
 	@Query(value = "SELECT * FROM permiso p "

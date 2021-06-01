@@ -2,6 +2,7 @@ package com.unla.grupo21.services.implementation;
 
 import com.unla.grupo21.converters.PermisoConverter;
 import com.unla.grupo21.entities.Permiso;
+import com.unla.grupo21.entities.PermisoPeriodo;
 import com.unla.grupo21.models.*;
 import com.unla.grupo21.repositories.IPermisoRepository;
 import com.unla.grupo21.services.IPermisoService;
@@ -32,10 +33,13 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public List<PermisoModel> getAllByPerson(PersonaModel personaModel) {
-        List<PermisoModel> lstPermiso = new ArrayList<>();
-
-        for (Permiso p: permisoRepository.getAllByIdPersona(personaModel.getId())) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
+        List<PermisoModel> lstPermiso = new ArrayList<PermisoModel>();
+        List<Permiso> lstQuery = permisoRepository.getAllByIdPersona(personaModel.getId());
+        
+        if(lstQuery!=null) {
+            for (Permiso p : lstQuery) {
+                lstPermiso.add(permisoConverter.entityToModel(p));
+            }
         }
 
         return lstPermiso;
@@ -43,10 +47,13 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public List<PermisoModel> getAllByRodado(RodadoModel rodadoModel) {
-        List<PermisoModel> lstPermiso = new ArrayList<>();
-
-        for (Permiso p: permisoRepository.getAllByIdRodado(rodadoModel.getId())) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
+        List<PermisoModel> lstPermiso = new ArrayList<PermisoModel>();
+        List<PermisoPeriodo> lstQuery = permisoRepository.getAllByIdRodado(rodadoModel.getId());
+        
+        if(lstQuery!=null) {
+            for (Permiso p : lstQuery) {
+                lstPermiso.add(permisoConverter.entityToModel(p));
+            }
         }
 
         return lstPermiso;
@@ -54,10 +61,13 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public List<PermisoModel> getAllBetweenDates(LocalDate startDate, LocalDate endDate) {
-        List<PermisoModel> lstPermiso = new ArrayList<>();
+        List<PermisoModel> lstPermiso = new ArrayList<PermisoModel>();
+        List<Permiso> lstQuery = permisoRepository.getAllPermisosBetweenDates(startDate, endDate);
 
-        for (Permiso p: permisoRepository.getAllPermisosBetweenDates(startDate, endDate)) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
+        if(lstQuery!=null) {
+            for (Permiso p : lstQuery) {
+                lstPermiso.add(permisoConverter.entityToModel(p));
+            }
         }
 
         return lstPermiso;
@@ -65,17 +75,19 @@ public class PermisoService implements IPermisoService {
 
     @Override
     public List<PermisoModel> getAllBetweenDatesAndPlaces(LocalDate startDate, LocalDate endDate, LugarModel lugarModel, boolean desde) {
-        List<PermisoModel> lstPermiso = new ArrayList<>();
+        List<PermisoModel> lstPermiso = new ArrayList<PermisoModel>();
+        List<Permiso> lstQuery = permisoRepository.getAllPermisosBetweenDates(startDate, endDate);
 
+        if(lstQuery!=null) {
+            for (Permiso p : lstQuery) {
+                lstPermiso.add(permisoConverter.entityToModel(p));
+            }
 
-        for (Permiso p: permisoRepository.getAllPermisosBetweenDates(startDate, endDate)) {
-            lstPermiso.add(permisoConverter.entityToModel(p));
-        }
-
-        if (desde) {
-            lstPermiso.removeIf(permisoModel -> !new ArrayList<>(permisoModel.getDesdeHasta()).get(0).getLugar().equals(lugarModel.getLugar()));
-        } else {
-            lstPermiso.removeIf(permisoModel -> !new ArrayList<>(permisoModel.getDesdeHasta()).get(1).getLugar().equals(lugarModel.getLugar()));
+            if (desde) {
+                lstPermiso.removeIf(permisoModel -> !new ArrayList<>(permisoModel.getDesdeHasta()).get(0).getLugar().equals(lugarModel.getLugar()));
+            } else {
+                lstPermiso.removeIf(permisoModel -> !new ArrayList<>(permisoModel.getDesdeHasta()).get(1).getLugar().equals(lugarModel.getLugar()));
+            }
         }
 
         return lstPermiso;

@@ -37,13 +37,13 @@ public class Rodado {
 	public Rodado(int id, String dominio, String vehiculo) {
 		super();
 		this.id = id;
-		this.dominio = dominio;
+		setDominio(dominio);
 		this.vehiculo = vehiculo;
 	}
 
 	public Rodado(String dominio, String vehiculo) {
 		super();
-		this.dominio = dominio;
+		setDominio(dominio);
 		this.vehiculo = vehiculo;
 	}
 
@@ -60,7 +60,7 @@ public class Rodado {
 	}
 
 	public void setDominio(String dominio) {
-		this.dominio = dominio;
+		this.dominio = dominio.toUpperCase();
 	}
 
 	public String getVehiculo() {

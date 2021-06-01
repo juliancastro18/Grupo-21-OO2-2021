@@ -17,7 +17,7 @@
                         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <li><a class="dropdown-item" th:href="@{/permiso/new}">Solicitar</a></li>
                             <li><a class="dropdown-item" href="#">Buscar por persona</a></li>
-                            <li><a class="dropdown-item" href="#" sec:authorize="hasRole('ROLE_AUDITOR')">Buscar por rodado</a></li>
+                            <li><a class="dropdown-item" th:href="@{/permiso/buscar/porrodado}" sec:authorize="hasRole('ROLE_AUDITOR')">Buscar por rodado</a></li>
                             <li><a class="dropdown-item" th:href="@{/permiso/buscar/porfechas}" sec:authorize="hasRole('ROLE_AUDITOR')">Buscar por fecha</a></li>
                         </ul>
                     </li>
