@@ -33,7 +33,7 @@ public class ViewRouteHelper {
 	public static final String USER_ABM_INDEX = "/user/abm";
 	public static final String USERROLE_ABM_INDEX = "/userrole/abm";
 
-	public static final String PERMISO_BUSCAR	= "permiso/buscar";
+	public static final String PERMISO_BUSCAR	= "permiso/buscar/betweendates";
 	public static final String PERMISO_RESULTS = "permiso/results";
 	public static final String PERMISO_SUCCESS_REDIRECT = "/permiso/success";
 
