@@ -1,23 +1,31 @@
 package com.unla.grupo21.controllers;
 
+import java.util.Arrays;
 import java.util.List;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.Funciones;
 import com.unla.grupo21.helpers.ViewRouteHelper;
 import com.unla.grupo21.models.BuscarModel;
 import com.unla.grupo21.models.LugarModel;
 import com.unla.grupo21.models.PermisoModel;
+import com.unla.grupo21.models.PermisoPreFormModel;
+import com.unla.grupo21.models.RodadoModel;
+import com.unla.grupo21.models.TipoDocumento;
 import com.unla.grupo21.services.ILugarService;
 import com.unla.grupo21.services.IPermisoService;
 import com.unla.grupo21.services.IPersonaService;
@@ -44,9 +52,11 @@ public class SearchController {
 	private IRodadoService rodadoService;
 	
 	
+	// POR FECHAS
+	
 	@PreAuthorize("hasRole('ROLE_AUDITOR')")
 	@GetMapping("/porfechas")
-	public ModelAndView search() {
+	public ModelAndView searchByDate() {
 		
 		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR);
 		BuscarModel buscar = new BuscarModel();
@@ -82,5 +92,39 @@ public class SearchController {
 		return mAV;
 	}
 
+	
+	// POR RODADO
+	
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
+	@GetMapping("/porrodado")
+	public ModelAndView searchByRodado() {
+		
+		ModelAndView mAV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR_RODADO);
+		mAV.addObject("model", new PermisoPreFormModel());
+
+		return mAV;
+	}
+	
+	@PreAuthorize("hasRole('ROLE_AUDITOR')")
+	@PostMapping("/porrodado")
+	public ModelAndView searchByRodadoPost(@Valid @ModelAttribute(name = "model") PermisoPreFormModel model, BindingResult bindingResult){
+
+		ModelAndView mV;
+		
+		if(bindingResult.hasFieldErrors("dominio")) {
+			mV = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR_RODADO);
+		} else {
+			mV = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
+			RodadoModel rm = rodadoService.findByDominio(model.getDominio());
+			if(rm==null) {
+				mV.addObject("searchDesc", "Permisos asociados a la patente " + model.getDominio().toUpperCase());
+			}else {
+				mV.addObject("searchDesc", "Permisos asociados al vehículo " + rm.getVehiculo() + " con la patente " + rm.getDominio());
+				mV.addObject("lstPermisos", permisoService.getAllByRodado(rm));
+			}
+		}
+		return mV;
+	}
+	
 	
 }

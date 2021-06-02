@@ -29,7 +29,7 @@ public class Funciones {
 	
 	public static String traerDiaDeLaSemana(LocalDate fecha) {
 		int dia = fecha.getDayOfWeek().getValue();
-		String diaNombre[] = {"Lunes","Martes","Mi�rcoles","Jueves","Viernes","S�bado","Domingo"};
+		String diaNombre[] = {"Lunes","Martes","Miércoles","Jueves","Viernes","Sábado","Domingo"};
 		return diaNombre[dia-1];
 	}
 	
