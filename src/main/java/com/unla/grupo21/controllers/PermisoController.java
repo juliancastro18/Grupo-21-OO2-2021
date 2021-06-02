@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
+
+import com.unla.grupo21.entities.Permiso;
 import com.unla.grupo21.helpers.ViewRouteHelper;
 import com.unla.grupo21.models.PermisoDiarioModel;
 import com.unla.grupo21.models.PermisoModel;
@@ -184,5 +186,20 @@ public class PermisoController {
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
-	
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
