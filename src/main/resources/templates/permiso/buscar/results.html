@@ -52,7 +52,7 @@
                     </td>
                     <td>
                         <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="'N/A'" />
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.rodado.dominio}" />
+                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.rodado.dominio}" th:title="${permiso.rodado.vehiculo}" />
                     </td>
                     <td th:each="lugar : ${permiso.desdeHasta}">
                         <span th:text="${lugar.lugar}" />

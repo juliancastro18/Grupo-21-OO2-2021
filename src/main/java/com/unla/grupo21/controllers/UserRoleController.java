@@ -29,7 +29,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import com.lowagie.text.DocumentException;
 import com.unla.grupo21.exporters.UserRolePDFExporter;
 import com.unla.grupo21.helpers.ViewRouteHelper;
-import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.models.UserRoleModel;
 import com.unla.grupo21.services.IUserRoleService;
 import com.unla.grupo21.services.IUserService;

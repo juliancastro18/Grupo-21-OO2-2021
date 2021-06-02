@@ -90,6 +90,18 @@ CREATE TABLE `rel_permiso_lugar` (
   CONSTRAINT `FKj5rs2w5c4pi1ur6x35hrai8re` FOREIGN KEY (`fk_permiso`) REFERENCES `permiso` (`id_permiso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+
+-- CREA PERSONAS
+
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (9,'Ventura','2021-06-01 20:58:52.000000',12345678,'ventura666@gmail.com','Luis',1,'2021-06-01 20:58:52.000000');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (10,'Tauro','2021-06-01 20:58:52.000000',23456789,'marce123@hotmail.com','Marcela',0,'2021-06-01 20:58:52.000000');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (11,'Roccasalvo','2021-05-30 00:57:53.051141',22345691,'susy_rock@gmail.com','Susana',0,'2021-05-30 00:57:53.051141');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (12,'Soldán','2021-06-01 22:58:13.311360',12462151,'ssoldan35@yahoo.com','Silvio',2,'2021-06-01 22:58:13.311360');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (13,'Süller','2021-06-01 23:01:22.319064',11514921,'silsu58@gmail.com','Silvia',0,'2021-06-01 23:01:22.319064');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (14,'Rivero','2021-06-01 23:09:28.624466',7114261,'riverito88@hotmail.com','Luis',0,'2021-06-01 23:09:28.624466');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (15,'Mendoza','2021-06-01 23:32:27.553053',12332199,'fmendoza74@gmail.com','Flavio',0,'2021-06-01 23:32:27.553053');
+
+
 -- CREA ROLES
 
 INSERT INTO user_role VALUES(1, b'1', NOW(), 'ROLE_ADMIN', NOW());
@@ -98,12 +110,32 @@ INSERT INTO user_role VALUES(2, b'1', NOW(), 'ROLE_AUDITOR', NOW());
 
 -- CREA USUARIOS
 
--- ADMIN, user: admin1 - pass: 123456
-INSERT INTO `grupo-21-bdd-oo2-2021`.`persona` VALUES (9, 'Ventura', NOW(), 12345678, 'ventura666@gmail.com', 'Luis', 1, NOW());
 INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$nauXseps08y1qK9Z7EkOqODxaQLOW8rVQV/jXugNFh2YB0vweEigK', 'admin1', 9, 1);
--- AUDITOR, user: auditor1 - pass: 654321
-INSERT INTO `grupo-21-bdd-oo2-2021`.`persona` VALUES (10, 'Tauro', NOW(), 23456789, 'marce123@hotmail.com', 'Marcela', 0, NOW());
 INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$5cSXuenrSRurzG3S2yZWWex6Cbe9YMUUlEIbwYePC9uEkMYqu5BWW', 'auditor1', 10, 2);
+
+
+-- CREA RODADOS
+
+INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES (2,'2021-05-30 02:07:59.116703','ABC123','2021-05-30 02:07:59.116703','Renault Megane');
+INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES (3,'2021-05-30 02:12:31.834870','DEF456','2021-05-30 02:12:31.834870','Peugeot 206');
+INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES (4,'2021-06-01 22:58:13.324364','AB789CD','2021-06-01 22:58:13.324364','Volkswagen Polo');
+INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES (5,'2021-06-01 23:19:43.129135','EF256GH','2021-06-01 23:19:43.129135','Renault Sandero');
+INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES (6,'2021-06-01 23:32:27.560053','OL159IS','2021-06-01 23:32:27.560053','Zanella Styler 150');
+
+
+-- CREA PERMISOS
+
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',1,'2021-06-01',b'0','Asistir a adulto mayor',NULL,NULL,11,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',3,'2021-06-24',b'1',NULL,4,b'1',10,2);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',4,'2021-06-03',b'0',NULL,10,b'0',9,3);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',5,'2021-07-09',b'0','Retorno de menor al hogar del tutelar',NULL,NULL,9,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',6,'2021-06-11',b'0',NULL,8,b'0',12,4);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',7,'2021-06-02',b'0',NULL,5,b'1',13,4);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',8,'2021-06-08',b'1','Asistencia a establecimiento de salud',NULL,NULL,14,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',9,'2021-07-17',b'1','Cambio de domicilio',NULL,NULL,12,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',10,'2021-07-14',b'1','Comparecencia a una citación en virtud de la Ley',NULL,NULL,10,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',11,'2021-06-30',b'1',NULL,5,b'0',11,5);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',12,'2021-06-06',b'1',NULL,3,b'0',15,6);
 
 
 -- CREA LUGARES
@@ -129,29 +161,27 @@ INSERT INTO `lugar` VALUES (18, "1834", "TEMPERLEY");
 INSERT INTO `lugar` VALUES (19, "1834", "TURDERA");
 
 
--- CREA RODADOS
-
-INSERT INTO `rodado` VALUES ('2', '2021-05-30 02:07:59.116703', 'ABC123', '2021-05-30 02:07:59.116703', 'Renault Megane');
-INSERT INTO `rodado` VALUES ('3', '2021-05-30 02:12:31.834870', 'DEF456', '2021-05-30 02:12:31.834870', 'Peugeot 206');
-
-
--- CREA PERSONAS
-
-INSERT INTO `persona` VALUES ('11', 'Roccasalvo', '2021-05-30 00:57:53.051141', '22345691', 'susy_rock@gmail.com', 'Susana', '0', '2021-05-30 00:57:53.051141');
-
-
--- CREA PERMISOS
-
-INSERT INTO `permiso` VALUES ('Diario', '1', '2021-03-13', b'0', 'Conferencia', NULL, NULL, '11', NULL);
-INSERT INTO `permiso` VALUES ('Periodo', '3', '2021-06-24', b'1', NULL, '4', b'1', '10', '2');
-INSERT INTO `permiso` VALUES ('Periodo', '4', '2021-06-03', b'0', NULL, '10', b'0', '9', '3');
-
-
 -- CREA REL_PERMISO_LUGAR
 
-INSERT INTO `rel_permiso_lugar` VALUES (1,1);
-INSERT INTO `rel_permiso_lugar` VALUES (4,1);
-INSERT INTO `rel_permiso_lugar` VALUES (1,2);
-INSERT INTO `rel_permiso_lugar` VALUES (3,3);
-INSERT INTO `rel_permiso_lugar` VALUES (3,4);
-INSERT INTO `rel_permiso_lugar` VALUES (4,4);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (1,1);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (4,1);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (1,2);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (5,2);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (11,2);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (3,3);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (10,3);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (4,4);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (5,4);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (9,4);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (10,5);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (3,6);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (8,7);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (11,7);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (9,8);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (12,9);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (6,11);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (8,12);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (12,13);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (7,16);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (6,19);
+INSERT INTO `rel_permiso_lugar` (`fk_permiso`,`fk_lugar`) VALUES (7,19);

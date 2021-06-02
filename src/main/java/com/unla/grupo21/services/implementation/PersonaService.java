@@ -8,13 +8,10 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import com.unla.grupo21.converters.PersonaConverter;
-import com.unla.grupo21.converters.UserConverter;
 import com.unla.grupo21.entities.Persona;
 import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.TipoDocumento;
-import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.repositories.IPersonaRepository;
-import com.unla.grupo21.repositories.IUserRepository;
 import com.unla.grupo21.services.IPersonaService;
 
 @Service("personaService")
