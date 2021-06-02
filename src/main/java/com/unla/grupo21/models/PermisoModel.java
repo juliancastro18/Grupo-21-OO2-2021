@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -13,6 +14,7 @@ public abstract class PermisoModel {
 	protected int idPermiso;
 	
 	@NotNull(message = "Debe haber una persona asignada con el permiso")
+	@Valid
 	protected PersonaModel pedido;
 	
 	@NotNull(message = "La fecha no puede ser nula")

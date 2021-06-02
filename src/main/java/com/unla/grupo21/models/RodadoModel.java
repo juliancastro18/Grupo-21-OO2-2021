@@ -1,7 +1,9 @@
 package com.unla.grupo21.models;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 public class RodadoModel {
 	private int id;
@@ -10,7 +12,8 @@ public class RodadoModel {
 	@Pattern(regexp = "^([A-Z]{3}[0-9]{3}$)|^([A-Z]{2}[0-9]{3}[A-Z]{2}$)", message = "El formato del dominio es incorrecto")
 	private String dominio;
 
-	@NotNull(message = "El vehiculo no puede ser nulo")
+	@NotEmpty
+	@Size(min=6, max=45, message = "La descripción del vehículo contener entre 6 y 45 caracteres")
 	private String vehiculo;
 	
 	public RodadoModel() {}

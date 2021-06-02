@@ -9,8 +9,10 @@ public class PersonaModel {
 
 	private int id;
 	
+	@NotNull(message = "El nombre no puede ser nulo")
 	private String nombre;
 	
+	@NotNull(message = "El apellido no puede ser nulo")
 	private String apellido;
 	
 	@NotNull(message = "El tipo de documento no puede ser nulo")

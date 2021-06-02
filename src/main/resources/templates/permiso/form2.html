@@ -33,14 +33,14 @@
                             <input type="hidden" th:field="*{pedido.id}">
                             <div class="form-group">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-6 pt-2">
                                         <label>Nombre</label>
-                                        <input th:field="*{pedido.nombre}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
+                                        <input th:field="*{pedido.nombre}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('pedido.nombre')}" th:errors="*{pedido.nombre}">Nombre tiene errores</p>
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <label>Apellido</label>
-                                        <input th:field="*{pedido.apellido}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
+                                        <input th:field="*{pedido.apellido}" type="text" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('pedido.apellido')}" th:errors="*{pedido.apellido}">Apellido tiene errores</p>
                                     </div>
                                 </div>
@@ -66,7 +66,7 @@
                             </div>
                             <div class="form-group pt-2">
                                 <label>Email</label>
-                                <input th:field="*{pedido.email}" type="email" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}">
+                                <input th:field="*{pedido.email}" type="email" class="form-control" th:attr="readonly=*{pedido.id != 0 ? 'readonly' : null}" required>
                                 <p class="error text-danger" th:if="${#fields.hasErrors('pedido.email')}" th:errors="*{pedido.email}">Email tiene errores</p>
                             </div>
 
@@ -79,12 +79,12 @@
                                 <div class="row">
                                     <div class="col-md-6 pt-2">
                                         <label>Vehículo</label>
-                                        <input placeholder="Marca, modelo" th:field="*{rodado.vehiculo}" type="text" class="form-control" th:attr="readonly=*{rodado.id != 0 ? 'readonly' : null}">
+                                        <input placeholder="Marca, modelo" th:field="*{rodado.vehiculo}" type="text" class="form-control" th:attr="readonly=*{rodado.id != 0 ? 'readonly' : null}" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('rodado.vehiculo')}" th:errors="*{rodado.vehiculo}">Vehículo tiene errores</p>
                                     </div>
                                     <div class="col-md-6 pt-2">
                                         <label>Patente</label>
-                                        <input th:field="*{rodado.dominio}" type="text" class="form-control" readonly="readonly">
+                                        <input th:field="*{rodado.dominio}" type="text" class="form-control" readonly="readonly" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('rodado.dominio')}" th:errors="*{rodado.dominio}">Patente tiene errores</p>
                                     </div>
                                 </div>
@@ -141,7 +141,7 @@
                                 <div class="row">
                                     <div class="col-md-8 pt-2">
                                         <label>Cantidad de días</label>
-                                        <input th:field="*{cantDias}" type="number" class="form-control">
+                                        <input th:field="*{cantDias}" type="number" class="form-control" required>
                                         <p class="error text-danger" th:if="${#fields.hasErrors('cantDias')}" th:errors="*{cantDias}">CantDias tiene errores</p>
                                     </div>
                                     <div class="col-md-4 pt-2">

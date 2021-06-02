@@ -3,6 +3,7 @@ package com.unla.grupo21.models;
 import java.time.LocalDate;
 import java.util.Set;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -17,6 +18,7 @@ public class PermisoPeriodoModel extends PermisoModel{
 	private boolean vacaciones;
 	
 	@NotNull
+	@Valid
 	private RodadoModel rodado;
 	
 	public PermisoPeriodoModel() {
