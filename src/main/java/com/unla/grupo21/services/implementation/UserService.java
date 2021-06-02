@@ -21,8 +21,6 @@ import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.repositories.IUserRepository;
 import com.unla.grupo21.services.IUserService;
 
-import org.springframework.security.core.userdetails.User;
-
 @Service("userService")
 public class UserService implements UserDetailsService, IUserService {
 	

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.Funciones;
 import com.unla.grupo21.helpers.ViewRouteHelper;
@@ -127,25 +126,40 @@ public class SearchController {
 		return mV;
 	}
 	
+	
 	//POR PERSONA
-	@GetMapping("/persona")
+	
+	@GetMapping("/porpersona")
 	public ModelAndView consultar()
 	{
-		ModelAndView mv = new ModelAndView(ViewRouteHelper.PERMISO_FORMPERSONA);
+		ModelAndView mv = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR_PERSONA);
 		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
 		mv.addObject("lstTipoDoc", lstTipoDoc);
 		mv.addObject("ppfm", new PermisoPreFormModel());
 		return mv;
 	}
 	
-	@PostMapping("/traer")
-	public ModelAndView traer(PermisoPreFormModel p)
+	@PostMapping("/porpersona")
+	public ModelAndView traer(@Valid @ModelAttribute(name = "ppfm") PermisoPreFormModel p, BindingResult bindingResult)
 	{
-		ModelAndView mav = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
-		PersonaModel persona = personaService.findByTipoDocumentoAndDocumento(p.getTipoDocumento(), p.getDocumento());
-		List<PermisoModel> pm = permisoService.getAllByPerson(persona);
-		mav.addObject("lstPermisos", pm);
-		mav.addObject("searchDesc", "Permisos asociados a " + persona.getApellido() + persona.getNombre() );
+		ModelAndView mav;
+		
+		if(bindingResult.hasFieldErrors("documento")) {
+			mav = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR_PERSONA);
+			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
+			mav.addObject("lstTipoDoc", lstTipoDoc);
+		} else {
+			mav = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
+			PersonaModel persona = personaService.findByTipoDocumentoAndDocumento(p.getTipoDocumento(), p.getDocumento());
+			if(persona!=null) {
+				List<PermisoModel> pm = permisoService.getAllByPerson(persona);
+				mav.addObject("lstPermisos", pm);
+				mav.addObject("searchDesc", "Permisos asociados a " + persona.getNombre() + " " + persona.getApellido() + ", " + persona.getTipoDocumento() + " " + persona.getDocumento());
+			} else {
+				mav.addObject("searchDesc", "Permisos asociados al documento " + p.getTipoDocumento() + " " + p.getDocumento() );
+			}
+		}
+		
 		return mav;
 	}
 	

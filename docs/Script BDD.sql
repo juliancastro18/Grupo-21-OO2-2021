@@ -128,7 +128,7 @@ INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES 
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',1,'2021-06-01',b'0','Asistir a adulto mayor',NULL,NULL,11,NULL);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',3,'2021-06-24',b'1',NULL,4,b'1',10,2);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',4,'2021-06-03',b'0',NULL,10,b'0',9,3);
-INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',5,'2021-07-09',b'0','Traslado de hijo a la casa de su madre',NULL,NULL,9,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',5,'2021-07-09',b'0','Retorno de menor al hogar del tutelar',NULL,NULL,9,NULL);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',6,'2021-06-11',b'0',NULL,8,b'0',12,4);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',7,'2021-06-02',b'0',NULL,5,b'1',13,4);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',8,'2021-06-08',b'1','Asistencia a establecimiento de salud',NULL,NULL,14,NULL);
