@@ -186,43 +186,6 @@ public class PermisoController {
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
 	}
-	
-	@GetMapping("/consultar")
-	public ModelAndView consultar()
-	{
-		ModelAndView mv = new ModelAndView("permiso/form3");
-		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
-		mv.addObject("lstTipoDoc", lstTipoDoc);
-		mv.addObject("ppfm", new PermisoPreFormModel());
-		return mv;
-	}
-	
-	@PostMapping("/traer")
-	public ModelAndView traer(PermisoPreFormModel p)
-	{
-		ModelAndView mav = new ModelAndView("permiso/mostrarprueba");
-		PersonaModel persona = personaService.findByTipoDocumentoAndDocumento(p.getTipoDocumento(), p.getDocumento());
-		List<PermisoModel> pm = permisoService.getAllByPerson(persona);
-		mav.addObject("lstPerm", pm);
-		System.out.println(persona.toString());
-		PermisoPeriodoModel ppm = null;
-		PermisoDiarioModel pdm = null;
-		for(PermisoModel per : pm)
-		{
-			if(per instanceof PermisoPeriodoModel)
-			{
-				ppm = (PermisoPeriodoModel) per;
-				System.out.println(ppm.toString());
-			}
-			else
-			{
-				pdm = (PermisoDiarioModel) per;
-				System.out.println(pdm.toString());
-				
-			}
-		}
-		return mav;
-	}
 
 }
 

@@ -24,6 +24,7 @@ import com.unla.grupo21.models.BuscarModel;
 import com.unla.grupo21.models.LugarModel;
 import com.unla.grupo21.models.PermisoModel;
 import com.unla.grupo21.models.PermisoPreFormModel;
+import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.RodadoModel;
 import com.unla.grupo21.models.TipoDocumento;
 import com.unla.grupo21.services.ILugarService;
@@ -126,5 +127,26 @@ public class SearchController {
 		return mV;
 	}
 	
+	//POR PERSONA
+	@GetMapping("/persona")
+	public ModelAndView consultar()
+	{
+		ModelAndView mv = new ModelAndView(ViewRouteHelper.PERMISO_FORMPERSONA);
+		List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
+		mv.addObject("lstTipoDoc", lstTipoDoc);
+		mv.addObject("ppfm", new PermisoPreFormModel());
+		return mv;
+	}
+	
+	@PostMapping("/traer")
+	public ModelAndView traer(PermisoPreFormModel p)
+	{
+		ModelAndView mav = new ModelAndView(ViewRouteHelper.PERMISO_RESULTS);
+		PersonaModel persona = personaService.findByTipoDocumentoAndDocumento(p.getTipoDocumento(), p.getDocumento());
+		List<PermisoModel> pm = permisoService.getAllByPerson(persona);
+		mav.addObject("lstPermisos", pm);
+		mav.addObject("searchDesc", "Permisos asociados a " + persona.getApellido() + persona.getNombre() );
+		return mav;
+	}
 	
 }
