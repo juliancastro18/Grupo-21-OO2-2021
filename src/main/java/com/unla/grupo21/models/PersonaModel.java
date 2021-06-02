@@ -3,16 +3,17 @@ package com.unla.grupo21.models;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 public class PersonaModel {
 
 	private int id;
 	
-	@NotNull(message = "El nombre no puede ser nulo")
+	@NotEmpty(message = "El nombre no puede ser nulo")
 	private String nombre;
 	
-	@NotNull(message = "El apellido no puede ser nulo")
+	@NotEmpty(message = "El apellido no puede ser nulo")
 	private String apellido;
 	
 	@NotNull(message = "El tipo de documento no puede ser nulo")
