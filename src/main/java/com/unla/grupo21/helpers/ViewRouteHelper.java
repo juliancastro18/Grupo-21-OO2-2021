@@ -40,4 +40,5 @@ public class ViewRouteHelper {
 	public static final String USERROLE_ABM_INDEX = "/userrole/abm";
 	public static final String PERMISO_SUCCESS_REDIRECT = "/permiso/success";
 
+	public static final String NAV = "/general.html";
 }
