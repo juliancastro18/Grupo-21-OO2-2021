@@ -8,11 +8,13 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +29,7 @@ import com.unla.grupo21.models.PermisoPreFormModel;
 import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.RodadoModel;
 import com.unla.grupo21.models.TipoDocumento;
+import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.services.ILugarService;
 import com.unla.grupo21.services.IPermisoService;
 import com.unla.grupo21.services.IPersonaService;
@@ -184,6 +187,29 @@ public class PermisoController {
 	@GetMapping("/success")
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
+	}
+	
+	
+	@GetMapping("/detalle/{id}")
+	public ModelAndView showDetails(@PathVariable int id) {
+		ModelAndView mV = new ModelAndView(ViewRouteHelper.PERMISO_DETAILS);
+		PermisoModel pm = permisoService.findById(id);
+		boolean activo = false;
+		boolean esDiario = pm instanceof PermisoDiarioModel;
+		if(esDiario && pm.getFecha().equals(LocalDate.now())) {
+			activo = true;
+		} else if(!esDiario) {
+			PermisoPeriodoModel ppm = (PermisoPeriodoModel)pm;
+			LocalDate fechaHasta = ppm.getFecha().plusDays(ppm.getCantDias());
+			mV.addObject("fechaHasta", fechaHasta);
+			if( ! (ppm.getFecha().isAfter(LocalDate.now()) || fechaHasta.isBefore(LocalDate.now())) ) {
+				activo = true;
+			}
+		}
+		mV.addObject("activo", activo);
+		mV.addObject("esDiario", esDiario);
+		mV.addObject("permiso", pm);
+		return mV;
 	}
 
 }
