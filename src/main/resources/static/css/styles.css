@@ -10888,8 +10888,23 @@ body {
   border-width: 0;
 }
 
+tr[data-href] {
+  cursor: pointer;
+}
+
 @media (min-width: 992px){
   .nav-item{
     padding-left: 1rem;
+  }
+}
+
+@media (max-width: 992px){
+  .header-index {
+    padding-top: 4.5rem;
+    padding-bottom: 3rem;
+  }
+
+  .lead {
+    font-size: inherit;
   }
 }
