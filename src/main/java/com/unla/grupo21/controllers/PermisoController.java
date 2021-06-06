@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -218,7 +217,7 @@ public class PermisoController {
 	
 	//GENERA EL QR
 	@GetMapping("/getqr/{id}")
-	public void crearQR(HttpServletResponse response, HttpServletRequest request, @PathVariable int id) 
+	public void crearQR(HttpServletResponse response, @PathVariable int id) 
 	{
 		
 		try

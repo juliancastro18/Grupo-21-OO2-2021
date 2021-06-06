@@ -10864,22 +10864,9 @@ body {
     margin-right: 0;
 }
 
-.header-index {
-  padding-top: 9rem;
-  padding-bottom: 6rem;
-  background-image: url('/imgs/index.jpg');
-  background-position: center 55%;
-  background-size: cover;
-  background-repeat:no-repeat;
-  text-shadow: 2px 2px 8px rgba(0,0,0,0.8);
-}
-
-.titulo{
-  background-color: rgba(0,0,0,0.25);
-}
-
-.section-index {
-  padding: 4rem 0 2rem 0;
+.table-hover tbody tr:hover td {
+  background: rgba(0,0,0,0.1);
+  text-shadow:0px 0px 1px rgba(0,0,0,0.5);
 }
 
 .tr-none {
@@ -10898,13 +10885,8 @@ tr[data-href] {
   }
 }
 
-@media (max-width: 992px){
-  .header-index {
-    padding-top: 4.5rem;
-    padding-bottom: 3rem;
-  }
-
-  .lead {
-    font-size: inherit;
+@media (max-width: 440px){
+  body {
+    padding-bottom: 112px;
   }
 }
