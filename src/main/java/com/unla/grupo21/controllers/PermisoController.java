@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.ViewRouteHelper;
@@ -219,11 +220,10 @@ public class PermisoController {
 	@GetMapping("/getqr/{id}")
 	public void crearQR(HttpServletResponse response, HttpServletRequest request, @PathVariable int id) 
 	{
-		response.setContentType("image/png");
 		
 		try
 		{
-			String url = request.getLocalName() + "/permiso/detalle/" + id;
+			String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/permiso/detalle/" + id;
 			OutputStream outPutStream = response.getOutputStream();
 			outPutStream.write(ZXingHelper.getQRCodeImage(url, 200, 200));
 			outPutStream.flush();
