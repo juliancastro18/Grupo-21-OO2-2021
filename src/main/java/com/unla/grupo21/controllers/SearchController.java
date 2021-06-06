@@ -1,8 +1,13 @@
 package com.unla.grupo21.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +22,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.Writer;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.unla.grupo21.helpers.Funciones;
 import com.unla.grupo21.helpers.ViewRouteHelper;
+import com.unla.grupo21.helpers.ZXingHelper;
 import com.unla.grupo21.models.BuscarModel;
 import com.unla.grupo21.models.LugarModel;
 import com.unla.grupo21.models.PermisoModel;
@@ -51,6 +62,10 @@ public class SearchController {
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
 	
+	private static final int qrTamAncho = 400;
+    private static final int qrTamAlto = 400;
+    private static final String formato = "png";
+    private static final String ruta = "D:/3er año/OO2/TPIntegradorSpring/Grupo-21-OO2-2021/src/main/resources/templates/permiso/codigoqr.png";
 	
 	// POR FECHAS
 	
@@ -143,6 +158,7 @@ public class SearchController {
 	public ModelAndView traer(@Valid @ModelAttribute(name = "ppfm") PermisoPreFormModel p, BindingResult bindingResult)
 	{
 		ModelAndView mav;
+		FileOutputStream qrCode = null;
 		
 		if(bindingResult.hasFieldErrors("documento")) {
 			mav = new ModelAndView(ViewRouteHelper.PERMISO_BUSCAR_PERSONA);
@@ -159,8 +175,25 @@ public class SearchController {
 				mav.addObject("searchDesc", "Permisos asociados al documento " + p.getTipoDocumento() + " " + p.getDocumento() );
 			}
 		}
-		
+	
 		return mav;
 	}
 	
+	//GENERA EL QR
+	@GetMapping("/getqr")
+	public void crearQR(HttpServletResponse response) 
+	{
+		response.setContentType("image/png");
+		
+		try
+		{
+			OutputStream outPutStream = response.getOutputStream();
+			outPutStream.write(ZXingHelper.getQRCodeImage("https://tp-oo2-grupo21.herokuapp.com/index", 200, 200));
+			outPutStream.flush();
+			outPutStream.close();			
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
+	}
 }
