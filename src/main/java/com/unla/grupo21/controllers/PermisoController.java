@@ -1,14 +1,16 @@
 package com.unla.grupo21.controllers;
 
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -22,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.ViewRouteHelper;
+import com.unla.grupo21.helpers.ZXingHelper;
 import com.unla.grupo21.models.PermisoDiarioModel;
 import com.unla.grupo21.models.PermisoModel;
 import com.unla.grupo21.models.PermisoPeriodoModel;
@@ -29,7 +32,6 @@ import com.unla.grupo21.models.PermisoPreFormModel;
 import com.unla.grupo21.models.PersonaModel;
 import com.unla.grupo21.models.RodadoModel;
 import com.unla.grupo21.models.TipoDocumento;
-import com.unla.grupo21.models.UserModel;
 import com.unla.grupo21.services.ILugarService;
 import com.unla.grupo21.services.IPermisoService;
 import com.unla.grupo21.services.IPersonaService;
@@ -210,6 +212,26 @@ public class PermisoController {
 		mV.addObject("esDiario", esDiario);
 		mV.addObject("permiso", pm);
 		return mV;
+	}
+	
+	
+	//GENERA EL QR
+	@GetMapping("/getqr/{id}")
+	public void crearQR(HttpServletResponse response, HttpServletRequest request, @PathVariable int id) 
+	{
+		response.setContentType("image/png");
+		
+		try
+		{
+			String url = request.getLocalName() + "/permiso/detalle/" + id;
+			OutputStream outPutStream = response.getOutputStream();
+			outPutStream.write(ZXingHelper.getQRCodeImage(url, 200, 200));
+			outPutStream.flush();
+			outPutStream.close();			
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 
 }

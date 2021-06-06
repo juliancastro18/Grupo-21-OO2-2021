@@ -22,12 +22,12 @@
 
     <!-- Header-->
     <header class="text-white header-details bg-gradient" th:classappend="${activo ? 'bg-success' : 'bg-danger'}">
-        <div class="container px-4 col-md-6">
+        <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="d-flex flex-row align-items-center justify-content-center">
-                        <i th:if="${activo}" class="far fa-thumbs-up fa-4x"></i>
-                        <i th:unless="${activo}" class="far fa-thumbs-down fa-4x"></i>
+                        <i th:if="${activo}" class="far fa-thumbs-up fa-3x"></i>
+                        <i th:unless="${activo}" class="far fa-thumbs-down fa-3x"></i>
                         <span class="sep"></span>
                         <h1 th:if="${activo}" class="fw-bolder">Podés circular</h1>
                         <h1 th:unless="${activo}" class="fw-bolder">Permiso vencido</h1>
@@ -38,14 +38,18 @@
     </header>
 
     <!-- Details -->
-    <div class="container px-4 mt-4 col-md-6">
+    <div class="container px-4 mt-4 col-md-8 col-lg-6 col-xl-5">
         <div class="row">
             <div class="col">
-                <p class="fw-bold mb-0" th:text="${permiso.pedido.nombre} + ' ' + ${permiso.pedido.apellido}"></p>
+                <p class="fw-bold mt-3 mb-0">
+                    <span th:text="${permiso.pedido.nombre} + ' '"/>
+                    <span class="text-uppercase" th:text="${permiso.pedido.apellido}"/>
+                </p>
                 <p th:text="${permiso.pedido.tipoDocumento} + ' ' + ${permiso.pedido.documento}"></p>
+                <p th:text="${permiso.pedido.email}"></p>
             </div>
-            <div class="col">
-                ACÁ VA EL QR
+            <div class="col-auto">
+                <img th:src="@{/permiso/getqr/} + ${permiso.idPermiso}" width="200" height="200">
             </div>
         </div>
         <hr>
