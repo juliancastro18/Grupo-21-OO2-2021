@@ -15,7 +15,7 @@
     display: none;
 }
 
-@media screen {
+@media screen and (min-width : 576px) {
     .qr-desc {
         display: block;
     }
