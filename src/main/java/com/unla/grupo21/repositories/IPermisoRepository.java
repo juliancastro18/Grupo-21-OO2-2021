@@ -29,8 +29,8 @@ public interface IPermisoRepository extends JpaRepository<Permiso, Serializable>
 			+ "INNER JOIN lugar l ON rpl.fk_lugar = l.id "
 			+ "INNER JOIN persona per ON per.id = p.pedido_id "
 			+ "LEFT JOIN rodado r ON p.rodado_id = r.id "
-			+ "WHERE (p.fecha BETWEEN ?1 AND ?2)  "
-			+ "OR (p.tipo='Periodo' AND ADDDATE(p.fecha, INTERVAL p.cant_dias DAY) BETWEEN ?1 AND ?2) "
+			+ "WHERE (p.tipo='Diario' AND p.fecha BETWEEN ?1 AND ?2)  "
+			+ "OR (p.tipo='Periodo' AND p.fecha <= ?2 AND ADDDATE(p.fecha, INTERVAL p.cant_dias DAY) >= ?1) "
 			+ "GROUP BY p.id_permiso "
 			+ "ORDER BY p.fecha ASC", nativeQuery=true)
 	public abstract List<Permiso> getAllPermisosBetweenDates(@Param("startDate")LocalDate startDate, @Param("endDate")LocalDate endDate);
