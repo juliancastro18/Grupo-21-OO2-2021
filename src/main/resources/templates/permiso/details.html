@@ -18,7 +18,7 @@
 
 <body id="page-top">
     <!-- Responsive navbar-->
-    <nav th:replace="/general.html :: nav"></nav>
+    <nav th:replace="general.html :: nav"></nav>
 
     <!-- Header-->
     <header class="text-white header-details bg-gradient" th:classappend="${activo ? 'bg-success' : 'bg-danger'}">
@@ -47,7 +47,7 @@
                 </p>
                 <p th:text="${permiso.pedido.tipoDocumento} + ' ' + ${permiso.pedido.documento}"></p>
                 <p th:text="${permiso.pedido.email}"></p>
-                <p class="text-muted qr-desc">Escaneá el QR para acceder al permiso digital desde tu celular</p>
+                <p class="text-muted qr-desc">Escaneá el código QR para acceder al permiso digital desde tu celular</p>
             </div>
             <div class="col-auto">
                 <img class="outline-inset mb-2 rounded" th:src="@{/permiso/getqr/} + ${permiso.idPermiso}" width="200" height="200">
@@ -78,7 +78,7 @@
     </div>
 
     <!-- Footer -->
-    <footer th:replace="/general.html :: footer"></footer>
+    <footer th:replace="general.html :: footer"></footer>
     <!-- Footer -->
 
     <!-- Bootstrap core JS-->
