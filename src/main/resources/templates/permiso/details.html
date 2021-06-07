@@ -18,7 +18,7 @@
 
 <body id="page-top">
     <!-- Responsive navbar-->
-    <nav th:replace="/general.html :: nav"></nav>
+    <nav th:replace="general.html :: nav"></nav>
 
     <!-- Header-->
     <header class="text-white header-details bg-gradient" th:classappend="${activo ? 'bg-success' : 'bg-danger'}">
@@ -78,7 +78,7 @@
     </div>
 
     <!-- Footer -->
-    <footer th:replace="/general.html :: footer"></footer>
+    <footer th:replace="general.html :: footer"></footer>
     <!-- Footer -->
 
     <!-- Bootstrap core JS-->
