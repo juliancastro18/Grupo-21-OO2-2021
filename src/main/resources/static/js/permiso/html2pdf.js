@@ -16,6 +16,7 @@ function generarPDF() {
 		},
 		html2canvas: {
 			scale: 3,
+			scrollY: 0,
 			letterRendering: true,
 		},
 		jsPDF: {
