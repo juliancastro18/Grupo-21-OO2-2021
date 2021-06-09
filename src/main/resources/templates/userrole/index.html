@@ -33,29 +33,31 @@
                         </div>
                     </div>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Role</th>
-                            <th th:if="${abm}">Activo</th>
-                            <th th:if="${abm}">Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="userRole : ${userRoles}" th:class="${userRole.activo ? '' : 'table-secondary text-muted'}">
-                            <td><span th:text="${userRole.role}" /></td>
-                            <td th:if="${abm}" th:text="${userRole.activo ? 'Sí' : 'No'}"></td>
-                            <td th:if="${abm}">
-                                <!-- Si userrole activo -->
-                                <a th:if="${userRole.activo}" th:href="@{edit/(id=${userRole.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-md-inline">Editar</span></a>
-                                <a th:if="${userRole.activo}" th:href="@{delete/}+${userRole.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-lg-inline">Eliminar</span></a>
-                                <!-- Si userrole inactivo -->
-                                <a th:if="${!userRole.activo}" href="#" class="btn btn-secondary"><i class="fas fa-user-edit"></i> <span class="d-none d-md-inline">Editar</span></a>
-                                <a th:if="${!userRole.activo}" th:href="@{restore/}+${userRole.id}" class="btn btn-success"><i class="fas fa-user-check"></i> <span class="d-none d-lg-inline">Reactivar</span></a>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Role</th>
+                                <th th:if="${abm}">Activo</th>
+                                <th th:if="${abm}">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="userRole : ${userRoles}" th:class="${userRole.activo ? '' : 'table-secondary text-muted'}">
+                                <td><span th:text="${userRole.role}" /></td>
+                                <td th:if="${abm}" th:text="${userRole.activo ? 'Sí' : 'No'}"></td>
+                                <td th:if="${abm}">
+                                    <!-- Si userrole activo -->
+                                    <a th:if="${userRole.activo}" th:href="@{edit/(id=${userRole.id})}" class="btn btn-warning"><i class="fas fa-user-edit"></i> <span class="d-none d-xl-inline">Editar</span></a>
+                                    <a th:if="${userRole.activo}" th:href="@{delete/}+${userRole.id}" class="btn btn-danger"><i class="fas fa-user-times"></i> <span class="d-none d-xl-inline">Eliminar</span></a>
+                                    <!-- Si userrole inactivo -->
+                                    <a th:if="${!userRole.activo}" href="#" class="btn btn-secondary"><i class="fas fa-user-edit"></i> <span class="d-none d-xl-inline">Editar</span></a>
+                                    <a th:if="${!userRole.activo}" th:href="@{restore/}+${userRole.id}" class="btn btn-success"><i class="fas fa-user-check"></i> <span class="d-none d-xl-inline">Reactivar</span></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

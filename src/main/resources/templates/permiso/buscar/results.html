@@ -24,46 +24,48 @@
             <h5 class="fw-light text-muted" th:text="${searchDesc}"></h5>
         </div>
 
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Tipo</th>
-                    <th>Documento</th>
-                    <th>Fecha</th>
-                    <th>Días</th>
-                    <th>Vehículo</th>
-                    <th>Desde</th>
-                    <th>Hasta</th>
-                    <th>Motivo</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="permiso : ${lstPermisos}" th:attr="data-href=@{/permiso/detalle/}+${permiso.idPermiso}">
-                    <td><span th:text="${permiso.pedido.nombre}" /></td>
-                    <td><span th:text="${permiso.pedido.apellido}" /></td>
-                    <td><span th:text="${permiso.pedido.tipoDocumento}" /></td>
-                    <td><span th:text="${permiso.pedido.documento}" /></td>
-                    <td><span th:text="${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)}" /></td>
-                    <td>
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="1" />
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.cantDias}" />
-                    </td>
-                    <td>
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="'N/A'" />
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.rodado.dominio}" th:title="${permiso.rodado.vehiculo}" />
-                    </td>
-                    <td th:each="lugar : ${permiso.desdeHasta}">
-                        <span th:text="${lugar.lugar}" />
-                    </td>
-                    <td>
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="${#strings.abbreviate(permiso.motivo,30)}" th:title="${permiso.motivo}" />
-                        <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.vacaciones} ? 'Vacaciones' : 'N/A'" />
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Tipo</th>
+                        <th>Documento</th>
+                        <th>Fecha</th>
+                        <th>Días</th>
+                        <th>Vehículo</th>
+                        <th>Desde</th>
+                        <th>Hasta</th>
+                        <th>Motivo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="permiso : ${lstPermisos}" th:attr="data-href=@{/permiso/detalle/}+${permiso.idPermiso}">
+                        <td><span th:text="${permiso.pedido.nombre}" /></td>
+                        <td><span th:text="${permiso.pedido.apellido}" /></td>
+                        <td><span th:text="${permiso.pedido.tipoDocumento}" /></td>
+                        <td><span th:text="${permiso.pedido.documento}" /></td>
+                        <td><span th:text="${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)}" /></td>
+                        <td>
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="1" />
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.cantDias}" />
+                        </td>
+                        <td>
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="'N/A'" />
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.rodado.dominio}" th:title="${permiso.rodado.vehiculo}" />
+                        </td>
+                        <td th:each="lugar : ${permiso.desdeHasta}">
+                            <span th:text="${lugar.lugar}" />
+                        </td>
+                        <td>
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoDiarioModel)}" th:text="${#strings.abbreviate(permiso.motivo,30)}" th:title="${permiso.motivo}" />
+                            <span th:if="${permiso instanceof T(com.unla.grupo21.models.PermisoPeriodoModel)}" th:text="${permiso.vacaciones} ? 'Vacaciones' : 'N/A'" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div class="text-center text-muted mb-4" th:if="${#lists.isEmpty(lstPermisos)}">No hay resultados para mostrar</div>
 
         <div class="pt-4 text-center">

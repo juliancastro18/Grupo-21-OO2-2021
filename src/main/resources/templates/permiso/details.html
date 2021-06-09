@@ -47,13 +47,14 @@
 			<div class="row">
 				<div class="col">
 					<p class="fw-bold mb-0">
-						<span th:text="${permiso.pedido.nombre} + ' '" />
-						<span class="text-uppercase" th:text="${permiso.pedido.apellido}" />
+						<span id="nombre" th:text="${permiso.pedido.nombre}" />
+						<span> </span>
+						<span id="apellido" class="text-uppercase" th:text="${permiso.pedido.apellido}" />
 					</p>
 					<p th:text="${permiso.pedido.tipoDocumento} + ' ' + ${permiso.pedido.documento}"></p>
 					<p th:text="${permiso.pedido.email}"></p>
 					<p class="text-muted qr-desc">Escaneá el código QR para acceder
-						al permiso digital desde tu celular</p>
+						al permiso desde tu celular</p>
 				</div>
 				<div class="col-auto">
 					<img class="outline-inset mb-2 rounded"
@@ -64,8 +65,8 @@
 			<hr>
 			<div class="row">
 				<div class="col">
-					<p class="fw-bold" th:classappend="${activo ? 'text-success' : 'text-danger'}" th:unless="${esDiario}" th:text="'Valido entre ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)} + ' y ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(fechaHasta)}"></p>
-					<p class="fw-bold" th:classappend="${activo ? 'text-success' : 'text-danger'}" th:if="${esDiario}" th:text="'Valido el día ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)}"></p>
+					<p id="fecha" class="fw-bold" th:classappend="${activo ? 'text-success' : 'text-danger'}" th:unless="${esDiario}" th:text="'Valido entre ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)} + ' y ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(fechaHasta)}"></p>
+					<p id="fecha" class="fw-bold" th:classappend="${activo ? 'text-success' : 'text-danger'}" th:if="${esDiario}" th:text="'Valido el día ' + ${T(com.unla.grupo21.helpers.Funciones).traerFechaCorta(permiso.fecha)}"></p>
 					<p class="mb-0" th:text="${permiso.desdeHasta[0].lugar} + ' ↔ ' + ${permiso.desdeHasta[1].lugar}"></p>
 					<p th:unless="${esDiario}" th:text="'MOTIVO: ' + ${permiso.vacaciones ? 'Vacaciones' : 'N/A'}"></p>
 					<p th:if="${esDiario}" th:text="'MOTIVO: ' + ${permiso.motivo}"></p>
