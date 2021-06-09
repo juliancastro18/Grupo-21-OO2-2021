@@ -33,6 +33,7 @@
     left: 0; top: 0; right: 0; bottom: 0;
     background-repeat: repeat;
     background-image: url('/imgs/trama.png');
+    opacity: 0.8;
     z-index: 2;
   }
   

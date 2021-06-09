@@ -157,7 +157,7 @@ public class PermisoController {
 			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
 			mV.addObject("esDiario", (permisoModel instanceof PermisoDiarioModel));
 			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
-			mV.addObject("lugares", lugarService.getAll());
+			mV.addObject("lugares", lugarService.getAllOrderByLugar());
 			
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
