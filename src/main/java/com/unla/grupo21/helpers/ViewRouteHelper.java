@@ -33,11 +33,11 @@ public class ViewRouteHelper {
 	public static final String PERMISO_BUSCAR_RODADO = "permiso/buscar/rodado";
 	public static final String PERMISO_BUSCAR_PERSONA = "permiso/buscar/persona";
 	public static final String PERMISO_RESULTS = "permiso/buscar/results";
+	public static final String PERMISO_DETAILS = "permiso/details";
 	
 	//***Redirects***
 	public static final String ROUTE_INDEX = "/index";
 	public static final String USER_ABM_INDEX = "/user/abm";
 	public static final String USERROLE_ABM_INDEX = "/userrole/abm";
 	public static final String PERMISO_SUCCESS_REDIRECT = "/permiso/success";
-
 }

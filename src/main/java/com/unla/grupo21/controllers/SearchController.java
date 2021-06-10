@@ -51,7 +51,6 @@ public class SearchController {
 	@Qualifier("rodadoService")
 	private IRodadoService rodadoService;
 	
-	
 	// POR FECHAS
 	
 	@PreAuthorize("hasRole('ROLE_AUDITOR')")
@@ -159,7 +158,7 @@ public class SearchController {
 				mav.addObject("searchDesc", "Permisos asociados al documento " + p.getTipoDocumento() + " " + p.getDocumento() );
 			}
 		}
-		
+	
 		return mav;
 	}
 	

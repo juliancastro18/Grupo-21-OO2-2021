@@ -1,9 +1,11 @@
 package com.unla.grupo21.controllers;
 
+import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +15,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.unla.grupo21.helpers.ViewRouteHelper;
+import com.unla.grupo21.helpers.ZXingHelper;
 import com.unla.grupo21.models.PermisoDiarioModel;
 import com.unla.grupo21.models.PermisoModel;
 import com.unla.grupo21.models.PermisoPeriodoModel;
@@ -152,7 +157,7 @@ public class PermisoController {
 			mV = new ModelAndView(ViewRouteHelper.PERMISO_FORMULARIO);
 			mV.addObject("esDiario", (permisoModel instanceof PermisoDiarioModel));
 			mV.addObject("lstTipoDoc", Arrays.asList(TipoDocumento.values()));
-			mV.addObject("lugares", lugarService.getAll());
+			mV.addObject("lugares", lugarService.getAllOrderByLugar());
 			
 		} else {
 			mV = new ModelAndView(new RedirectView(ViewRouteHelper.PERMISO_SUCCESS_REDIRECT));
@@ -184,6 +189,48 @@ public class PermisoController {
 	@GetMapping("/success")
 	public ModelAndView success() {
 		return new ModelAndView(ViewRouteHelper.PERMISO_SUCCESS);
+	}
+	
+	
+	@GetMapping("/detalle/{id}")
+	public ModelAndView showDetails(@PathVariable int id) {
+		ModelAndView mV = new ModelAndView(ViewRouteHelper.PERMISO_DETAILS);
+		PermisoModel pm = permisoService.findById(id);
+		boolean activo = false;
+		boolean esDiario = pm instanceof PermisoDiarioModel;
+		if(esDiario && pm.getFecha().equals(LocalDate.now())) {
+			activo = true;
+		} else if(!esDiario) {
+			PermisoPeriodoModel ppm = (PermisoPeriodoModel)pm;
+			LocalDate fechaHasta = ppm.getFecha().plusDays(ppm.getCantDias());
+			mV.addObject("fechaHasta", fechaHasta);
+			if( ! (ppm.getFecha().isAfter(LocalDate.now()) || fechaHasta.isBefore(LocalDate.now())) ) {
+				activo = true;
+			}
+		}
+		mV.addObject("activo", activo);
+		mV.addObject("esDiario", esDiario);
+		mV.addObject("permiso", pm);
+		return mV;
+	}
+	
+	
+	//GENERA EL QR
+	@GetMapping("/getqr/{id}")
+	public void crearQR(HttpServletResponse response, @PathVariable int id) 
+	{
+		
+		try
+		{
+			String url = ServletUriComponentsBuilder.fromCurrentContextPath().build().toUriString() + "/permiso/detalle/" + id;
+			OutputStream outPutStream = response.getOutputStream();
+			outPutStream.write(ZXingHelper.getQRCodeImage(url, 200, 200));
+			outPutStream.flush();
+			outPutStream.close();			
+		}catch(Exception e)
+		{
+			System.out.println(e.getMessage());
+		}
 	}
 
 }
