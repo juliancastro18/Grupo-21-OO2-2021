@@ -138,6 +138,10 @@ public class UserController {
 			}
 		}
 		
+		if(bindingResult.hasFieldErrors("password") && edit){
+			userModel.setPassword( userService.findById(userModel.getId()).getPassword() );
+		}
+		
 		if(bindingResult.hasErrors()) {
 			mV = new ModelAndView(ViewRouteHelper.USER_NEW);
 			List<TipoDocumento> lstTipoDoc = Arrays.asList(TipoDocumento.values());
