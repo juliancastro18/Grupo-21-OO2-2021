@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lowagie.text.DocumentException;
@@ -113,17 +114,24 @@ public class UserRoleController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/edit")
-	public ModelAndView edit(@RequestParam(name="id", required=true) int id)
+	public ModelAndView edit(@RequestParam(name="id", required=true) int id, RedirectAttributes redirectAttributes)
 	{
-		ModelAndView mAV = new ModelAndView(ViewRouteHelper.USERROLE_EDIT);
-		mAV.addObject("userRole", userRoleService.findById(id));
-		mAV.addObject("edit", true);
+		ModelAndView mAV;
+		
+		if( userRoleService.findById(id).getRole().equals("ROLE_ADMIN") || userRoleService.findById(id).getRole().equals("ROLE_AUDITOR")) {
+			redirectAttributes.addFlashAttribute("error", "No se pueden editar los roles por defecto.");
+			mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
+		} else {
+			mAV = new ModelAndView(ViewRouteHelper.USERROLE_EDIT);
+			mAV.addObject("userRole", userRoleService.findById(id));
+			mAV.addObject("edit", true);
+		}
 		return mAV;
 	}
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/delete/{id}")
-	public ModelAndView delete(@PathVariable int id)
+	public ModelAndView delete(@PathVariable int id, RedirectAttributes redirectAttributes)
 	{
 		ModelAndView mAV = new ModelAndView(new RedirectView(ViewRouteHelper.USERROLE_ABM_INDEX));
 		long cantidadUsersAsignados = userService.countByUserActivoWhereRoleId(id);
@@ -132,13 +140,11 @@ public class UserRoleController {
 			UserRoleModel urm = userRoleService.findById(id);
 			urm.setActivo(!urm.isActivo());
 			userRoleService.insertOrUpdate(urm);
-			mAV.addObject("error", false);
 			return mAV;
 		}
-		
 		else
 		{
-			mAV.addObject("error", true);
+			redirectAttributes.addFlashAttribute("error", "No se pueden eliminar perfiles asignados a usuarios activos.");
 			return mAV;
 		}
 	}

@@ -26,7 +26,7 @@
                         <div class="form-group">
                             <label>Documento</label>
                             <div class="row">
-                                <div class="col-sm-4 col-lg-3">
+                                <div class="col-4 col-lg-3">
                                     <select class="form-select" th:field="*{tipoDocumento}">
                                         <option th:each="tipodoc : ${lstTipoDoc}"
                                                 th:value="${tipodoc}"
@@ -34,7 +34,7 @@
                                         </option>
                                     </select>     
                                 </div>
-                                <div class="col-sm-8 col-lg-9">
+                                <div class="col-8 col-lg-9">
                                     <input th:field="*{documento}" type="number" class="form-control" required>
                                 </div>
                             </div>

@@ -16,7 +16,7 @@ CREATE TABLE `lugar` (
   `codigopostal` varchar(255) NOT NULL,
   `lugar` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `persona` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -29,7 +29,7 @@ CREATE TABLE `persona` (
   `updatedat` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UKflilha0kj19qtd8tjk6rv6vm1` (`tipodocumento`,`documento`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `rodado` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -39,7 +39,7 @@ CREATE TABLE `rodado` (
   `vehiculo` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_13m3g5b74jl938lil3rvxy9w3` (`dominio`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC;
 
 CREATE TABLE `user_role` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -49,7 +49,7 @@ CREATE TABLE `user_role` (
   `updatedat` datetime(6) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_s21d8k5lywjjc7inw14brj6ro` (`role`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `user` (
   `activo` bit(1) DEFAULT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE `user` (
   KEY `FKh2wc2dtfdo8maylne7mgubowq` (`user_role_id`),
   CONSTRAINT `FKh2wc2dtfdo8maylne7mgubowq` FOREIGN KEY (`user_role_id`) REFERENCES `user_role` (`id`),
   CONSTRAINT `FKq9e1epiqip339syujm4brhw7u` FOREIGN KEY (`id`) REFERENCES `persona` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `permiso` (
   `tipo` varchar(31) NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `permiso` (
   KEY `FK4myhtjulhfu3qp0gn2ft2oarn` (`rodado_id`),
   CONSTRAINT `FK4myhtjulhfu3qp0gn2ft2oarn` FOREIGN KEY (`rodado_id`) REFERENCES `rodado` (`id`),
   CONSTRAINT `FKft1wik02q1fqdvh64y3pa5kj9` FOREIGN KEY (`pedido_id`) REFERENCES `persona` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `rel_permiso_lugar` (
   `fk_permiso` int NOT NULL,
@@ -88,13 +88,13 @@ CREATE TABLE `rel_permiso_lugar` (
   KEY `FK9x1q43hvmdy9gt9ha2qcrnty1` (`fk_lugar`),
   CONSTRAINT `FK9x1q43hvmdy9gt9ha2qcrnty1` FOREIGN KEY (`fk_lugar`) REFERENCES `lugar` (`id`),
   CONSTRAINT `FKj5rs2w5c4pi1ur6x35hrai8re` FOREIGN KEY (`fk_permiso`) REFERENCES `permiso` (`id_permiso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 -- CREA PERSONAS
 
-INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (9,'Ventura','2021-06-01 20:58:52.000000',12345678,'ventura666@gmail.com','Luis',1,'2021-06-01 20:58:52.000000');
-INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (10,'Tauro','2021-06-01 20:58:52.000000',23456789,'marce123@hotmail.com','Marcela',0,'2021-06-01 20:58:52.000000');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (1,'Ventura','2021-06-01 20:58:52.000000',12345678,'ventura123@gmail.com','Luis',1,'2021-06-01 20:58:52.000000');
+INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (2,'Tauro','2021-06-01 20:58:52.000000',23456789,'marce123@hotmail.com','Marcela',0,'2021-06-01 20:58:52.000000');
 INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (11,'Roccasalvo','2021-05-30 00:57:53.051141',22345691,'susy_rock@gmail.com','Susana',0,'2021-05-30 00:57:53.051141');
 INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (12,'Soldán','2021-06-01 22:58:13.311360',12462151,'ssoldan35@yahoo.com','Silvio',2,'2021-06-01 22:58:13.311360');
 INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,`tipodocumento`,`updatedat`) VALUES (13,'Süller','2021-06-01 23:01:22.319064',11514921,'silsu58@gmail.com','Silvia',0,'2021-06-01 23:01:22.319064');
@@ -104,14 +104,14 @@ INSERT INTO `persona` (`id`,`apellido`,`createdat`,`documento`,`email`,`nombre`,
 
 -- CREA ROLES
 
-INSERT INTO user_role VALUES(1, b'1', NOW(), 'ROLE_ADMIN', NOW());
-INSERT INTO user_role VALUES(2, b'1', NOW(), 'ROLE_AUDITOR', NOW());
+INSERT INTO `user_role` VALUES(1, b'1', NOW(), 'ROLE_ADMIN', NOW());
+INSERT INTO `user_role` VALUES(2, b'1', NOW(), 'ROLE_AUDITOR', NOW());
 
 
 -- CREA USUARIOS
 
-INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$nauXseps08y1qK9Z7EkOqODxaQLOW8rVQV/jXugNFh2YB0vweEigK', 'admin1', 9, 1);
-INSERT INTO `grupo-21-bdd-oo2-2021`.`user` VALUES (b'1', '$2a$10$5cSXuenrSRurzG3S2yZWWex6Cbe9YMUUlEIbwYePC9uEkMYqu5BWW', 'auditor1', 10, 2);
+INSERT INTO `user` VALUES (b'1', '$2a$10$nauXseps08y1qK9Z7EkOqODxaQLOW8rVQV/jXugNFh2YB0vweEigK', 'admin1', 1, 1);
+INSERT INTO `user` VALUES (b'1', '$2a$10$5cSXuenrSRurzG3S2yZWWex6Cbe9YMUUlEIbwYePC9uEkMYqu5BWW', 'auditor1', 2, 2);
 
 
 -- CREA RODADOS
@@ -126,14 +126,14 @@ INSERT INTO `rodado` (`id`,`createdat`,`dominio`,`updatedat`,`vehiculo`) VALUES 
 -- CREA PERMISOS
 
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',1,'2021-06-01',b'0','Asistir a adulto mayor',NULL,NULL,11,NULL);
-INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',3,'2021-06-24',b'1',NULL,4,b'1',10,2);
-INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',4,'2021-06-03',b'0',NULL,10,b'0',9,3);
-INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',5,'2021-07-09',b'0','Retorno de menor al hogar del tutelar',NULL,NULL,9,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',3,'2021-06-24',b'1',NULL,4,b'1',2,2);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',4,'2021-06-03',b'0',NULL,10,b'0',1,3);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',5,'2021-07-09',b'0','Retorno de menor al hogar del tutelar',NULL,NULL,1,NULL);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',6,'2021-06-11',b'0',NULL,8,b'0',12,4);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',7,'2021-06-02',b'0',NULL,5,b'1',13,4);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',8,'2021-06-08',b'1','Asistencia a establecimiento de salud',NULL,NULL,14,NULL);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',9,'2021-07-17',b'1','Cambio de domicilio',NULL,NULL,12,NULL);
-INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',10,'2021-07-14',b'1','Comparecencia a una citación en virtud de la Ley',NULL,NULL,10,NULL);
+INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Diario',10,'2021-07-14',b'1','Comparecencia a una citación en virtud de la Ley',NULL,NULL,2,NULL);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',11,'2021-06-30',b'1',NULL,5,b'0',11,5);
 INSERT INTO `permiso` (`tipo`,`id_permiso`,`fecha`,`id_desde_menor`,`motivo`,`cant_dias`,`vacaciones`,`pedido_id`,`rodado_id`) VALUES ('Periodo',12,'2021-06-06',b'1',NULL,3,b'0',15,6);
 

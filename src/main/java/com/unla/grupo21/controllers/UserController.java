@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
 import com.lowagie.text.DocumentException;
@@ -110,6 +111,24 @@ public class UserController {
 							   @RequestParam(name="oldpassword", required=false, defaultValue="") String oldPassword) {
 		ModelAndView mV;
 		
+		// si se quiere modificar el user o pass del admin/auditor por defecto
+		if ( userModel.getId() == 1 || userModel.getId() == 2 ) {
+			UserModel userExistente = userService.findById(userModel.getId());
+			if ( !userExistente.getUsername().equals(userModel.getUsername()) ) {
+			    FieldError error = new FieldError("user", "username", "No se puede modificar este campo a usuarios por defecto.");
+				bindingResult.addError(error);
+			}
+			if ( !userExistente.getPassword().equals(userModel.getPassword()) ) {
+			    FieldError error = new FieldError("user", "password", "No se puede modificar este campo a usuarios por defecto.");
+				bindingResult.addError(error);
+			}
+			if ( userExistente.getUserRole().getId() != Integer.parseInt(idUserRoleStr) ) {
+			    FieldError error = new FieldError("user", "userRole", "No se puede modificar este campo a usuarios por defecto.");
+				bindingResult.addError(error);
+			}
+			
+		}
+		
 		// si el nombre de usuario ya existe
 		if ( userService.findUsernameAndFetchUserRoleEagerly(userModel.getUsername()) != null ) {
 			// y no es un usuario que fue editado y tiene el mismo username que el ingresado
@@ -131,7 +150,7 @@ public class UserController {
 			UserRoleModel urm = userRoleService.findById(idUserRole);
 			userModel.setUserRole(urm);
 			if(!edit || !oldPassword.equals(userModel.getPassword())) { //si es un usuario nuevo o la contraseña fue cambiada
-				userModel.setPassword(passwordEncoder.encode(userModel.getPassword())); //la enctripto y la seteo al usuario
+				userModel.setPassword(passwordEncoder.encode(userModel.getPassword())); //la encripto y la seteo al usuario
 			}
 			userService.insertOrUpdate(userModel);
 		}
@@ -161,11 +180,17 @@ public class UserController {
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@GetMapping("/delete/{id}")
-	public RedirectView delete(@PathVariable int id) {
+	public RedirectView delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
 		RedirectView rV = new RedirectView(ViewRouteHelper.USER_ABM_INDEX);
-		UserModel um = userService.findById(id);
-		um.setActivo(false);
-		userService.insertOrUpdate(um);
+		
+		if ( id == 1 || id == 2 ) {
+			redirectAttributes.addFlashAttribute("error", "No se puede eliminar el administrador/auditor por defecto.");
+		} else {
+			UserModel um = userService.findById(id);
+			um.setActivo(false);
+			userService.insertOrUpdate(um);
+		}
+		
 		return rV;
 	}
 	
