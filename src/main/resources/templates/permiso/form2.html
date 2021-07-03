@@ -48,7 +48,7 @@
                             <div class="form-group pt-2">
                                 <label>Documento</label>
                                 <div class="row">
-                                    <div class="col-sm-4 col-lg-3">
+                                    <div class="col-4 col-lg-3">
                                         <input type="hidden" th:field="*{pedido.tipoDocumento}">
                                         <select class="form-select" disabled>
                                             <option th:each="tipodoc : ${lstTipoDoc}"
@@ -58,7 +58,7 @@
                                             </option>
                                         </select>     
                                     </div>
-                                    <div class="col-sm-8 col-lg-9">
+                                    <div class="col-8 col-lg-9">
                                         <input th:field="*{pedido.documento}" type="number" class="form-control" readonly="readonly" required>
                                     </div>
                                 </div>
