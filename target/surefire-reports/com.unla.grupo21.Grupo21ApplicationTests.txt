@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.unla.grupo21.Grupo21ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 15.471 s - in com.unla.grupo21.Grupo21ApplicationTests
